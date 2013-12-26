@@ -1,0 +1,275 @@
+{% extends 'base_dar.html' %}
+
+{% load deputags %}
+{% load dartags %}
+{% load if_tag %}
+{% load admin_urls %}
+
+{% block extrabodyclass %}default dar{% endblock %}
+
+{% block title %}{{ day.date }} &mdash; Demo.cratica (Beta){% endblock %}
+
+{% block ogtitle %}{{ day.date }} &mdash; Demo.cratica (Beta){% endblock %}
+{% block ogurl %}{% url "day_detail" day.date.year day.date.month day.date.day %}{% endblock %}
+{% block ogtype %}transcript{% endblock %}
+
+{% block extrascripts %}
+    <script src="/media/js/jquery.jeditable.mini.js" type="text/javascript"></script>
+    <script src="/media/js/truncatable/jquery.truncatable.js" type="text/javascript"></script>
+    <script src="https://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        // faz o reparse uma entrada individual
+        function refresh(id) {
+          // loading gif 
+          $('.entry#' + id).html('<img src="/media/img/icons/loading-16px.gif" />');
+          $.ajax({
+            url: '/sessoes/reprocessar/' + id + '/',
+            success: function(data) {
+              $('.entry#' + id).html(data);
+              console.log(id)
+              // FIXME: precisamos de colocar a textarea como editável novamente
+              $(".collapsible").truncatable({	limit: 100, more: 'Mostrar tudo', less: true, hideText: 'Esconder' });
+              {% if request.user.is_authenticated %}
+              $(".edit_area").editable("/sessoes/gravar/",
+                {
+                  cancel: "Cancelar",
+                  submit: "OK",
+                  tooltip: "Clique 2 vezes para fazer alterações.",
+                  loadurl: '/sessoes/raw/',
+                  type: "textarea",
+                  indicator: '<img src="/media/img/icons/loading-16px.gif" />',
+                  event: "dblclick",
+                  callback : function(value, settings) 
+                  {
+                    refresh(this.parentNode.id);
+                    return value;
+                  }
+                });
+              {% endif %}
+              }
+            });
+          };
+
+        // vai apenas buscar o valor actual da entrada
+        function soft_refresh(id) {
+          // loading gif 
+          $('.entry#' + id).html('<img src="/media/img/icons/loading-16px.gif" />');
+          $.ajax({
+            url: '/sessoes/reprocessar/' + id + '/?skip_parsing=1',
+          // FIXME: Error response
+          success: function(data) {
+            $('.entry#' + id).html(data);
+            console.log(id)
+            // FIXME: precisamos de colocar a textarea como editável novamente
+            $(".collapsible").truncatable({	limit: 100, more: 'Mostrar tudo', less: true, hideText: 'Esconder' });
+            {% if request.user.is_authenticated %}
+            $(".edit_area").editable("/sessoes/gravar/",
+              {
+                cancel: "Cancelar",
+                submit: "OK",
+                tooltip: "Clique 2 vezes para fazer alterações.",
+                loadurl: '/sessoes/raw/',
+                type: "textarea",
+                indicator: '<img src="/media/img/loading.gif" />',
+                event: "dblclick",
+                callback : function(value, settings) {
+                    refresh(this.parentNode.id);
+                    return value;
+                    }
+              });
+            {% endif %}
+            }
+          });
+        };
+
+        function mark_as_cont(id) {
+          $.ajax({
+            url: '/sessoes/marcar/' + id + '/',
+            success: function(data) {
+            soft_refresh(id);
+            }
+          });
+        };
+        function unmark_as_cont(id) {
+          $.ajax({
+            url: '/sessoes/desmarcar/' + id + '/',
+            success: function(data) {
+            soft_refresh(id);
+            }
+          });
+        };
+        function mark_as_aside(id) {
+          $.ajax({
+            url: '/sessoes/marcar_aparte/' + id + '/',
+          success: function(data) {
+            soft_refresh(id);
+            }
+          });
+        };
+        function mark_as_main(id) {
+          $.ajax({
+            url: '/sessoes/marcar_intervencao/' + id + '/',
+          success: function(data) {
+            soft_refresh(id);
+            }
+          });
+        };
+        function correct_newlines(id) {
+          $.ajax({
+            url: '/sessoes/newlines/' + id + '/',
+          success: function(data) {
+            soft_refresh(id);
+            }
+          });
+        };
+
+        function join_with_previous(id, prev_id, next_id) {
+          // loading gif 
+          $('.entry#' + id).html('<img src="/media/img/icons/loading-16px.gif" />');
+          $.ajax({
+            url: '/sessoes/juntar/' + id + '/',
+            success: function(data) {
+              // apagar parent div
+              $('.entry#' + id).hide();
+              console.log(id)
+              soft_refresh(prev_id)
+              soft_refresh(next_id)
+              // FIXME: precisamos de colocar a textarea como editável novamente
+              $(".collapsible").truncatable({	limit: 100, more: 'Mostrar tudo', less: true, hideText: 'Esconder' });
+              $(".edit_area").editable("/sessoes/gravar/",
+                {
+                  cancel: "Cancelar",
+                  submit: "OK",
+                  tooltip: "Clique 2 vezes para fazer alterações.",
+                  loadurl: '/sessoes/raw/',
+                  type: "textarea",
+                  indicator: '<img src="/media/img/icons/loading-16px.gif" />',
+                  event: "dblclick",
+                  callback : function(value, settings) 
+                  {
+                    refresh(this.parentNode.id);
+                    return value;
+                  }
+                });
+              }
+            });
+          };
+      $(document).ready(function(){  
+        // CSRF protection
+        $.ajaxSetup({
+          data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+        });
+
+        $(".entry").hover(function(){
+          $(this).toggleClass("active");
+        });
+
+        // jeditable
+        {% if request.user.is_authenticated %}
+        $(".edit_area").editable("/sessoes/gravar/",
+          {
+            cancel: "Cancelar",
+            submit: "OK",
+            tooltip: "Clique 2 vezes para fazer alterações.",
+            loadurl: '/sessoes/raw/',
+            type: "textarea",
+            indicator: '<img src="/media/img/icons/loading-16px.gif" />',
+            event: "dblclick",
+            callback : function(value, settings) {
+                refresh(this.parentNode.id);
+                return value;
+                }
+            });
+        {% endif %}
+       	$(".collapsible").truncatable({	limit: 76, more: 'Mostrar tudo', less: true, hideText: 'Esconder' });
+       });
+    </script>
+    <script type="text/javascript">      
+      function showonlyone(thechosenone) {
+        $('p.popup').each(function(index) {
+          if ($(this).attr("id") == thechosenone) {
+              $(this).fadeIn(200);
+          }
+          else {
+              $(this).hide(600);
+          }
+        });
+      }
+      $(document).ready(function() {
+		    $('.close').click(function(){
+		      $('.popup').fadeOut();
+	      });   
+      });
+    </script>
+
+{% endblock %}
+
+{% block content %}
+      <div id="content-box">
+        
+        <ul id="dar-tabs" class="tabs">
+          <li><span>Transcrição</span></li>
+          {% comment %}
+          <li><a href="stats" title="">Estatísticas</a></li>
+          <li><a href="{% url "day_revisions" day.date.year day.date.month day.date.day %}" title="">Revisões</a></li>
+          {% endcomment %}
+        </ul>
+         
+        <h2 class="ribbon">{{ day.date }}</h2>
+
+        <p><strong>Nota:</strong> As transcrições ainda estão em desenvolvimento. Pode haver inconsistências e erros de processamento.</p>
+        {% if pdf_url %}<p>Consultar o <a href="{{ pdf_url }}">PDF original</a> da transcrição desta sessão.</p>{% endif %}
+
+        {% for entry in entries %}
+          {% if forloop.first %}
+          <div class="intervention mini-intervention">
+          {% endif %}
+
+          {# Verificar se temos de fechar a tag da intervencao anterior #}
+          {% if entry.type == 'deputado_intervencao' or entry.type == 'presidente' or entry.type == 'secretario' or entry.type == 'presidente_temapalavra' or entry.type == 'presidente_aberta' or entry.type == 'pm_intervencao' or entry.type == 'ministro_intervencao' or entry.type == 'secestado_intervencao' %}
+            </div> <!-- /intervention --> 
+            {% if entry.type == 'deputado_intervencao' or entry.type == 'pm_intervencao' or entry.type == 'ministro_intervencao' or entry.type == 'secestado_intervencao' %}
+              <div class="intervention">
+            {% else %}
+              <div class="intervention mini-intervention">
+            {% endif %}
+          {% endif %}
+
+          <div class="entry" id="{{ entry.position }}">
+            {# Incluir snippet de acordo com o tipo #}
+            <!-- {{entry.type}} -->
+            {% if not entry.type %}
+              {% include 'dar/entry_snippets/outra.html' %}
+            {% else %}
+              {% with entry.type as t %}
+              {% include t|get_template_from_entry_type %}
+
+              {% endwith %}
+            {% endif %}
+          </div> <!-- /entry -->
+          {% if forloop.last %}
+          </div> <!-- /intervention --> 
+          {% endif %}
+
+        {% endfor %}
+        
+        <p class="notice">Versão Beta: Esta informação pode estar incompleta e/ou conter incorrecções.</p>
+
+      </div><!-- /#content-box -->
+      
+        {% block toolbar_contents %}
+        {% if request.user.is_authenticated %}
+        <ul>
+          <li><a href="">Abrir PDF original</a></li>
+          <li><a href="{% url "parse_session_entries" day.id %}">{% if day.parsed %}Re-catalogar sessão{% else %}Catalogar sessão{% endif %} (demora um bocadinho)</a></li>
+          
+          <li><a href="{% url "logout" %}">Logout?</a></li>
+        </ul>
+        {% endif %}
+        {% endblock %}
+      </div><!-- /#toolbar -->
+      
+{% endblock content %}
+
+

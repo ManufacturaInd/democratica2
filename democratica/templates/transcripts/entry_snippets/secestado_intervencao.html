@@ -1,0 +1,35 @@
+{% load dartags %}
+
+<div class="left">
+  {% if entry.mp_id %}
+    {% with mpdict|lookup:entry.mp_id as mp %}
+    {% if mp.photo %}<p class="mp-photo"><a href="/deputados/{{ mp.id }}" class="avatar-colorbar {{ mp.party_abbrev|lower }}"><img src="{{ mp.photo.url_60x79 }}" alt="{{ mp.shortname }}" /></a></p>{% endif %}
+    <h3 class="mp-name"><a href="/deputados/{{ mp.id }}">{{ mp.shortname }}</a></h3>
+    
+    <h4>{{ entry.party }}</h4>
+    {% if entry.party %}<p class="party {{ mp.party_abbrev|lower }}">{{ mp.party_abbrev }}</p>{% endif %}
+    <p class="circle {{ mp.party_abbrev|lower }}">{{ mp.constituency }}</p>
+    {% endwith %}
+  {% else %}
+    <h3 class="mp-name">{{ entry.speaker }}</h3>
+    <h4>{{ entry.party }}</h4>
+  {% endif %}
+</div>
+
+<div class="right">
+  <p class="popup" id="popup-button-{{ entry.id }}">
+    <label>Link desta intervenção:</label> <input type="text" value="http://demo.cratica.org{{ entry.get_absolute_url }}" /><span class="close">X</span>
+  </p>  
+
+  <div class="entry-content" id="Entry_raw_text_{{ entry.id }}">
+    {{ entry.text_as_html }}
+  </div>
+  
+  {% include "dar/entry_snippets/_social.html" %}
+
+  {% if request.user.is_authenticated %}
+  <ul class="actionbar">
+    <li><a href="{% url "admin:dar_entry_change" entry.pk %}">Editar</a></li>
+  </ul>
+  {% endif %}
+</div> <!-- /right -->

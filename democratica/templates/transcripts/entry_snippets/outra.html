@@ -1,0 +1,22 @@
+<div class="left"> 
+  <p class="mini">{{ entry.speaker }}</p> 
+  <p class="party">{{ entry.party }}</p>
+</div>
+
+<div class="right">
+  <p class="popup" id="popup-button-{{ entry.id }}">
+    <label>Link desta intervenção:</label> <input type="text" value="http://demo.cratica.org{{ entry.get_absolute_url }}" /><span class="close">X</span>
+  </p>  
+
+  <div class="entry-content" id="Entry_raw_text_{{ entry.id }}">
+    {{ entry.text_as_html }}
+  </div>
+  
+  {% include "dar/entry_snippets/_social.html" %}
+
+  {% if request.user.is_authenticated %}
+  <ul class="actionbar">
+    <li><a href="{% url "admin:dar_entry_change" entry.pk %}">Editar</a></li>
+  </ul>
+  {% endif %}
+</div> <!-- /right -->

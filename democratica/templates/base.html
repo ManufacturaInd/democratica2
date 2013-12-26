@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml">
+  <head>
+    <meta charset="utf-8" />
+    <meta property="og:image" content="{% block ogimage %}http://demo.cratica.org:7080/media/img/democratica-white-small.png{% endblock %}"/>
+    <meta property="og:title" content="{% block ogtitle %}Demo.cratica (Beta){% endblock %}"/>
+    <meta property="og:description" content="{% block ogdescription %}A forma fácil de ler o Parlamento. Um site independente para saber quem são e o que dizem os deputados da Assembleia da República Portuguesa.{% endblock %}"/>
+    <meta property="og:url" content="http://demo.cratica.org{% block ogurl %}/{% endblock %}"/>
+    <meta property="og:type" content="{% block ogtype %}website{% endblock %}"/>
+    <title>{% block title %}Demo.cratica (Beta){% endblock %}</title>
+
+    <link rel="stylesheet" href="media/css/reset.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="media/js/uniform/css/uniform.default.css" type="text/css" />
+    <link rel="stylesheet" href="media/css/tipsy.css" type="text/css" />
+    <link rel="stylesheet" href="media/css/style.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="media/css/print.css" type="text/css" media="print" />
+  
+    <link rel="shortcut icon" href="media/img/favicon.ico" />
+  
+    <script type="text/javascript" src="media/js/jquery-1.5.2.min.js"></script>
+    <script type="text/javascript" src="media/js/css_browser_selector.js"></script>
+    <script type="text/javascript" src="media/js/uniform/jquery.uniform.js"></script>
+    <script type="text/javascript" src="media/js/jquery.clear-on-focus.js"></script>
+    <script type="text/javascript" src="media/js/tipsy/jquery.tipsy.js"></script>
+    
+    <!--[if (gte IE 6)&(lte IE 8)]>
+      <script type="text/javascript" src="media/js/selectivizr.js"></script>
+    <![endif]--> 
+    
+    {% block extrascripts %}{% endblock %}
+    
+    <script type="text/javascript">
+      $(document).ready(function(){  
+        $(".searchbox").search();
+        $("input, textarea, select, button").not(".search-btn").not(".searchbox").uniform();
+	    });
+    </script>
+    
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-23418283-1']);
+      _gaq.push(['_setDomainName', '.cratica.org']);
+      _gaq.push(['_trackPageview']);
+      _gaq.push(['_trackPageLoadTime']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </head>
+
+<body class="{% block extrabodyclass %}default{% endblock %}">  
+  <nav id="menu">
+    <ul id="menu-box">
+      <li id="homepage"><a href="/">Demo.cratica</a></li>
+      <li><a href="/">Início</a></li>
+      <li><a href="/deputados/">Deputados</a></li>
+      <li><a href="/sessoes/">Sessões</a></li>
+      <li><a href="/labs/">Labs</a></li>
+      <li><a href="http://demo.cratica.org/blog">Blog</a></li>
+      <li><a href="/acerca/">Acerca</a></li>
+      {# <li><a href="">Contacto</a></li> #}
+      <li id="search">
+            <form method="get" action="/pesquisa/">
+              <input type="text" name="q" value="Pesquisa..." class="searchbox placeholder" /><input type="submit" class="search-btn" value="Ir" />
+          </form>
+      </li>
+    </ul><!-- /#menu-box -->
+  </nav> <!-- /#menu -->
+  
+  <div id="content">
+    {% block contentdiv %}{% endblock %}
+  </div> <!-- /#content -->
+  
+  {#
+  {% if request.user.is_authenticated %}  
+  <div id="toolbar">
+    {% block toolbar_contents %}
+    <ul class="left">
+      {% if messages %}
+      {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+      {% endif %}
+    </ul>
+    <ul class="right">
+      <li><a href="">Logout?</a>
+    </ul>
+    {% endblock %}
+  </div>
+  {% endif %}
+  #}
+
+  <footer id="footer">
+    <div id="footer-box">
+      <p class="follow-twitter">Estamos no <a href="http://identi.ca/demo_cratica">identi.ca </a> e no <a href="http://twitter.com/demo_cratica">twitter</a></p>
+      
+      <h5>Um projecto </h5>
+      <p><a href="http://manufacturaindependente.org" class="manufactura footer-logo" title="Manufactura Independente">Manufactura Independente</a></p>
+      
+      <h5>Apoio e Suporte</h5>
+      <ul>
+        <li><a href="http://unimos.net" class="unimos footer-logo" title="Unimos.net">Unimos.net</a></li>
+        <li><a href="http://hacklaviva.net" class="hacklaviva footer-logo" title="Hacklaviva">Hacklaviva</a></li>
+        <li><a href="http://transparencia.hacklaviva.net" class="transparencia-porto footer-logo" title="Transparência Hackday Porto">Transparência Hackday Porto</a></li>
+      </ul>
+      
+      <h5>Fontes de Informação</h5>
+      <p><a href="http://www.parlamento.pt/">Parlamento.pt</a></p>
+      
+    </div> <!-- /#footer-box -->
+  </footer> <!-- /#footer -->
+
+  {#
+  <div id="footer">
+    <div id="footer-box">
+      <ul id="navigation">
+        <li><a href="/">Início</a></li>
+        <li><a href="/acerca">Acerca</a></li>
+        <li><a href="">FAQ</a></li>
+        <li><a href="">Termos e Condições</a></li>
+        <li><a href="">Contacto</a></li>
+        <li><a href="">Glossário</a></li>
+      </ul>
+    </div> <!-- /#footer-box -->
+  </div> <!-- /#footer -->
+  #}
+
+  </body>
+</html>
+
+

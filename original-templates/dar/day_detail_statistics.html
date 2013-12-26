@@ -1,0 +1,212 @@
+{% extends 'base_dar.html' %}
+
+{% load deputags %}
+{% load dartags %}
+
+{% block title %}Estatísticas de {{ day.date.day }} de {{ day.date.month }} de {{ day.date.year }} &mdash; Demo.cratica (Beta){% endblock %}
+
+{% block extrascripts %}
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.tipsy-ballon').tipsy({
+          fade: true,
+          gravity: 'n',
+          delayIn: 100,
+          delayOut: 300,
+          html: true,
+        });
+	    });
+    </script>
+
+<script type="text/javascript" src="/media/js/highcharts/highcharts.js"></script>
+<script type="text/javascript" src="/media/js/highcharts/themes/gray.js"></script>
+
+<!-- Gráfico - Proporção de intervenções -->
+<script type="text/javascript">
+  var chart;
+  $(document).ready(function() {
+    chart = new Highcharts.Chart({
+      chart: {
+        renderTo: 'grafproporcao',
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+      },
+      title: {
+        text: ''
+      },
+      tooltip: {
+        formatter: function() {
+          return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
+        }
+      },
+      plotOptions: {
+        pie: {
+          allowPointSelect: true,
+          cursor: 'pointer',
+          size: '100%',
+          dataLabels: {
+             enabled: false,
+             color: '#000000',
+             connectorColor: '#000000',
+             formatter: function() {
+               return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
+             }
+          }
+        }
+      },
+      series: [{
+        type: 'pie',
+        name: 'Partidos',
+        size: '15%',
+        innerSize: '70%',
+        data: [
+        {% for party in party_counts %}
+          { name: '{{ party|upper }}',     y: {{ party_counts|lookup:party|lookup:"total"|floatise }},    color: '{{ party_colors|lookup:party }}', },
+        {% endfor %}
+        ]},
+        {
+        type: 'pie',
+        name: 'Deputados',
+        innerSize: '70%',
+        data: [
+        {% for party in party_counts %} 
+          {% for speaker in party_counts|lookup:party %}
+          {% if not speaker == 'total' %}
+          { name: '{{ speaker }}',     y: {{ party_counts|lookup:party|lookup:speaker|floatise }},    color: '{{ party_colors|lookup:party }}', },  
+          {% endif %}
+          {% endfor %}
+        {% endfor %}
+        ]}],
+    });
+  });
+</script>
+
+<!-- Gráfico - Muito bem! -->
+<script type="text/javascript">
+  var chart;
+  $(document).ready(function() {
+    chart = new Highcharts.Chart({
+      chart: {
+        renderTo: 'grafmuitobem',
+        defaultSeriesType: 'column',
+        margin: [10, 10, 10, 10]
+      },
+      title: {
+        text: ''
+      },
+      xAxis: {
+        labels: { enabled: false },
+        tickWidth: 0,
+        lineWidth: 0,
+        minorGridLineWidth: 0,
+      },
+      yAxis: {
+        labels: { enabled: false },
+        tickWidth: 0,
+        lineWidth: 0,
+        minorGridLineWidth: 0,
+        min: 0,
+        title: {
+          text: ''
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      tooltip: {
+        formatter: function() {
+          return '<b>'+ this.point.name +'</b><br/>'+
+             '...disse "Muito bem!" um total de '+ Highcharts.numberFormat(this.y, 0) +
+             ' vezes.';
+        }
+      },
+      series: [{
+        name: 'Muito bem!',
+
+        data: [
+         {% if mb_counts.ps %}{ name: 'PS',    y: {{ mb_counts.ps}},    color: '#d888bb', },{% endif %}
+         {% if mb_counts.psd %}{ name: 'PSD',    y: {{ mb_counts.psd}},   color: '#cb8d41', },{% endif %}
+         {% if mb_counts.cdspp %}{ name: 'CDS-PP', y: {{ mb_counts.cdspp}}, color: '#606798', },{% endif %}
+         {% if mb_counts.be %}{ name: 'BE',     y: {{ mb_counts.be}},    color: '#671717', },{% endif %}
+         {% if mb_counts.pcp %}{ name: 'PCP',    y: {{ mb_counts.pcp}},   color: '#c74343', },{% endif %}
+          {% if mb_counts.pev %}{ name: 'PEV',    y: {{ mb_counts.pev}},   color: '#607454', },{% endif %}
+        ],
+        dataLabels: {
+          enabled: true,
+          rotation: -90,
+          color: '#FFFFFF',
+          align: 'right',
+          x: -8,
+          y: 10,
+          formatter: function() {
+            return this.y;
+          },
+          style: {
+            font: 'normal 11px Verdana, sans-serif'
+          }
+        }			
+      }]
+    });
+  });
+</script>
+
+{% endblock %}
+
+{% block extrabodyclass %}default dar{% endblock %}
+
+{% block content %}
+    <div id="content-box">
+      
+      <ul id="dar-tabs" class="tabs">
+        <li><a href="{% url "day_detail" day.date.year day.date.month day.date.day %}" title="">Sessão</a></li>
+        <li><span>Estatísticas</span></li>
+        <li><a href="{% url "day_revisions" day.date.year day.date.month day.date.day %}" title="">Revisões</a></li>
+      </ul>
+       
+      <h2 class="ribbon">{{ day.date }}</h2>
+      
+      <div id="multi-col">
+        <div class="col left-col">
+          <h4>Proporção das intervenções</h4>
+          <div id="grafproporcao" style="width: 290px; height: 290px; margin: 0 auto"></div>
+        </div>
+        
+        <div class="col">
+          <h4>Muito bem!</h4>
+          <div id="grafmuitobem" style="width: 290px; height: 290px; margin: 0 auto"></div>
+        </div>
+        
+        <div class="col">
+          {% if day.top5words %}
+          <h4>Palavras do dia</h4>
+          <p>A palavra do dia foi</p>
+            {% for w in day.top5words.words %}
+              {# aqui usamos dicts de um só objecto, meio derpy mas tem de ser para obter os valores #}
+              {% if forloop.first %}
+                {% for word,count in w.items %}
+                <p class="favourite-word" title="Mencionada {{ count }} vezes"><strong>{{ word }}</strong></p>
+                {% endfor %}
+                <p class="other-words">As outras palavras do dia foram {% else %} {% if not forloop.last %} {% for word,count in w.items %}<span class="tipsy-ballon" title="Mencionada {{ count }} vezes">{{ word }}</span>, {% endfor %}{% else %} e {% for word,count in w.items %}<span class="tipsy-ballon" title="Mencionada {{ count }} vezes">{{ word }}</span>.{% endfor %}{% endif %}
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        </div>
+        
+      </div> <!-- /#multi-col -->
+
+      <ul class="pagination">
+        {% if prevdate %}
+        <li id="previous"><a href="{% url "day_stats" prevdate.year prevdate.month prevdate.day %}">&laquo; Dia anterior</a></li>
+        {% endif %}
+        {% if nextdate %}
+        <li id="next"><a href="{% url "day_stats" nextdate.year nextdate.month nextdate.day %}">Dia seguinte &raquo;</a></li>
+        {% endif %}
+      </ul><!-- /pagination-->
+        
+      <p class="notice">Versão Beta: Esta informação pode estar incompleta e/ou conter incorrecções.</p>
+
+    </div><!-- /#content-box -->
+{% endblock content %}
+      
