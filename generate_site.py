@@ -25,10 +25,13 @@ VIEW_URL = "http://koizo.org:5984/dar-1_datas/_design/dar/_view/all_dates"
 OUTPUT_DIR = "_output"
 MEDIA_SOURCE_DIR = "_media"
 
+###################
+# 1. PREPARE DATA #
+###################
+
 # fetch all dates
 page = urllib2.urlopen(VIEW_URL)
 data = json.loads(page.read())
-
 rows = data['rows']
 
 # process dates into a year->dates dict
@@ -63,13 +66,19 @@ for year in all_years:
 
 # FIXME, this is stupid
 all_years = datedict
+
+##########################
+# 2. GENERATE HTML FILES #
+##########################
+
 # init Jinja
 from jinja2 import Environment, PackageLoader
 env = Environment(loader=PackageLoader('democratica', 'templates'),
                   extensions=['jinja2htmlcompress.SelectiveHTMLCompress'],
                   trim_blocks=True, lstrip_blocks=True)
 
-# generate home page
+## HOME PAGE ##
+
 template = env.get_template('index.html')
 html = template.render()
 filename = "index.html"
@@ -79,7 +88,8 @@ outfile.write(html)
 outfile.close()
 print "%s created OK" % filename
 
-# generate year indexes
+## SESSION CALENDAR ##
+
 template = env.get_template('transcripts/day_list.html')
 for year_number in all_years:
     year = all_years[year_number]
@@ -95,12 +105,14 @@ for year_number in all_years:
     outfile.close()
     print "%s created OK" % filename
     
-# replace static content (css, js, images, fonts)
+## STATIC FILES ##
+
+# regenerate static content dir (css, js, images, fonts)
 media_path = os.path.join(OUTPUT_DIR, 'media')
 if os.path.exists(media_path):
     shutil.rmtree(media_path)
 os.mkdir(media_path)
-# thank you SO user prosseek http://stackoverflow.com/a/15034373
+# copy_tree method lifted from user prosseek http://stackoverflow.com/a/15034373
 import distutils.core
 distutils.dir_util.copy_tree(MEDIA_SOURCE_DIR, media_path)
 
