@@ -11,10 +11,10 @@
         <li><a {% if y == year %}class="selected"{% endif %} href="{{ y }}.html">{{ y }}</a></li>
       {% endfor %}
       </ul>
-		  <div id="calendar">
-		    <div class="year">
+      <div id="calendar">
+        <div class="year">
           {% for month in year %}
-		      <div class="month">
+          <div class="month">
             <h4><abbr title="{{ month }}">{{ month }}</abbr></h4>
             <ol>
             {% strip %}
@@ -26,11 +26,11 @@
               {% endif %}
               {% if year[month][day]['has_session'] == True %}
               <li>
-                <a href="" class="session-yes
+              <a href="{{ "sessoes/%d-%02d-%02d.html" % (year_number, month, day) }}" class="session-yes
                 {% if year[month][day]['weekday'] in [0,6] %} 
                   weekend
                 {% endif %}
-                " rel="tipsy" title="Palavra do dia <strong>{# {{ words|lookup:day }} #}Derp</strong>">{{ day }}</a>
+                "{# rel="tipsy" title="Palavra do dia <strong> {{ words|lookup:day }}</strong>"#}>{{ day }}</a>
               </li>
               {% else %}
                 <li>
