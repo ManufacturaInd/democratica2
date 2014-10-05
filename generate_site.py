@@ -107,7 +107,6 @@ for year_number in datedict:
     outfile = codecs.open(os.path.join(OUTPUT_DIR, filename), 'w', 'utf-8')
     outfile.write(html)
     outfile.close()
-    # log.debug("%s created OK" % filename)
 
 # STATIC FILES #
 
@@ -151,10 +150,3 @@ for leg, sess, num, d, dpub in data:
     outfile.write(html)
     outfile.close()
     log.debug(filename)
-
-    # sourcepath = os.path.join(DATASETS_DIR,
-    #                          "dar-transcricoes-html/", sourcefile)
-    # targetpath = os.path.join(OUTPUT_DIR, sessions_dir, filename)
-    # shutil.copyfile(sourcepath, targetpath)
-
-
