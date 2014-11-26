@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import distutils.core
 from distutils.dir_util import copy_tree
 import csv
 from datetime import date
@@ -11,33 +10,20 @@ import shutil
 import markdown
 from zenlog import log
 
-MESES = [
-    'Janeiro',
-    'Fevereiro',
-    'Março',
-    'Abril',
-    'Maio',
-    'Junho',
-    'Julho',
-    'Agosto',
-    'Setembro',
-    'Outubro',
-    'Novembro',
-    'Dezembro',
-    ]
 
-DATASETS_DIR = "~/Datasets/"
+DATASET_FILE = "/home/rlafuente/Datasets/parlamento-datas/data/parlamento-datas.csv"
+TRANSCRIPTS_DIR = "/home/rlafuente/Datasets/dar-transcricoes-txt/"
 OUTPUT_DIR = "_output"
 MEDIA_SOURCE_DIR = "_media"
 MEDIA_PATH = "media/"
 TRANSCRIPTS_PATH = "sessoes/"
 
-
-DATASETS_DIR = os.path.expanduser(DATASETS_DIR)
+MESES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho',
+         'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
 
 
 def get_date_dataset():
-    data = csv.reader(open(os.path.join(DATASETS_DIR, 'dar-datas.csv'), 'r'))
+    data = csv.reader(open(DATASET_FILE, 'r'))
     # skip first row
     data.next()
     return data
@@ -54,7 +40,7 @@ def generate_datedict():
         # if current year, trim future months
         if int(year) == date.today().year:
             month = date.today().month
-            months = range(1, month+1)
+            months = range(1, month + 1)
         else:
             months = range(1, 13)
         datedict[year] = {}
@@ -62,7 +48,7 @@ def generate_datedict():
             datedict[year][month] = {}
             import calendar
             days_in_month = calendar.monthrange(year, month)[-1]
-            all_days = range(1, days_in_month+1)
+            all_days = range(1, days_in_month + 1)
             session_days = [date(d.year, d.month, d.day) for d in all_dates
                             if d.month == month and d.year == year]
             for day_number in all_days:
@@ -73,6 +59,7 @@ def generate_datedict():
                     has_session = False
                 datedict[year][month][day_number] = {'weekday': day_date.weekday(),
                                                      'has_session': has_session}
+    return datedict
 
 
 def render_template_into_file(env, templatename, filename, context=None, place_in_outdir=True):
@@ -92,8 +79,7 @@ def get_session_text(leg, sess, num, html=True):
         sourcefile = "%02d-%d-%s.txt" % (int(leg), int(sess), num)
     else:
         sourcefile = "%02d-%d-%03d.txt" % (int(leg), int(sess), int(num))
-    sourcepath = os.path.join(
-        (DATASETS_DIR), 'dar-transcricoes-txt', sourcefile)
+    sourcepath = os.path.join(TRANSCRIPTS_DIR, sourcefile)
     text = codecs.open(sourcepath, 'r', 'utf-8').read()
     if html:
         return markdown.markdown(text)
@@ -137,19 +123,19 @@ def generate_site():
         render_template_into_file(env, 'transcripts/day_list.html', filename, context)
 
     log.info("Generating HTML session pages...")
-    data = csv.reader(open(os.path.join(DATASETS_DIR, 'dar-datas.csv'), 'r'))
-    data.next()
+    data = get_date_dataset()
     for leg, sess, num, d, dpub in data:
         context = {'session_date': dateparser.parse(d),
                    'year_number': year_number,
                    'text': get_session_text(leg, sess, num),
                    'pdf_url': 'xpto',
                    }
-        render_template_into_file(env, 'transcripts/day_detail_markdown.html', d + '.html', context)
-        log.debug(filename)
+        filename = os.path.join(TRANSCRIPTS_PATH, d + '.html')
+        render_template_into_file(env, 'transcripts/day_detail_markdown.html', filename, context)
+        log.debug(d)
 
     log.info("Copying static files...")
-    copy_tree(MEDIA_SOURCE_DIR, MEDIA_PATH)
+    copy_tree(MEDIA_SOURCE_DIR, os.path.join(OUTPUT_DIR, MEDIA_PATH))
 
 if __name__ == "__main__":
     generate_site()
