@@ -7,7 +7,7 @@ from dateutil import parser as dateparser
 import os
 import codecs
 import shutil
-import markdown
+import hoedown as markdown
 from zenlog import log
 
 
@@ -82,7 +82,7 @@ def get_session_text(leg, sess, num, html=True):
     sourcepath = os.path.join(TRANSCRIPTS_DIR, sourcefile)
     text = codecs.open(sourcepath, 'r', 'utf-8').read()
     if html:
-        return markdown.markdown(text)
+        return markdown.html(text)
     else:
         return text
 
