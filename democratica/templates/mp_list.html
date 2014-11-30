@@ -1,0 +1,67 @@
+{% extends "base_mp.html" %}
+
+{% block title %}Deputados &mdash; Demo.cratica (Beta){% endblock %}
+
+{% block extrascripts %}
+<!-- este script é da pesquisa rápida na lista de deputados, para já só é usado nesta página -->
+<script type="text/javascript" src="/media/js/jquery.quicksearch.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){  
+    $(".searchbox").search();
+    
+    // este pedaço é usado para chamar a pesquisa rápida
+    $(".mp-list > li").quicksearch({
+    position: 'prepend',
+    attached: '.mp-filters',
+    labelText: null,
+    loaderImg: '/media/img/icons/loading-16px.gif',
+    inputText: 'Filtrar...'
+  });
+  });
+</script>
+{% endblock %}
+
+{% block content %}
+<div id="content-box">
+    {% for col in mps|sort(attribute="shortname")|slice(3) %}
+    <ul class="mp-list{% if loop.last %} last{% endif %}">
+      {% for mp in col %}   
+        <li class="{{ loop.cycle('odd', 'even') }}"><a href="/deputados/{{ mp.id }}">
+        {#
+          {% if mp.photo %}
+          <span class="photo"><img src="{{ mp.photo.url_18x25 }}" alt="{{ mp.shortname }}" /></span>
+          {% else %}
+          <span class="photo"></span>
+          {% endif %}
+        #}
+          <span class="party {{ mp.party|lower }}">{{ mp.party }}</span>
+          <span class="name">{{ mp.shortname }}</span>
+        </a></li>
+      {% endfor %}
+    </ul>
+    {% endfor %}
+
+    <ul class="pagination">
+      <li><p class="notice">Versão Beta: Esta lista pode estar incompleta e/ou conter incorrecções.</p></li>
+    {#
+    <li id="previous"><a href="">&laquo; Anterior</a></li>
+      <li id="pg-nav">
+        <ul>
+          {% for p in page_range %}
+          {% if forloop.first %} <li class="first"> {% else %} <li> {% endif %}
+          <a href='&page={{ p }}'{% if p == page %} class="on"{% endif %}>{{ p }}</a>
+          </li>
+          {% endfor %}
+
+          <li class="first"><a href="" class="on">1</a></li>
+          <li><a href="">2</a></li>
+          <li><a href="">3</a></li>
+          <li>...</li>
+          <li class="last"><a href="">12</a></li>
+        </ul></li>
+      <li id="next"><a href="">Próximo &raquo;</a></li>
+    #}
+    </ul><!-- /pagination-->
+    
+</div><!-- /#content-box -->
+{% endblock %}
