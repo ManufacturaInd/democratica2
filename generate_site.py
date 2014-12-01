@@ -16,6 +16,7 @@ import hoedown as markdown
 
 
 MP_DATASET_FILE = "/home/rlafuente/Datasets/parlamento-deputados/data/deputados.json"
+MPINFO_DATASET_FILE = "/home/rlafuente/Datasets/parlamento-deputados/data/deputados-extra.csv"
 GOV_DATASET_FILE = "/home/rlafuente/Datasets/governos/data/governos.csv"
 GOVPOST_DATASET_FILE = "/home/rlafuente/Datasets/governos/data/governos-cargos.csv"
 TRANSCRIPTS_DIR = "/home/rlafuente/Datasets/dar-transcricoes-txt/"
@@ -48,6 +49,15 @@ def get_gov_dataset():
 
 def get_mp_dataset():
     data = json.loads(open(MP_DATASET_FILE, 'r').read())
+    info_data = csv.reader(open(MPINFO_DATASET_FILE, 'r'))
+    info_data.next()
+    for row in info_data:
+        mp = data[row[0]]
+        mp['email'] = row[3]
+        mp['wikipedia_url'] = row[4]
+        mp['twitter_url'] = row[6]
+        mp['blog_url'] = row[7]
+        mp['website_url'] = row[8]
     return data
 
 
