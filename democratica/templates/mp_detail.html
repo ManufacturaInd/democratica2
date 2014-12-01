@@ -44,6 +44,22 @@
           </li>
           
           <li>
+            <h4>Mandatos</h4>
+            <ul>
+              {% for mandate in mp.mandates|sort(reverse=True, attribute='legislature') %}
+              <li>
+                {% if mandate.end_date %}
+                {{ mandate.legislature }}ª Legislatura &ndash; {{ mandate.party }} &ndash; {{ mandate.constituency }} (de {{ mandate.start_date.year }} a {{ mandate.end_date.year }})
+                {% else %}
+                {{ mandate.legislature }}ª Legislatura &ndash; {{ mandate.party }} &ndash; {{ mandate.constituency }} (desde {{ mandate.start_date|date }})
+                {% endif %}
+                <a href="{{ mandate.activity_url }}">Atividade parlamentar</a> {% if mandate.interest_url %}<a href="{{ mandate.interest_url }}">Registo de interesses</a>{% endif %}
+              </li>
+              {% endfor %}
+            </ul>
+          </li>
+
+          <li>
             <h4>Habilitações e cargos</h4>
             <ul>
               {% if mp.education %}
@@ -67,21 +83,6 @@
               {% endfor %}
               {% endif %}
 
-            </ul>
-          </li>
-          <li>
-            <h4>Mandatos</h4>
-            <ul>
-              {% for mandate in mp.mandates|sort(reverse=True, attribute='legislature') %}
-              <li>
-                {% if mandate.end_date %}
-                {{ mandate.legislature }}ª Legislatura &ndash; {{ mandate.party }} &ndash; {{ mandate.constituency }} (de {{ mandate.start_date.year }} a {{ mandate.end_date.year }})
-                {% else %}
-                {{ mandate.legislature }}ª Legislatura &ndash; {{ mandate.party }} &ndash; {{ mandate.constituency }} (desde {{ mandate.start_date|date }})
-                {% endif %}
-                <a href="{{ mandate.activity_url }}">Atividade parlamentar</a> {% if mandate.interest_url %}<a href="{{ mandate.interest_url }}">Registo de interesses</a>{% endif %}
-              </li>
-              {% endfor %}
             </ul>
           </li>
 
