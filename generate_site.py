@@ -7,8 +7,9 @@ import shutil
 from zenlog import log
 
 from distutils.dir_util import copy_tree
-from datetime import date
+import datetime
 from dateutil import parser as dateparser
+from babel.dates import format_date as babel_format_date
 import unicodecsv as csv
 import json
 import hoedown as markdown
@@ -97,8 +98,8 @@ def generate_datedict():
     for year in all_years:
         # populate it with its months
         # if current year, trim future months
-        if int(year) == date.today().year:
-            month = date.today().month
+        if int(year) == datetime.date.today().year:
+            month = datetime.date.today().month
             months = range(1, month + 1)
         else:
             months = range(1, 13)
@@ -108,10 +109,10 @@ def generate_datedict():
             import calendar
             days_in_month = calendar.monthrange(year, month)[-1]
             all_days = range(1, days_in_month + 1)
-            session_days = [date(d.year, d.month, d.day) for d in all_dates
+            session_days = [datetime.date(d.year, d.month, d.day) for d in all_dates
                             if d.month == month and d.year == year]
             for day_number in all_days:
-                day_date = date(year, month, day_number)
+                day_date = datetime.date(year, month, day_number)
                 if day_date in session_days:
                     has_session = True
                 else:
@@ -168,6 +169,13 @@ def delete_and_create_dir(d):
     os.mkdir(d)
 
 
+def format_date(value, format='medium'):
+    if type(value) not in (datetime.date, datetime.datetime):
+        log.error(type(value))
+        value = dateparser.parse(value)
+    return babel_format_date(value, format, locale="pt_PT")
+
+
 # @click.command()
 def generate_site():
     # flush output
@@ -181,6 +189,7 @@ def generate_site():
     env = Environment(loader=PackageLoader('democratica', 'templates'),
                       extensions=['jinja2htmlcompress.SelectiveHTMLCompress'],
                       trim_blocks=True, lstrip_blocks=True)
+    env.filters['date'] = format_date
 
     # generate pages
     log.info("Generating index...")
@@ -209,16 +218,21 @@ def generate_site():
                 gov = None
                 for r in gov_data:
                     if int(r[0]) == gov_number:
-                        gov = {'number': r[0], 'start_date': r[1], 'end_date': r[2]}
+                        gov = {'number': r[0], 'start_date': dateparser.parse(r[1]), 'end_date': dateparser.parse(r[2])}
                         break
                 if not gov:
                     log.critical("Gov not found!")
                 mp['govposts'].append({
                     'post': row[3],
-                    'start_date': row[4],
-                    'end_date': row[5],
+                    'start_date': dateparser.parse(row[4]),
+                    'end_date': dateparser.parse(row[5]),
                     'gov': gov,
                 })
+        # parse dates
+        for m in mp['mandates']:
+            m['start_date'] = dateparser.parse(m['start_date'])
+            m['end_date'] = dateparser.parse(m['end_date'])
+            # nice effect: if no end date, set to today
 
         context = {'mp': mp, 'l': None}
         filename = os.path.join(MPS_PATH, mp['slug'] + '.html')

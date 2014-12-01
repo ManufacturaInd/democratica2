@@ -75,11 +75,11 @@
               {% for mandate in mp.mandates|sort(reverse=True, attribute='legislature') %}
               <li>
                 {% if mandate.end_date %}
-                {{ mandate.legislature }}ª Legislatura &ndash; {{ mandate.party }} &ndash; {{ mandate.constituency }} (de {{ mandate.start_date }} a {{ mandate.end_date }})
+                {{ mandate.legislature }}ª Legislatura &ndash; {{ mandate.party }} &ndash; {{ mandate.constituency }} (de {{ mandate.start_date.year }} a {{ mandate.end_date.year }})
                 {% else %}
-                {{ mandate.legislature }}ª Legislatura &ndash; {{ mandate.party }} &ndash; {{ mandate.constituency }} (desde {{ mandate.start_date }})
+                {{ mandate.legislature }}ª Legislatura &ndash; {{ mandate.party }} &ndash; {{ mandate.constituency }} (desde {{ mandate.start_date|date }})
                 {% endif %}
-                <a href="{{ mandate.activity_url }}">Atividade parlamentar</a> <a href="{{ mandate.interest_url }}">Registo de interesses</a>
+                <a href="{{ mandate.activity_url }}">Atividade parlamentar</a> {% if mandate.interest_url %}<a href="{{ mandate.interest_url }}">Registo de interesses</a>{% endif %}
               </li>
               {% endfor %}
             </ul>
@@ -93,9 +93,15 @@
           <li>
             <h4>Cargos governamentais</h4>
             <ul>
-            {% for p in mp.govposts %}
-            <li>G.C. {{ p.gov.number }} ({{ p.gov.start_date }}-{{ p.gov.end_date }}): <strong>{{ p.post }}</strong> {#{% if p.gov.start_date != p.start_date %}(desde {{ p.start_date }}){% endif %}{% if p.gov.end_date != p.end_date %}(até {{ p.end_date }}){% endif %}#}</li>
-            {% endfor %}
+              {% for p in mp.govposts %}
+              <li>G.C. {{ p.gov.number }} ({{ p.gov.start_date|date }}-{{ p.gov.end_date|date }}): <strong>{{ p.post }}</strong> 
+                {% if p.gov.start_date != p.start_date and p.gov.end_date != p.end_date %}(desde {{ p.start_date|date }} até {{ p.end_date|date }})
+                {% else %}
+                {% if p.gov.start_date != p.start_date %}(desde {{ p.start_date|date }}){% endif %}
+                {% if p.gov.end_date != p.end_date %}(até {{ p.end_date|date }}){% endif %}
+                {% endif %}
+              </li>
+              {% endfor %}
             </ul>
           </li>
           {% endif %}
