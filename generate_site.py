@@ -10,17 +10,22 @@ from distutils.dir_util import copy_tree
 from datetime import date
 from dateutil import parser as dateparser
 import unicodecsv as csv
+import json
 import hoedown as markdown
 
 
-TRANSCRIPT_DATASET_FILE = "/home/rlafuente/Datasets/parlamento-datas/data/parlamento-datas.csv"
+MP_DATASET_FILE = "/home/rlafuente/Datasets/parlamento-deputados/data/deputados.json"
+GOV_DATASET_FILE = "/home/rlafuente/Datasets/governos/data/governos.csv"
+GOVPOST_DATASET_FILE = "/home/rlafuente/Datasets/governos/data/governos-cargos.csv"
 TRANSCRIPTS_DIR = "/home/rlafuente/Datasets/dar-transcricoes-txt/"
-MP_DATASET_FILE = "/home/rlafuente/Datasets/parlamento-deputados/data/deputados.csv"
+TRANSCRIPT_DATASET_FILE = "/home/rlafuente/Datasets/parlamento-datas/data/parlamento-datas.csv"
+
 OUTPUT_DIR = "_output"
 MEDIA_SOURCE_DIR = "_media"
 MEDIA_PATH = "media/"
 TRANSCRIPTS_PATH = "sessoes/"
 MPS_PATH = "deputados/"
+PHOTO_URL_BASE = 'http://localhost:8000/media/img/deputados/'
 
 MESES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho',
          'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
@@ -30,14 +35,57 @@ def get_date_dataset():
     data = csv.reader(open(TRANSCRIPT_DATASET_FILE, 'r'))
     # skip first row
     data.next()
-    return data
+    return list(data)
+
+
+def get_gov_dataset():
+    data = csv.reader(open(GOV_DATASET_FILE, 'r'))
+    # skip first row
+    data.next()
+    return list(data)
 
 
 def get_mp_dataset():
-    data = csv.reader(open(MP_DATASET_FILE, 'r'))
+    data = json.loads(open(MP_DATASET_FILE, 'r').read())
+    return data
+
+
+def get_govpost_dataset():
+    data = csv.reader(open(GOVPOST_DATASET_FILE, 'r'))
     # skip first row
     data.next()
-    return data
+    return list(data)
+
+
+def replace_letters(s, letters, l):
+    for letter in letters:
+        s = s.replace(letter, l)
+    return s
+
+
+def slugify(s):
+    s = s.strip()
+    s = s.lower()
+    s = s.replace("-", "")
+    s = s.replace(" ", "-")
+    s = s.replace("'", "-")
+    s = replace_letters(s, u"áàâã", u"a")
+    s = replace_letters(s, u"éèê", u"e")
+    s = replace_letters(s, u"íì", u"i")
+    s = replace_letters(s, u"óòôõ", u"o")
+    s = replace_letters(s, u"úù", u"u")
+    s = replace_letters(s, u"ç", u"c")
+    return s
+
+
+def to_list(s):
+    l = s.split(';')
+    new_l = []
+    for item in l:
+        item = item.strip(' "')
+        if item:
+            new_l.append(item)
+    return new_l
 
 
 def generate_datedict():
@@ -76,33 +124,14 @@ def generate_datedict():
 def generate_mp_list(only_active=True):
     mps = []
     data = get_mp_dataset()
-    for row in data:
-        is_active = row[4]
-        if is_active == "False":
-            is_active = False
-        else:
-            is_active = True
-        if only_active and not is_active:
+    for id in data:
+        mp = data[id]
+        if only_active and not mp['active']:
             continue
-
-        # id, shortname, name, party, is_active, education, birthdate, occupation, current_jobs, jobs,\
-        # commissions, mandates, awards, url, scrape_date
-        mps.append({
-            "id": row[0],
-            "shortname": row[1],
-            "name": row[2],
-            "party": row[3],
-            "is_active": row[4],
-            "education": row[5],
-            "birth_date": row[6],
-            "occupation": row[7],
-            "current_jobs": row[8],
-            "jobs": row[9],
-            "commissions": row[10],
-            "mandates": row[11],
-            "awards": row[12],
-            "url": row[13],
-        })
+        mp['slug'] = slugify(mp['shortname'])
+        if 'occupation' in mp and len(mp['occupation']) == 1:
+            mp['occupation'] = mp['occupation'][0]
+        mps.append(mp)
     return mps
 
 
@@ -162,6 +191,39 @@ def generate_site():
     context = {"mps": mps}
     render_template_into_file(env, 'mp_list.html', "deputados/index.html", context)
 
+    gov_data = get_gov_dataset()
+    govpost_data = list(get_govpost_dataset())
+    gov_mp_ids = [int(row[2]) for row in govpost_data if row[2]]
+    date_data = get_date_dataset()
+
+    log.info("Generating MP pages...")
+    for mp in mps:
+        id = int(mp['id'])
+        mp['photo_url'] = PHOTO_URL_BASE + str(id) + ".jpg"
+        # determine government posts
+        if id in gov_mp_ids:
+            mp['govposts'] = []
+            govpost_rows = [row for row in govpost_data if row[2].strip() and int(row[2]) == id]
+            for row in govpost_rows:
+                gov_number = int(row[0])
+                gov = None
+                for r in gov_data:
+                    if int(r[0]) == gov_number:
+                        gov = {'number': r[0], 'start_date': r[1], 'end_date': r[2]}
+                        break
+                if not gov:
+                    log.critical("Gov not found!")
+                mp['govposts'].append({
+                    'post': row[3],
+                    'start_date': row[4],
+                    'end_date': row[5],
+                    'gov': gov,
+                })
+
+        context = {'mp': mp, 'l': None}
+        filename = os.path.join(MPS_PATH, mp['slug'] + '.html')
+        render_template_into_file(env, 'mp_detail.html', filename, context)
+
     log.info("Generating session index...")
     datedict = generate_datedict()
     for year_number in datedict:
@@ -174,9 +236,8 @@ def generate_site():
         render_template_into_file(env, 'day_list.html', filename, context)
 
     log.info("Generating HTML session pages...")
-    data = get_date_dataset()
     counter = 0
-    for leg, sess, num, d, dpub in data:
+    for leg, sess, num, d, dpub in date_data:
         context = {'session_date': dateparser.parse(d),
                    'year_number': year_number,
                    'text': get_session_text(leg, sess, num),

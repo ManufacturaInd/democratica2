@@ -1,0 +1,172 @@
+{% extends "base_mp.html" %}
+
+{% block title %}{{ mp.shortname }} &mdash; Demo.cratica (Beta){% endblock %}
+
+{% block ogtitle %}{{ mp.shortname }} &mdash; Demo.cratica (Beta){% endblock %}
+{% block ogurl %}{{ url }}{% endblock %}
+{% block ogimage %}{% if mp.photo_url %}{{ mp.photo_url }}{% endif %}{% endblock %}
+{% block ogtype %}politician{% endblock %}
+{% block ogdescription %}Dados sobre {{ mp.shortname }} no Demo.cratica, a forma fácil de ler o Parlamento.{% endblock %}
+
+{% block extrabodyclass %}default mp{% endblock %}
+
+{% block content %}
+    <div id="content-box">
+    
+      {#
+      <ul id="mp-tabs" class="tabs">
+        <li><span>Geral</span></li>
+      </ul>
+      #}
+      
+      <div id="mp-header">
+        {% if mp.photo_url %}
+          <p class="mp-photo">
+            <img src="{{ mp.photo_url }}" alt="{{ mp.shortname }}" />
+          </p>
+        {% endif %}
+        <h2>
+	<small> <img src="/media/img/parties/{{ mp.party|lower }}.png" alt="{{ mp.party }}" /></small>
+          {{ mp.shortname }}
+        </h2>
+      </div>
+      
+      <div class="mp-information">
+        <ul class="mp-details mp-details-left">
+          <li>
+            <h4>Dados</h4>
+            <ul>
+              <li class="single-field"><p>Nome completo:</p> <h5>{{ mp.name }}</h5></li>
+              <li class="single-field"><p>Partido:</p> <h5>{{ mp.party }}</h5></li>
+              <li class="single-field"><p>Data de nascimento:</p> <h5>{{ mp.birth_date }}</h5></li>
+              <li class="single-field"><p>Profissão:</p> <h5>{{ mp.occupation }}</h5></li>
+            </ul>
+          </li>
+          
+          <li>
+            <h4>Habilitações e cargos</h4>
+            <ul>
+              {% if mp.education %}
+              <li><h5>Habilitações Literárias</h5></li> 
+              {% for item in mp.education %}
+                <li>{{ item }}</li>
+              {% endfor %}
+              {% endif %}
+
+              {% if mp.current_jobs %}
+              <li><h5>Cargos atuais</h5></li> 
+              {% for item in mp.current_jobs %}
+                <li>{{ item }}</li>
+              {% endfor %}
+              {% endif %}
+
+              {% if mp.commissions %}
+              <li><h5>Comissões Parlamentares</h5></li> 
+              {% for item in mp.commissions %}
+                <li>{{ item }}</li>
+              {% endfor %}
+              {% endif %}
+
+            </ul>
+          </li>
+          <li>
+            <h4>Mandatos</h4>
+            <ul>
+              {% for mandate in mp.mandates|sort(reverse=True, attribute='legislature') %}
+              <li>
+                {% if mandate.end_date %}
+                {{ mandate.legislature }}ª Legislatura &ndash; {{ mandate.party }} &ndash; {{ mandate.constituency }} (de {{ mandate.start_date }} a {{ mandate.end_date }})
+                {% else %}
+                {{ mandate.legislature }}ª Legislatura &ndash; {{ mandate.party }} &ndash; {{ mandate.constituency }} (desde {{ mandate.start_date }})
+                {% endif %}
+                <a href="{{ mandate.activity_url }}">Atividade parlamentar</a> <a href="{{ mandate.interest_url }}">Registo de interesses</a>
+              </li>
+              {% endfor %}
+            </ul>
+          </li>
+
+        </ul>
+        
+        <ul class="mp-details">
+
+          {% if mp.govposts %}
+          <li>
+            <h4>Cargos governamentais</h4>
+            <ul>
+            {% for p in mp.govposts %}
+            <li>G.C. {{ p.gov.number }} ({{ p.gov.start_date }}-{{ p.gov.end_date }}): <strong>{{ p.post }}</strong> {#{% if p.gov.start_date != p.start_date %}(desde {{ p.start_date }}){% endif %}{% if p.gov.end_date != p.end_date %}(até {{ p.end_date }}){% endif %}#}</li>
+            {% endfor %}
+            </ul>
+          </li>
+          {% endif %}
+
+          {% if mp.jobs %}
+          <li><h5>Cargos exercidos</h5></li> 
+          {% for item in mp.jobs %}
+            <li>{{ item }}</li>
+          {% endfor %}
+          {% endif %}
+
+          {% if mp.awards %}
+          <li><h5>Condecorações</h5></li> 
+          {% for item in mp.awards %}
+            <li>{{ item }}</li>
+          {% endfor %}
+          {% endif %}
+
+
+
+
+          {% if mp.favourite_word %}
+          <li>
+          <h4>Factos</h4>
+          <ul>
+            <li>Segundo as nossas contas, a palavra preferida de {{ mp.shortname }} é <strong>{{ mp.favourite_word }}</strong>.
+          </ul>
+          </li>
+          {% endif %}
+
+          <li>
+          {% if mp.news %}
+          <h4>Notícias recentes</h4>
+            <ul>
+              {% for newsobj in mp.news %}
+              <li><a href="{{ newsobj.url }}">{{ newsobj.title }}</a><small> {{ newsobj.source }}</small></li>
+              {% endfor %}
+            </ul>
+          </li>
+          {% endif %}
+  
+          <li>
+            <h4>Ligações</h4>
+            <ul>
+              <li><a href="http://www.parlamento.pt/DeputadoGP/Paginas/Biografia.aspx?BID={{ mp.id }}">Parlamento.pt</a></li>
+              {% if l.email %}<li class="email"><a href="mailto:{{ l.email }}" title="{{ l.email }}" rel="tipsy">Enviar e-mail</a></li>{% endif %}
+              {% if l.website_url %}<li><a href="http://{{ l.website_url }}">Website</a></li>{% endif %}
+              {% if l.blog_url %}<li><a href="http://{{ l.blog_url }}">Blog</a></li>{% endif %}
+
+              {% if l.wikipedia_url %}<li><a href="http://{{ l.wikipedia_url }}">Wikipedia</a></li>{% endif %}
+              {% if l.twitter_url %}<li><a href="http://{{ l.twitter_url }}">Twitter</a></li>{% endif %}
+              {% if l.facebook_url %}<li><a href="http://{{ l.facebook_url }}">Facebook</a></li>{% endif %}
+              {% if l.linkedin_url %}<li><a href="http://{{ l.linkedin_url }}">LinkedIn</a></li>{% endif %}
+            </ul>
+          </li>
+
+          {% if mp.tweets %}
+          <li class="twitter">
+            <h4>Últimos tweets</h4>
+            <ul>
+              {% for t in mp.tweets %}
+              <li><a href="http://{{ l.twitter_url }}/statuses/{{ t.id }}">#</a> {{ t.text }} <small>há {{ t.created_at }}</small></li>
+              {% endfor %}
+            </ul>
+          </li>
+          {% endif %}
+        </ul>
+        
+      </div> <!-- /mp-information -->
+
+      <p class="notice">Versão Beta: Esta informação pode estar incompleta e/ou conter incorrecções.</p>
+
+    </div><!-- /#content-box -->
+{% endblock %}

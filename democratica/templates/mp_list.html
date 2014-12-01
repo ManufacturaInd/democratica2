@@ -26,7 +26,7 @@
     {% for col in mps|sort(attribute="shortname")|slice(3) %}
     <ul class="mp-list{% if loop.last %} last{% endif %}">
       {% for mp in col %}   
-        <li class="{{ loop.cycle('odd', 'even') }}"><a href="/deputados/{{ mp.id }}">
+        <li class="{{ loop.cycle('odd', 'even') }}"><a href="/deputados/{{ mp.slug }}.html">
         {#
           {% if mp.photo %}
           <span class="photo"><img src="{{ mp.photo.url_18x25 }}" alt="{{ mp.shortname }}" /></span>
@@ -43,24 +43,6 @@
 
     <ul class="pagination">
       <li><p class="notice">Versão Beta: Esta lista pode estar incompleta e/ou conter incorrecções.</p></li>
-    {#
-    <li id="previous"><a href="">&laquo; Anterior</a></li>
-      <li id="pg-nav">
-        <ul>
-          {% for p in page_range %}
-          {% if forloop.first %} <li class="first"> {% else %} <li> {% endif %}
-          <a href='&page={{ p }}'{% if p == page %} class="on"{% endif %}>{{ p }}</a>
-          </li>
-          {% endfor %}
-
-          <li class="first"><a href="" class="on">1</a></li>
-          <li><a href="">2</a></li>
-          <li><a href="">3</a></li>
-          <li>...</li>
-          <li class="last"><a href="">12</a></li>
-        </ul></li>
-      <li id="next"><a href="">Próximo &raquo;</a></li>
-    #}
     </ul><!-- /pagination-->
     
 </div><!-- /#content-box -->
