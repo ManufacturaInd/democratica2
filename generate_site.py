@@ -15,12 +15,12 @@ import json
 import hoedown as markdown
 
 
-MP_DATASET_FILE = "/home/rlafuente/Datasets/parlamento-deputados/data/deputados.json"
-MPINFO_DATASET_FILE = "/home/rlafuente/Datasets/parlamento-deputados/data/deputados-extra.csv"
-GOV_DATASET_FILE = "/home/rlafuente/Datasets/governos/data/governos.csv"
-GOVPOST_DATASET_FILE = "/home/rlafuente/Datasets/governos/data/governos-cargos.csv"
-TRANSCRIPTS_DIR = "/home/rlafuente/Datasets/dar-transcricoes-txt/"
-TRANSCRIPT_DATASET_FILE = "/home/rlafuente/Datasets/parlamento-datas/data/parlamento-datas.csv"
+MP_DATASET_FILE = os.path.expanduser("~/Datasets/parlamento-deputados/data/deputados.json")
+MPINFO_DATASET_FILE = os.path.expanduser("~/Datasets/parlamento-deputados/data/deputados-extra.csv")
+GOV_DATASET_FILE = os.path.expanduser("~/Datasets/governos/data/governos.csv")
+GOVPOST_DATASET_FILE = os.path.expanduser("~/Datasets/governos/data/governos-cargos.csv")
+TRANSCRIPTS_DIR = os.path.expanduser("~/Datasets/parlamento-transcricoes/data/")
+TRANSCRIPT_DATASET_FILE = os.path.expanduser("~/Datasets/parlamento-datas/data/parlamento-datas.csv")
 
 OUTPUT_DIR = "_output"
 MEDIA_SOURCE_DIR = "_media"
