@@ -19,7 +19,7 @@ MP_DATASET_FILE = os.path.expanduser("~/Datasets/parlamento-deputados/data/deput
 MPINFO_DATASET_FILE = os.path.expanduser("~/Datasets/parlamento-deputados/data/deputados-extra.csv")
 GOV_DATASET_FILE = os.path.expanduser("~/Datasets/governos/data/governos.csv")
 GOVPOST_DATASET_FILE = os.path.expanduser("~/Datasets/governos/data/governos-cargos.csv")
-TRANSCRIPTS_DIR = os.path.expanduser("~/Datasets/parlamento-transcricoes/data/")
+TRANSCRIPTS_DIR = os.path.expanduser("~/Datasets/dar-transcricoes-txt/data/")
 TRANSCRIPT_DATASET_FILE = os.path.expanduser("~/Datasets/parlamento-datas/data/parlamento-datas.csv")
 
 OUTPUT_DIR = "_output"
@@ -260,7 +260,7 @@ def generate_site():
         render_template_into_file(env, 'day_list.html', filename, context)
 
     log.info("Generating HTML session pages...")
-    counter = 0
+    # counter = 0
     for leg, sess, num, d, dpub in date_data:
         context = {'session_date': dateparser.parse(d),
                    'year_number': year_number,
@@ -270,9 +270,9 @@ def generate_site():
         filename = os.path.join(TRANSCRIPTS_PATH, d + '.html')
         render_template_into_file(env, 'day_detail.html', filename, context)
         log.debug(d)
-        counter += 1
-        if counter > 30:
-            break
+        # counter += 1
+        # if counter > 30:
+        #     break
 
     log.info("Copying static files...")
     copy_tree(MEDIA_SOURCE_DIR, os.path.join(OUTPUT_DIR, MEDIA_PATH))
