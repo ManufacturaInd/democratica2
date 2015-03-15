@@ -1,55 +1,41 @@
 <!DOCTYPE html>
 <html lang="pt" xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml">
-  <head>
-    <meta charset="utf-8" />
-    <meta property="og:image" content="{% block ogimage %}http://demo.cratica.org:7080/media/img/democratica-white-small.png{% endblock %}"/>
-    <meta property="og:title" content="{% block ogtitle %}Demo.cratica (Beta){% endblock %}"/>
-    <meta property="og:description" content="{% block ogdescription %}A forma fácil de ler o Parlamento. Um site independente para saber quem são e o que dizem os deputados da Assembleia da República Portuguesa.{% endblock %}"/>
-    <meta property="og:url" content="http://demo.cratica.org{% block ogurl %}/{% endblock %}"/>
-    <meta property="og:type" content="{% block ogtype %}website{% endblock %}"/>
-    <title>{% block title %}Demo.cratica (Beta){% endblock %}</title>
+<head>
+  <meta charset="utf-8" />
+  <meta property="og:image" content="{% block ogimage %}http://demo.cratica.org:7080/media/img/democratica-white-small.png{% endblock %}"/>
+  <meta property="og:title" content="{% block ogtitle %}Demo.cratica (Beta){% endblock %}"/>
+  <meta property="og:description" content="{% block ogdescription %}A forma fácil de ler o Parlamento. Um site independente para saber quem são e o que dizem os deputados da Assembleia da República Portuguesa.{% endblock %}"/>
+  <meta property="og:url" content="http://demo.cratica.org{% block ogurl %}/{% endblock %}"/>
+  <meta property="og:type" content="{% block ogtype %}website{% endblock %}"/>
+  <title>{% block title %}Demo.cratica (Beta){% endblock %}</title>
 
-    <link rel="stylesheet" href="/media/css/reset.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="/media/js/uniform/css/uniform.default.css" type="text/css" />
-    <link rel="stylesheet" href="/media/css/tipsy.css" type="text/css" />
-    <link rel="stylesheet" href="/media/css/style.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="/media/css/print.css" type="text/css" media="print" />
+  <link rel="stylesheet" href="/media/css/reset.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/media/js/uniform/css/uniform.default.css" type="text/css" />
+  <link rel="stylesheet" href="/media/css/tipsy.css" type="text/css" />
+  <link rel="stylesheet" href="/media/css/style.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/media/css/print.css" type="text/css" media="print" />
+
+  <link rel="shortcut icon" href="/media/img/favicon.ico" />
+
+  <script type="text/javascript" src="/media/js/jquery-1.5.2.min.js"></script>
+  <script type="text/javascript" src="/media/js/css_browser_selector.js"></script>
+  <script type="text/javascript" src="/media/js/uniform/jquery.uniform.js"></script>
+  <script type="text/javascript" src="/media/js/jquery.clear-on-focus.js"></script>
+  <script type="text/javascript" src="/media/js/tipsy/jquery.tipsy.js"></script>
   
-    <link rel="shortcut icon" href="/media/img/favicon.ico" />
+  <!--[if (gte IE 6)&(lte IE 8)]>
+    <script type="text/javascript" src="/media/js/selectivizr.js"></script>
+  <![endif]--> 
   
-    <script type="text/javascript" src="/media/js/jquery-1.5.2.min.js"></script>
-    <script type="text/javascript" src="/media/js/css_browser_selector.js"></script>
-    <script type="text/javascript" src="/media/js/uniform/jquery.uniform.js"></script>
-    <script type="text/javascript" src="/media/js/jquery.clear-on-focus.js"></script>
-    <script type="text/javascript" src="/media/js/tipsy/jquery.tipsy.js"></script>
-    
-    <!--[if (gte IE 6)&(lte IE 8)]>
-      <script type="text/javascript" src="/media/js/selectivizr.js"></script>
-    <![endif]--> 
-    
-    {% block extrascripts %}{% endblock %}
-    
-    <script type="text/javascript">
-      $(document).ready(function(){  
-        $(".searchbox").search();
-        $("input, textarea, select, button").not(".search-btn").not(".searchbox").uniform();
-	    });
-    </script>
-    
-    <!-- Google Analytics -->
-    <script type="text/javascript">
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-23418283-1']);
-      _gaq.push(['_setDomainName', '.cratica.org']);
-      _gaq.push(['_trackPageview']);
-      _gaq.push(['_trackPageLoadTime']);
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-    </script>
-  </head>
+  {% block extrascripts %}{% endblock %}
+  
+  <script type="text/javascript">
+    $(document).ready(function(){  
+      $(".searchbox").search();
+      $("input, textarea, select, button").not(".search-btn").not(".searchbox").uniform();
+          });
+  </script>
+</head>
 
 <body class="{% block extrabodyclass %}default{% endblock %}">  
   <nav id="menu">

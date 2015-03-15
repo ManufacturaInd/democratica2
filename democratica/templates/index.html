@@ -8,38 +8,23 @@
 
     <title>Demo.cratica (Beta)</title>
 
-    <link rel="stylesheet" href="media/css/reset.css" type="text/css" media="print" />
-    <link rel="stylesheet" href="media/js/uniform/css/uniform.default.css" type="text/css" />
-    <link rel="stylesheet" href="media/css/style.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="media/css/print.css" type="text/css" media="print" />
+    <link rel="stylesheet" href="/media/css/reset.css" type="text/css" media="print" />
+    <link rel="stylesheet" href="/media/js/uniform/css/uniform.default.css" type="text/css" />
+    <link rel="stylesheet" href="/media/css/style.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/media/css/print.css" type="text/css" media="print" />
   
-    <link rel="shortcut icon" href="media/img/favicon.ico" />
+    <link rel="shortcut icon" href="/media/img/favicon.ico" />
    
-    <script type="text/javascript" src="media/js/css_browser_selector.js"></script>
-    <script type="text/javascript" src="media/js/jquery-1.5.2.min.js"></script>
-		<script type="text/javascript" src="media/js/jquery.localscroll-1.2.7-min.js"></script>
-		<script type="text/javascript" src="media/js/jquery.scrollTo-1.4.2-min.js"></script>
+    <script type="text/javascript" src="/media/js/css_browser_selector.js"></script>
+    <script type="text/javascript" src="/media/js/jquery-1.5.2.min.js"></script>
+    <script type="text/javascript" src="/media/js/jquery.localscroll-1.2.7-min.js"></script>
+    <script type="text/javascript" src="/media/js/jquery.scrollTo-1.4.2-min.js"></script>
 
-		<script type="text/javascript">
-			$(document).ready(function() {
-				// Animated Scroll
-				$("#reveal-button").localScroll();				
-			});
-
-		</script>
-    
-    <!-- Google Analytics -->
     <script type="text/javascript">
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-23418283-1']);
-      _gaq.push(['_setDomainName', '.cratica.org']);
-      _gaq.push(['_trackPageview']);
-      _gaq.push(['_trackPageLoadTime']);
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
+      $(document).ready(function() {
+        // Animated Scroll
+        $("#reveal-button").localScroll();				
+      });
     </script>
 
   </head>
@@ -108,6 +93,24 @@
    </div> <!-- /#more-box -->
  
  </div> <!-- /#content -->
+
+  <!-- Piwik -->
+  <script type="text/javascript">
+    var _paq = _paq || [];
+    _paq.push(["setCookieDomain", "*.demo.cratica.org"]);
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//piwik.manufacturaindependente.org/";
+      _paq.push(['setTrackerUrl', u+'piwik.php']);
+      _paq.push(['setSiteId', 3]);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <noscript><p><img src="//piwik.manufacturaindependente.org/piwik.php?idsite=3" style="border:0;" alt="" /></p></noscript>
+  <!-- End Piwik Code -->
+
 
 </body>
 </html>
