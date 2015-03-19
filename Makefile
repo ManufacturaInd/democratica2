@@ -24,7 +24,10 @@
 # the basis from where this file was created.
 
 # your SSH target dir for rsync
-SSH_PATH = "democratica:~/public_html/"
+SSH_HOSTNAME = "democratica"
+SSH_DIR = "~/public_html/"
+
+SSH_PATH = "$(SSH_HOSTNAME):$(SSH_DIR)"
 # server port for local server
 SERVER_PORT = 8002
 MAIN_SCRIPT = $(wildcard generate.py)
@@ -36,15 +39,20 @@ html:
 
 # FIXME: untested
 install:
-	virtualenv .env --no-site-packages --distribute --prompt=\(datacentral\)
+	virtualenv .env --no-site-packages --distribute --prompt=\(democratica\)
 	. `pwd`/.env/bin/activate; pip install -r requirements.txt
 	cp settings.conf.sample settings.conf
 
 serve:
-	cd _output && livereload -p $(SERVER_PORT)
+	cd _output && livereload --port $(SERVER_PORT)
 
 upload:
 	rsync --compress --progress --recursive --update --delete _output/ $(SSH_PATH)
+	# SSH to host and copy files to a root-owned dir with sudo
+	ssh -t $(SSH_HOSTNAME) 'sudo rsync --compress --recursive --update --delete $(SSH_DIR) /web/demo.cratica.org/public_html'
+
+fakeupload:
+	rsync --dry-run --compress --progress --recursive --update --delete _output/ $(SSH_PATH)
 
 clean:
 	rm -fr _output
