@@ -8,7 +8,7 @@
       <h2>Sessões parlamentares em {{ year_number }}</h2>
       <ul class="year-nav">
       {% for y in all_years %}
-        <li><a {% if y == year %}class="selected"{% endif %} href="{{ y }}.html">{{ y }}</a></li>
+        <li><a {% if y == year %}class="selected"{% endif %} href="{{ y }}/">{{ y }}</a></li>
       {% endfor %}
       </ul>
       <div id="calendar">

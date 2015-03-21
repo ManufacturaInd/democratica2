@@ -3,10 +3,11 @@
 import os
 import codecs
 import shutil
-# import click
+import click
 from zenlog import log
 
 from distutils.dir_util import copy_tree
+from collections import OrderedDict
 import datetime
 from dateutil import parser as dateparser
 from babel.dates import format_date as babel_format_date
@@ -103,7 +104,7 @@ def to_list(s):
 
 def generate_datedict():
     # process dates into a year->dates dict
-    datedict = {}
+    datedict = OrderedDict()
     data = get_date_dataset()
     all_dates = [dateparser.parse(row[3]) for row in data]
     all_years = list(set([d.year for d in all_dates]))
@@ -178,7 +179,14 @@ def delete_and_create_dir(d):
     same name."""
     if os.path.exists(d):
         shutil.rmtree(d)
-    os.mkdir(d)
+    os.makedirs(d)
+
+
+def create_dir(d):
+    """Deletes a directory if it exists, and creates a new one with the
+    same name."""
+    if not os.path.exists(d):
+        os.makedirs(d)
 
 
 def format_date(value, format='medium'):
@@ -188,13 +196,14 @@ def format_date(value, format='medium'):
     return babel_format_date(value, format, locale="pt_PT")
 
 
-# @click.command()
-def generate_site():
+@click.option("-f", "--fast-run", help="Generate only a few transcripts to save time", is_flag=True, default=False)
+@click.command()
+def generate_site(fast_run):
     # flush output
-    delete_and_create_dir(OUTPUT_DIR)
-    delete_and_create_dir(os.path.join(OUTPUT_DIR, TRANSCRIPTS_PATH))
-    delete_and_create_dir(os.path.join(OUTPUT_DIR, MPS_PATH))
-    delete_and_create_dir(os.path.join(OUTPUT_DIR, MEDIA_PATH))
+    create_dir(OUTPUT_DIR)
+    create_dir(os.path.join(OUTPUT_DIR, TRANSCRIPTS_PATH))
+    create_dir(os.path.join(OUTPUT_DIR, MPS_PATH))
+    create_dir(os.path.join(OUTPUT_DIR, MEDIA_PATH))
 
     # init Jinja
     env = jinja2.Environment(loader=jinja2.FileSystemLoader([TEMPLATE_DIR]),
@@ -251,17 +260,34 @@ def generate_site():
 
     log.info("Generating session index...")
     datedict = generate_datedict()
+    all_years = [y for y in datedict]
     for year_number in datedict:
         year = datedict[year_number]
         context = {'year': year,
                    'year_number': year_number,
+                   'all_years': all_years,
                    'datedict': datedict,
                    }
-        filename = "%s.html" % year_number
+        target_dir = os.path.join(TRANSCRIPTS_PATH + "%s/" % year_number)
+        if not os.path.exists(os.path.join(OUTPUT_DIR, target_dir)):
+            os.makedirs(os.path.join(OUTPUT_DIR, target_dir))
+        filename = target_dir + "index.html"
+        print filename
         render_template_into_file(env, 'day_list.html', filename, context)
 
+    # get most recent year and make the session index
+    y = all_years[-1]
+    year = datedict[y]
+    context = {'year': year,
+               'year_number': year_number,
+               'all_years': all_years,
+               'datedict': datedict,
+               }
+    render_template_into_file(env, 'day_list.html', TRANSCRIPTS_PATH + 'index.html', context)
+
     log.info("Generating HTML session pages...")
-    COUNTER = 0
+    if fast_run:
+        COUNTER = 0
     for leg, sess, num, d, dpub in date_data:
         context = {'session_date': dateparser.parse(d),
                    'year_number': year_number,
@@ -271,9 +297,10 @@ def generate_site():
         filename = os.path.join(TRANSCRIPTS_PATH, d + '.html')
         render_template_into_file(env, 'day_detail.html', filename, context)
         log.debug(d)
-        COUNTER += 1
-        if COUNTER > 30:
-            break
+        if fast_run:
+            COUNTER += 1
+            if COUNTER > 200:
+                break
 
     log.info("Copying static files...")
     copy_tree(MEDIA_SOURCE_DIR, os.path.join(OUTPUT_DIR, MEDIA_PATH))

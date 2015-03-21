@@ -37,6 +37,10 @@ html:
 	# . `pwd`/.env/bin/activate; python $(MAIN_SCRIPT)
 	python $(MAIN_SCRIPT)
 
+html-quick:
+	# . `pwd`/.env/bin/activate; python $(MAIN_SCRIPT)
+	python $(MAIN_SCRIPT) --fast-run
+
 # FIXME: untested
 install:
 	virtualenv .env --no-site-packages --distribute --prompt=\(democratica\)
