@@ -13,6 +13,7 @@ from babel.dates import format_date as babel_format_date
 import unicodecsv as csv
 import json
 import hoedown as markdown
+import jinja2
 
 
 MP_DATASET_FILE = os.path.expanduser("~/Datasets/parlamento-deputados/data/deputados.json")
@@ -27,7 +28,8 @@ MEDIA_SOURCE_DIR = "_media"
 MEDIA_PATH = "media/"
 TRANSCRIPTS_PATH = "sessoes/"
 MPS_PATH = "deputados/"
-PHOTO_URL_BASE = 'http://localhost:8000/media/img/deputados/'
+PHOTO_URL_BASE = '/media/img/deputados/'
+TEMPLATE_DIR = "templates/"
 
 MESES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho',
          'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
@@ -195,10 +197,9 @@ def generate_site():
     delete_and_create_dir(os.path.join(OUTPUT_DIR, MEDIA_PATH))
 
     # init Jinja
-    from jinja2 import Environment, PackageLoader
-    env = Environment(loader=PackageLoader('democratica', 'templates'),
-                      extensions=['jinja2htmlcompress.SelectiveHTMLCompress'],
-                      trim_blocks=True, lstrip_blocks=True)
+    env = jinja2.Environment(loader=jinja2.FileSystemLoader([TEMPLATE_DIR]),
+                             extensions=['jinja2htmlcompress.SelectiveHTMLCompress'],
+                             trim_blocks=True, lstrip_blocks=True)
     env.filters['date'] = format_date
 
     # generate pages
@@ -260,7 +261,7 @@ def generate_site():
         render_template_into_file(env, 'day_list.html', filename, context)
 
     log.info("Generating HTML session pages...")
-    # counter = 0
+    COUNTER = 0
     for leg, sess, num, d, dpub in date_data:
         context = {'session_date': dateparser.parse(d),
                    'year_number': year_number,
@@ -270,9 +271,9 @@ def generate_site():
         filename = os.path.join(TRANSCRIPTS_PATH, d + '.html')
         render_template_into_file(env, 'day_detail.html', filename, context)
         log.debug(d)
-        # counter += 1
-        # if counter > 30:
-        #     break
+        COUNTER += 1
+        if COUNTER > 30:
+            break
 
     log.info("Copying static files...")
     copy_tree(MEDIA_SOURCE_DIR, os.path.join(OUTPUT_DIR, MEDIA_PATH))
