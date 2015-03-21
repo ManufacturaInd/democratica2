@@ -26,7 +26,7 @@
     {% for col in mps|sort(attribute="shortname")|slice(3) %}
     <ul class="mp-list{% if loop.last %} last{% endif %}">
       {% for mp in col %}   
-        <li class="{{ loop.cycle('odd', 'even') }}"><a href="/deputados/{{ mp.slug }}.html">
+        <li class="{{ loop.cycle('odd', 'even') }}"><a href="/deputados/{{ mp.slug }}/">
         {#
           {% if mp.photo %}
           <span class="photo"><img src="{{ mp.photo.url_18x25 }}" alt="{{ mp.shortname }}" /></span>

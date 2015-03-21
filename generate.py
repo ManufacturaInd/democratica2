@@ -150,6 +150,9 @@ def generate_mp_list(only_active=True):
 
 
 def render_template_into_file(env, templatename, filename, context=None, place_in_outdir=True):
+    target_dir = os.path.join(OUTPUT_DIR, os.path.dirname(filename))
+    if not os.path.exists(target_dir):
+        os.makedirs(target_dir)
     template = env.get_template(templatename)
     if not context:
         context = {}
@@ -255,7 +258,7 @@ def generate_site(fast_run):
             # nice effect: if no end date, set to today
 
         context = {'mp': mp, 'l': None}
-        filename = os.path.join(MPS_PATH, mp['slug'] + '.html')
+        filename = os.path.join(MPS_PATH, mp['slug'], 'index.html')
         render_template_into_file(env, 'mp_detail.html', filename, context)
 
     log.info("Generating session index...")
@@ -269,8 +272,6 @@ def generate_site(fast_run):
                    'datedict': datedict,
                    }
         target_dir = os.path.join(TRANSCRIPTS_PATH + "%s/" % year_number)
-        if not os.path.exists(os.path.join(OUTPUT_DIR, target_dir)):
-            os.makedirs(os.path.join(OUTPUT_DIR, target_dir))
         filename = target_dir + "index.html"
         print filename
         render_template_into_file(env, 'day_list.html', filename, context)
