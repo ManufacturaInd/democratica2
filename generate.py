@@ -289,12 +289,16 @@ def generate_site(fast_run):
     if fast_run:
         COUNTER = 0
     for leg, sess, num, d, dpub in date_data:
-        context = {'session_date': dateparser.parse(d),
+        dateobj = dateparser.parse(d)
+        context = {'session_date': dateobj,
                    'year_number': year_number,
                    'text': get_session_text(leg, sess, num),
                    'pdf_url': 'xpto',
                    }
-        filename = os.path.join(TRANSCRIPTS_PATH, d + '.html')
+        target_dir = "%s%d/%02d/%02d" % (TRANSCRIPTS_PATH, dateobj.year, dateobj.month, dateobj.day)
+        if not os.path.exists(os.path.join(OUTPUT_DIR, target_dir)):
+            create_dir(os.path.join(OUTPUT_DIR, target_dir))
+        filename = "%s/index.html" % target_dir
         render_template_into_file(env, 'day_detail.html', filename, context)
         log.debug(d)
         if fast_run:
