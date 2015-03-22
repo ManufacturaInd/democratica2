@@ -25,7 +25,7 @@
 
 # your SSH target dir for rsync
 SSH_HOSTNAME = "democratica"
-SSH_DIR = "~/public_html/"
+SSH_DIR = "/home/rlafuente/public_html/"
 
 SSH_PATH = "$(SSH_HOSTNAME):$(SSH_DIR)"
 # server port for local server
