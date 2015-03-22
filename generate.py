@@ -22,7 +22,8 @@ MPINFO_DATASET_FILE = os.path.expanduser("~/Datasets/parlamento-deputados/data/d
 GOV_DATASET_FILE = os.path.expanduser("~/Datasets/governos/data/governos.csv")
 GOVPOST_DATASET_FILE = os.path.expanduser("~/Datasets/governos/data/governos-cargos.csv")
 TRANSCRIPTS_DIR = os.path.expanduser("~/Datasets/dar-transcricoes-txt/data/")
-TRANSCRIPT_DATASET_FILE = os.path.expanduser("~/Datasets/parlamento-datas/data/parlamento-datas.csv")
+TRANSCRIPT_DATASET_FILE = os.path.expanduser("~/Datasets/parlamento-datas_sessoes/data/datas-debates.csv")
+TRANSCRIPT_DATASET_FILE_2 = os.path.expanduser("~/Datasets/parlamento-datas_sessoes/data/datas-parlamento.csv")
 
 OUTPUT_DIR = "_output"
 MEDIA_SOURCE_DIR = "_media"
@@ -40,7 +41,25 @@ def get_date_dataset():
     data = csv.reader(open(TRANSCRIPT_DATASET_FILE, 'r'))
     # skip first row
     data.next()
-    return list(data)
+
+    more_data = csv.reader(open(TRANSCRIPT_DATASET_FILE_2, 'r'))
+    # skip first row
+    more_data.next()
+
+    data = list(data)
+
+    for newrow in more_data:
+        exists = False
+        leg, sess, num = newrow[:3]
+        for row in data:
+            if row[:3] == [leg, sess, num]:
+                exists = True
+                break
+        if not exists:
+            data.append(newrow)
+            print newrow
+
+    return data
 
 
 def get_gov_dataset():
@@ -289,7 +308,7 @@ def generate_site(fast_run):
     log.info("Generating HTML session pages...")
     if fast_run:
         COUNTER = 0
-    for leg, sess, num, d, dpub in date_data:
+    for leg, sess, num, d, dpub, page_start, page_end in date_data:
         dateobj = dateparser.parse(d)
         context = {'session_date': dateobj,
                    'year_number': year_number,
