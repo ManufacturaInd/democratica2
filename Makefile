@@ -24,10 +24,10 @@
 # the basis from where this file was created.
 
 # your SSH target dir for rsync
-SSH_HOSTNAME = "democratica"
-SSH_DIR = "/home/rlafuente/public_html/"
+SSH_HOSTNAME = democratica
+SSH_DIR = /web/demo.cratica.org/public_html/
 
-SSH_PATH = "$(SSH_HOSTNAME):$(SSH_DIR)"
+SSH_PATH = $(SSH_HOSTNAME):$(SSH_DIR)
 # server port for local server
 SERVER_PORT = 8002
 MAIN_SCRIPT = $(wildcard generate.py)
@@ -52,8 +52,6 @@ serve:
 
 upload:
 	rsync --compress --progress --recursive --update --delete _output/ $(SSH_PATH)
-	# SSH to host and copy files to a root-owned dir with sudo
-	ssh -t $(SSH_HOSTNAME) 'sudo rsync --compress --recursive --update --delete $(SSH_DIR) /web/demo.cratica.org/public_html'
 
 fakeupload:
 	rsync --dry-run --compress --progress --recursive --update --delete _output/ $(SSH_PATH)
