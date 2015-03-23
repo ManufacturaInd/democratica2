@@ -5,3 +5,4 @@ hoedown==0.2
 python-dateutil==2.2
 unicodecsv==0.9.4
 zenlog==0.1
+click==3.3
