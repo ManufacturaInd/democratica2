@@ -34,21 +34,17 @@ MAIN_SCRIPT = $(wildcard generate.py)
 OFFLINE_FLAG = "--offline"
 
 html:
-	# . `pwd`/.env/bin/activate; python $(MAIN_SCRIPT)
-	python $(MAIN_SCRIPT)
+	. `pwd`/.env/bin/activate; python $(MAIN_SCRIPT)
 
 html-quick:
-	# . `pwd`/.env/bin/activate; python $(MAIN_SCRIPT)
-	python $(MAIN_SCRIPT) --fast-run
+	. `pwd`/.env/bin/activate; python $(MAIN_SCRIPT)
 
-# FIXME: untested
 install:
 	virtualenv .env --no-site-packages --distribute --prompt=\(democratica\)
 	. `pwd`/.env/bin/activate; pip install -r requirements.txt
-	cp settings.conf.sample settings.conf
 
 serve:
-	cd _output && livereload --port $(SERVER_PORT)
+	. /home/rlafuente/.virtualenvs/mygallery/bin/activate; cd _output && livereload --port $(SERVER_PORT)
 
 upload:
 	rsync --compress --progress --recursive --update --delete _output/ $(SSH_PATH)
