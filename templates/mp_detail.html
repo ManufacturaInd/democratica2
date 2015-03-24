@@ -149,8 +149,8 @@
             <ul>
               <li><a href="http://www.parlamento.pt/DeputadoGP/Paginas/Biografia.aspx?BID={{ mp.id }}">Parlamento.pt</a></li>
               {% if mp.email %}<li class="email"><a href="mailto:{{ mp.email }}" title="{{ mp.email }}" rel="tipsy">Enviar e-mail</a></li>{% endif %}
-              {% if mp.website_url %}<li><a href="http://{{ mp.website_url }}">Website</a></li>{% endif %}
-              {% if mp.blog_url %}<li><a href="http://{{ mp.blog_url }}">Blog</a></li>{% endif %}
+              {% if mp.website_url %}<li><a href="{{ mp.website_url }}">Website</a></li>{% endif %}
+              {% if mp.blog_url %}<li><a href="{{ mp.blog_url }}">Blog</a></li>{% endif %}
 
               {% if mp.wikipedia_url %}<li><a href="{{ mp.wikipedia_url }}">Wikipedia</a></li>{% endif %}
               {% if mp.twitter_url %}<li><a href="{{ mp.twitter_url }}">Twitter</a></li>{% endif %}
@@ -162,7 +162,7 @@
             <h4>Últimos tweets</h4>
             <ul>
               {% for t in mp.tweets %}
-              <li><a href="http://{{ l.twitter_url }}/statuses/{{ t.id }}">#</a> {{ t.text }} <small>há {{ t.created_at }}</small></li>
+              <li><a href="{{ l.twitter_url }}/statuses/{{ t.id }}">#</a> {{ t.text }} <small>há {{ t.created_at }}</small></li>
               {% endfor %}
             </ul>
           </li>
