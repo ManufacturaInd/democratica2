@@ -13,7 +13,7 @@ from dateutil import parser as dateparser
 from babel.dates import format_date as babel_format_date
 import unicodecsv as csv
 import json
-import hoedown as markdown
+import mistune
 import jinja2
 
 
@@ -33,8 +33,8 @@ MPS_PATH = "deputados/"
 PHOTO_URL_BASE = '/media/img/deputados/'
 TEMPLATE_DIR = "templates/"
 
-MESES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho',
-         'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+MESES = ['janeiro', 'fevereiro', u'março', 'abril', 'maio', 'junho', 'julho',
+         'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
 
 
 def get_date_dataset():
@@ -191,7 +191,7 @@ def get_session_text(leg, sess, num, html=True):
     sourcepath = os.path.join(TRANSCRIPTS_DIR, sourcefile)
     text = codecs.open(sourcepath, 'r', 'utf-8').read()
     if html:
-        return markdown.html(text)
+        return mistune.markdown(text)
     else:
         return text
 
@@ -308,11 +308,13 @@ def generate_site(fast_run):
     log.info("Generating HTML session pages...")
     if fast_run:
         COUNTER = 0
+    date_data.reverse()
     for leg, sess, num, d, dpub, page_start, page_end in date_data:
         dateobj = dateparser.parse(d)
         context = {'session_date': dateobj,
                    'year_number': year_number,
                    'text': get_session_text(leg, sess, num),
+                   'monthnames': MESES,
                    'pdf_url': 'xpto',
                    }
         target_dir = "%s%d/%02d/%02d" % (TRANSCRIPTS_PATH, dateobj.year, dateobj.month, dateobj.day)
@@ -323,7 +325,7 @@ def generate_site(fast_run):
         log.debug(d)
         if fast_run:
             COUNTER += 1
-            if COUNTER > 200:
+            if COUNTER > 100:
                 break
 
     log.info("Copying static files...")

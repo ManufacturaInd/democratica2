@@ -2,7 +2,7 @@
 
 {% block extrabodyclass %}default dar{% endblock %}
 
-{% block title %}{{ session_date }} &mdash; Demo.cratica (Beta){% endblock %}
+{% block title %}{{ session_date.day }} de {{ monthnames[session_date.month-1] }} de {{ session_date.year }} &mdash; Demo.cratica (Beta){% endblock %}
 
 {% block ogtitle %}{{ session_date }} &mdash; Demo.cratica (Beta){% endblock %}
 {#{% block ogurl %}{% url "day_detail" day.date.year day.date.month day.date.day %}{% endblock %} #}
@@ -25,14 +25,20 @@
           #}
         </ul>
          
-        <h2 class="ribbon">{{ session_date }}</h2>
+        <h2 class="ribbon">{{ session_date.day }} de {{ monthnames[session_date.month-1] }} de {{ session_date.year }}</h2>
 
         <p><strong>Nota:</strong> As transcrições ainda estão em desenvolvimento. Pode haver inconsistências e erros de processamento.</p>
 
         {# {% if pdf_url %}<p>Consultar o <a href="{{ pdf_url }}">PDF oficial</a> ou a <a href="">versão web oficial</a> desta transcrição.</p>{% endif %} #}
 
         <div class="intervention">
-        {{ text|safe }}
+          <div class="entry">
+            <div class="right">
+              <div class="entry-content">
+                {{ text|safe }}
+              </div>
+            </div>
+          </div>
         </div>
         
         <p class="notice">Versão Beta: Esta informação pode estar incompleta e/ou conter incorrecções.</p>

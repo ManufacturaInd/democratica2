@@ -38,10 +38,12 @@ font-family: 'Lekton-regular';
 src: local('Lekton-regular'), url('../fonts/lekton/Lekton-Regular.ttf') format('truetype');
 }
 
+/*
 @font-face {
 font-family: 'Merriweather';
 src: local('Merriweather'), url('../fonts/Merriweather.ttf') format('truetype');
 }
+*/
 
 @font-face {
 font-family: 'Titillium';
@@ -1241,9 +1243,17 @@ border-top: 1px dotted #ccc;
   width: 530px;
   float: left;
   margin-right: 15px;
-  font-family: 'Linux Libertine O', Georgia, Times, serif;
+  font-family: 'Merriweather', Georgia, Times, serif;
   font-size: 130%;
-  line-height: 1.4em;
+  line-height: 1.5em;
+}
+
+.entry .right .entry-content p strong {
+  font-weight: 700;
+}
+
+.entry .right .entry-content p em {
+  font-style: italic;
 }
 
 .entry form {
