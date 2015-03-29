@@ -57,7 +57,7 @@ def get_date_dataset():
                 break
         if not exists:
             data.append(newrow)
-            print newrow
+            # print newrow
 
     return data
 
@@ -240,6 +240,9 @@ def generate_site(fast_run):
     env.filters['date'] = format_date
 
     # generate pages
+    log.info("Copying static files...")
+    copy_tree(MEDIA_SOURCE_DIR, os.path.join(OUTPUT_DIR, MEDIA_PATH))
+
     log.info("Generating index...")
     render_template_into_file(env, 'index.html', 'index.html')
 
@@ -298,7 +301,7 @@ def generate_site(fast_run):
                    }
         target_dir = os.path.join(TRANSCRIPTS_PATH + "%s/" % year_number)
         filename = target_dir + "index.html"
-        print filename
+        # print filename
         render_template_into_file(env, 'day_list.html', filename, context)
 
     # get most recent year and make the session index
@@ -334,8 +337,6 @@ def generate_site(fast_run):
             if COUNTER > 100:
                 break
 
-    log.info("Copying static files...")
-    copy_tree(MEDIA_SOURCE_DIR, os.path.join(OUTPUT_DIR, MEDIA_PATH))
 
 if __name__ == "__main__":
     generate_site()
