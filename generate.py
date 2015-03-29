@@ -191,7 +191,13 @@ def get_session_text(leg, sess, num, html=True):
     sourcepath = os.path.join(TRANSCRIPTS_DIR, sourcefile)
     text = codecs.open(sourcepath, 'r', 'utf-8').read()
     if html:
-        return mistune.markdown(text)
+        entries = text.split('\n\n')
+        newentries = []
+        for e in entries:
+            # adicionar linebreak extra para dividir parágrafos
+            newentries.append(e.replace('\n', '\n\n'))
+        newtext = "\n\n".join(newentries)
+        return mistune.markdown(newtext)
     else:
         return text
 
