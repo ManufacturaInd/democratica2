@@ -197,7 +197,8 @@ def get_session_text(leg, sess, num, html=True):
             # adicionar linebreak extra para dividir parágrafos
             newentries.append(e.replace('\n', '\n\n'))
         newtext = "\n\n".join(newentries)
-        return mistune.markdown(newtext)
+        newhtml = mistune.markdown(newtext)
+        return newhtml.replace("_", "")
     else:
         return text
 
