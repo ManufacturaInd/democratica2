@@ -30,7 +30,9 @@
         <p><strong>Nota:</strong> As transcrições ainda estão em desenvolvimento. Pode haver inconsistências e erros de processamento.</p>
         {% if pdf_url %}<p>Consultar o <a href="{{ pdf_url }}">PDF original</a> da transcrição desta sessão.</p>{% endif %}
 
+        <div class="intervention">
         {{ text|safe }}
+        </div>
         
         <p class="notice">Versão Beta: Esta informação pode estar incompleta e/ou conter incorrecções.</p>
 
