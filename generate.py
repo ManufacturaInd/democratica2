@@ -334,7 +334,7 @@ def generate_site(fast_run):
         log.debug(d)
         if fast_run:
             COUNTER += 1
-            if COUNTER > 100:
+            if COUNTER > 20:
                 break
 
 
