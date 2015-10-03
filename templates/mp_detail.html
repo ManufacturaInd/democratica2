@@ -38,7 +38,7 @@
             <ul>
               <li class="single-field"><p>Nome completo:</p> <h5>{{ mp.name }}</h5></li>
               <li class="single-field"><p>Partido:</p> <h5>{{ mp.party }}</h5></li>
-              <li class="single-field"><p>Data de nascimento:</p> <h5>{{ mp.birth_date }}</h5></li>
+              <li class="single-field"><p>Data de nascimento:</p> <h5>{{ mp.birthdate }}</h5></li>
               <li class="single-field"><p>Profissão:</p> <h5>{{ mp.occupation }}</h5></li>
             </ul>
           </li>
@@ -49,11 +49,11 @@
               {% for mandate in mp.mandates|sort(reverse=True, attribute='legislature') %}
               <li>
                 {% if mandate.end_date %}
-                {{ mandate.legislature }}ª Legislatura &ndash; {{ mandate.party }} &ndash; {{ mandate.constituency }} (de {{ mandate.start_date.year }} a {{ mandate.end_date.year }})
+                {{ mandate.legislature }}ª Leg. &ndash; {{ mandate.party }} &ndash; {{ mandate.constituency }} (de {{ mandate.start_date.year }} a {{ mandate.end_date.year }})
                 {% else %}
-                {{ mandate.legislature }}ª Legislatura &ndash; {{ mandate.party }} &ndash; {{ mandate.constituency }} (desde {{ mandate.start_date|date }})
+                {{ mandate.legislature }}ª Leg. &ndash; {{ mandate.party }} &ndash; {{ mandate.constituency }} (desde {{ mandate.start_date|date }})
                 {% endif %}
-                <a href="{{ mandate.activity_url }}">Atividade parlamentar</a> {% if mandate.interest_url %}<a href="{{ mandate.interest_url }}">Registo de interesses</a>{% endif %}
+                <a href="{{ mandate.activity_url }}">Atividade</a> {% if mandate.interest_url %}<a href="{{ mandate.interest_url }}">Registo de interesses</a>{% endif %}
               </li>
               {% endfor %}
             </ul>
