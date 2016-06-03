@@ -2,28 +2,14 @@
 # -*- coding: utf-8 -*-
 import os
 import codecs
-import shutil
 import click
-from zenlog import log
-
-from distutils.dir_util import copy_tree
-from collections import OrderedDict
-import datetime
-from dateutil import parser as dateparser
-from babel.dates import format_date as babel_format_date
-import unicodecsv as csv
-import json
-import mistune
 import jinja2
+from zenlog import log
+from dateutil import parser as dateparser
+from distutils.dir_util import copy_tree
 
-
-MP_DATASET_FILE = os.path.expanduser("~/Datasets/parlamento-deputados/data/deputados.json")
-MPINFO_DATASET_FILE = os.path.expanduser("~/Datasets/parlamento-deputados/data/deputados-extra.csv")
-GOV_DATASET_FILE = os.path.expanduser("~/Datasets/governos/data/governos.csv")
-GOVPOST_DATASET_FILE = os.path.expanduser("~/Datasets/governos/data/governos-cargos.csv")
-TRANSCRIPTS_DIR = os.path.expanduser("~/Datasets/dar-transcricoes-txt/data/")
-TRANSCRIPT_DATASET_FILE = os.path.expanduser("~/Datasets/parlamento-datas_sessoes/data/datas-debates.csv")
-TRANSCRIPT_DATASET_FILE_2 = os.path.expanduser("~/Datasets/parlamento-datas_sessoes/data/datas-parlamento.csv")
+from utils import create_dir, format_date
+from utils_dataset import get_gov_dataset, get_date_dataset, get_govpost_dataset, generate_datedict, generate_mp_list, get_session_text
 
 OUTPUT_DIR = "_output"
 MEDIA_SOURCE_DIR = "_media"
@@ -35,137 +21,6 @@ TEMPLATE_DIR = "templates/"
 
 MESES = ['janeiro', 'fevereiro', u'março', 'abril', 'maio', 'junho', 'julho',
          'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
-
-
-def get_date_dataset():
-    data = csv.reader(open(TRANSCRIPT_DATASET_FILE, 'r'))
-    # skip first row
-    data.next()
-
-    more_data = csv.reader(open(TRANSCRIPT_DATASET_FILE_2, 'r'))
-    # skip first row
-    more_data.next()
-
-    data = list(data)
-
-    for newrow in more_data:
-        exists = False
-        leg, sess, num = newrow[:3]
-        for row in data:
-            if row[:3] == [leg, sess, num]:
-                exists = True
-                break
-        if not exists:
-            data.append(newrow)
-            # print newrow
-
-    return data
-
-
-def get_gov_dataset():
-    data = csv.reader(open(GOV_DATASET_FILE, 'r'))
-    # skip first row
-    data.next()
-    return list(data)
-
-
-def get_mp_dataset():
-    data = json.loads(open(MP_DATASET_FILE, 'r').read())
-    info_data = csv.reader(open(MPINFO_DATASET_FILE, 'r'))
-    info_data.next()
-    for row in info_data:
-        mp = data[row[0]]
-        mp['email'] = row[3]
-        mp['wikipedia_url'] = row[4]
-        mp['twitter_url'] = row[6]
-        mp['blog_url'] = row[7]
-        mp['website_url'] = row[8]
-    return data
-
-
-def get_govpost_dataset():
-    data = csv.reader(open(GOVPOST_DATASET_FILE, 'r'))
-    # skip first row
-    data.next()
-    return list(data)
-
-
-def replace_letters(s, letters, l):
-    for letter in letters:
-        s = s.replace(letter, l)
-    return s
-
-
-def slugify(s):
-    s = s.strip()
-    s = s.lower()
-    s = s.replace("-", "")
-    s = s.replace(" ", "-")
-    s = s.replace("'", "-")
-    s = replace_letters(s, u"áàâã", u"a")
-    s = replace_letters(s, u"éèê", u"e")
-    s = replace_letters(s, u"íì", u"i")
-    s = replace_letters(s, u"óòôõ", u"o")
-    s = replace_letters(s, u"úù", u"u")
-    s = replace_letters(s, u"ç", u"c")
-    return s
-
-
-def to_list(s):
-    l = s.split(';')
-    new_l = []
-    for item in l:
-        item = item.strip(' "')
-        if item:
-            new_l.append(item)
-    return new_l
-
-
-def generate_datedict():
-    # process dates into a year->dates dict
-    datedict = OrderedDict()
-    data = get_date_dataset()
-    all_dates = [dateparser.parse(row[3]) for row in data]
-    all_years = list(set([d.year for d in all_dates]))
-    for year in all_years:
-        # populate it with its months
-        # if current year, trim future months
-        if int(year) == datetime.date.today().year:
-            month = datetime.date.today().month
-            months = range(1, month + 1)
-        else:
-            months = range(1, 13)
-        datedict[year] = {}
-        for month in months:
-            datedict[year][month] = {}
-            import calendar
-            days_in_month = calendar.monthrange(year, month)[-1]
-            all_days = range(1, days_in_month + 1)
-            session_days = [datetime.date(d.year, d.month, d.day) for d in all_dates
-                            if d.month == month and d.year == year]
-            for day_number in all_days:
-                day_date = datetime.date(year, month, day_number)
-                if day_date in session_days:
-                    has_session = True
-                else:
-                    has_session = False
-                datedict[year][month][day_number] = {'weekday': day_date.weekday(),
-                                                     'has_session': has_session}
-    return datedict
-
-
-def generate_mp_list(only_active=True):
-    mps = []
-    data = get_mp_dataset()
-    for id in data:
-        mp = data[id]
-        if only_active and not mp['active']:
-            continue
-        mp['slug'] = slugify(mp['shortname'])
-        if 'occupation' in mp and len(mp['occupation']) == 1:
-            mp['occupation'] = mp['occupation'][0]
-        mps.append(mp)
-    return mps
 
 
 def render_template_into_file(env, templatename, filename, context=None, place_in_outdir=True):
@@ -183,64 +38,22 @@ def render_template_into_file(env, templatename, filename, context=None, place_i
     outfile.close()
 
 
-def get_session_text(leg, sess, num, html=True):
-    if 'S' in num:
-        sourcefile = "%02d-%d-%s.txt" % (int(leg), int(sess), num)
-    else:
-        sourcefile = "%02d-%d-%03d.txt" % (int(leg), int(sess), int(num))
-    sourcepath = os.path.join(TRANSCRIPTS_DIR, sourcefile)
-    text = codecs.open(sourcepath, 'r', 'utf-8').read()
-    if html:
-        entries = text.split('\n\n')
-        newentries = []
-        for e in entries:
-            # adicionar linebreak extra para dividir parágrafos
-            newentries.append(e.replace('\n', '\n\n'))
-        newtext = "\n\n".join(newentries)
-        newhtml = mistune.markdown(newtext)
-        return newhtml.replace("_", "")
-    else:
-        return text
-
-
-def delete_and_create_dir(d):
-    """Deletes a directory if it exists, and creates a new one with the
-    same name."""
-    if os.path.exists(d):
-        shutil.rmtree(d)
-    os.makedirs(d)
-
-
-def create_dir(d):
-    """Deletes a directory if it exists, and creates a new one with the
-    same name."""
-    if not os.path.exists(d):
-        os.makedirs(d)
-
-
-def format_date(value, format='medium'):
-    if type(value) not in (datetime.date, datetime.datetime):
-        log.error(type(value))
-        value = dateparser.parse(value)
-    return babel_format_date(value, format, locale="pt_PT")
-
-
 @click.option("-f", "--fast-run", help="Generate only a few transcripts to save time", is_flag=True, default=False)
 @click.command()
 def generate_site(fast_run):
-    # flush output
+    # Create output dirs
     create_dir(OUTPUT_DIR)
     create_dir(os.path.join(OUTPUT_DIR, TRANSCRIPTS_PATH))
     create_dir(os.path.join(OUTPUT_DIR, MPS_PATH))
     create_dir(os.path.join(OUTPUT_DIR, MEDIA_PATH))
 
-    # init Jinja
+    # Init Jinja
     env = jinja2.Environment(loader=jinja2.FileSystemLoader([TEMPLATE_DIR]),
                              extensions=['jinja2htmlcompress.SelectiveHTMLCompress'],
                              trim_blocks=True, lstrip_blocks=True)
     env.filters['date'] = format_date
 
-    # generate pages
+    # Generate the site!
     log.info("Copying static files...")
     copy_tree(MEDIA_SOURCE_DIR, os.path.join(OUTPUT_DIR, MEDIA_PATH))
 
@@ -269,10 +82,11 @@ def generate_site(fast_run):
                 gov_number = int(row[0])
                 gov = None
                 for r in gov_data:
-                    if int(r[0]) == gov_number:
-                        gov = {'number': r[0], 'start_date': dateparser.parse(r[1]), 'end_date': dateparser.parse(r[2])}
+                    if int(r[1]) == gov_number:
+                        gov = {'number': r[1], 'start_date': dateparser.parse(r[2]), 'end_date': dateparser.parse(r[3])}
                         break
                 if not gov:
+                    print row
                     log.critical("Gov not found!")
                 mp['govposts'].append({
                     'post': row[3],
@@ -280,7 +94,7 @@ def generate_site(fast_run):
                     'end_date': dateparser.parse(row[5]),
                     'gov': gov,
                 })
-        # parse dates
+        # Parse dates
         for m in mp['mandates']:
             m['start_date'] = dateparser.parse(m['start_date'])
             m['end_date'] = dateparser.parse(m['end_date'])
@@ -302,10 +116,9 @@ def generate_site(fast_run):
                    }
         target_dir = os.path.join(TRANSCRIPTS_PATH + "%s/" % year_number)
         filename = target_dir + "index.html"
-        # print filename
         render_template_into_file(env, 'day_list.html', filename, context)
 
-    # get most recent year and make the session index
+    # Get most recent year and make the session index
     y = all_years[-1]
     year = datedict[y]
     context = {'year': year,
