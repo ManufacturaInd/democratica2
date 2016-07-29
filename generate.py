@@ -134,9 +134,13 @@ def generate_site(fast_run):
     date_data.reverse()
     for leg, sess, num, d, dpub, page_start, page_end in date_data:
         dateobj = dateparser.parse(d)
+        text = get_session_text(leg, sess, num)
+        if not text:
+            log.warn("File for %s-%s-%s is missing from the transcripts dataset!" % (leg, sess, num))
+            continue
         context = {'session_date': dateobj,
                    'year_number': year_number,
-                   'text': get_session_text(leg, sess, num),
+                   'text': text,
                    'monthnames': MESES,
                    'pdf_url': 'xpto',
                    }
@@ -145,7 +149,7 @@ def generate_site(fast_run):
             create_dir(os.path.join(OUTPUT_DIR, target_dir))
         filename = "%s/index.html" % target_dir
         render_template_into_file(env, 'day_detail.html', filename, context)
-        log.debug(d)
+        # log.debug(d)
         if fast_run:
             COUNTER += 1
             if COUNTER > 20:

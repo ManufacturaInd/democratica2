@@ -125,7 +125,10 @@ def get_session_text(leg, sess, num, html=True):
     else:
         sourcefile = "%02d-%d-%03d.txt" % (int(leg), int(sess), int(num))
     sourcepath = os.path.join(TRANSCRIPTS_DIR, sourcefile)
-    text = codecs.open(sourcepath, 'r', 'utf-8').read()
+    try:
+        text = codecs.open(sourcepath, 'r', 'utf-8').read()
+    except IOError:
+        return None
     if html:
         entries = text.split('\n\n')
         newentries = []
