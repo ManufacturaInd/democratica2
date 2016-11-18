@@ -1,4 +1,4 @@
-_output
+dist/
+.env/
 *.swp
 *.pyc
-.env/

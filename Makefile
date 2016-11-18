@@ -30,7 +30,7 @@ SSH_DIR = /web/demo.cratica.org/public_html/
 SSH_PATH = $(SSH_HOSTNAME):$(SSH_DIR)
 # server port for local server
 SERVER_PORT = 8002
-MAIN_SCRIPT = $(wildcard generate.py)
+MAIN_SCRIPT = $(wildcard site-generator/generate.py)
 OFFLINE_FLAG = "--offline"
 
 html:

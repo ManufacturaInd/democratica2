@@ -11,8 +11,8 @@ from distutils.dir_util import copy_tree
 from utils import create_dir, format_date
 from utils_dataset import get_gov_dataset, get_date_dataset, get_govpost_dataset, generate_datedict, generate_mp_list, get_session_text
 
-OUTPUT_DIR = "_output"
-MEDIA_SOURCE_DIR = "_media"
+OUTPUT_DIR = "dist"
+MEDIA_SOURCE_DIR = "assets"
 MEDIA_PATH = "media/"
 TRANSCRIPTS_PATH = "sessoes/"
 MPS_PATH = "deputados/"
@@ -86,7 +86,7 @@ def generate_site(fast_run):
                         gov = {'number': r[1], 'start_date': dateparser.parse(r[2]), 'end_date': dateparser.parse(r[3])}
                         break
                 if not gov:
-                    print row
+                    print(row)
                     log.critical("Gov not found!")
                 mp['govposts'].append({
                     'post': row[3],
