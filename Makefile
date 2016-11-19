@@ -35,9 +35,11 @@ OFFLINE_FLAG = "--offline"
 
 html:
 	. `pwd`/.env/bin/activate; python $(MAIN_SCRIPT)
+	gulp build
 
 html-quick:
 	. `pwd`/.env/bin/activate; python $(MAIN_SCRIPT) --fast-run
+	gulp build
 
 install:
 	virtualenv .env --no-site-packages --distribute --prompt=\(democratica\)
