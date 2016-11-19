@@ -6,14 +6,11 @@ import click
 import jinja2
 from zenlog import log
 from dateutil import parser as dateparser
-from distutils.dir_util import copy_tree
 
 from utils import create_dir, format_date
 from utils_dataset import get_gov_dataset, get_date_dataset, get_govpost_dataset, generate_datedict, generate_mp_list, get_session_text
 
 OUTPUT_DIR = "dist"
-MEDIA_SOURCE_DIR = "assets"
-MEDIA_PATH = "media/"
 TRANSCRIPTS_PATH = "sessoes/"
 MPS_PATH = "deputados/"
 PHOTO_URL_BASE = '/media/img/deputados/'
@@ -45,7 +42,6 @@ def generate_site(fast_run):
     create_dir(OUTPUT_DIR)
     create_dir(os.path.join(OUTPUT_DIR, TRANSCRIPTS_PATH))
     create_dir(os.path.join(OUTPUT_DIR, MPS_PATH))
-    create_dir(os.path.join(OUTPUT_DIR, MEDIA_PATH))
 
     # Init Jinja
     env = jinja2.Environment(loader=jinja2.FileSystemLoader([TEMPLATE_DIR]),
@@ -54,9 +50,6 @@ def generate_site(fast_run):
     env.filters['date'] = format_date
 
     # Generate the site!
-    # log.info("Copying static files...")
-    # copy_tree(MEDIA_SOURCE_DIR, os.path.join(OUTPUT_DIR, MEDIA_PATH))
-
     log.info("Generating index...")
     render_template_into_file(env, 'index.html', 'index.html')
 
