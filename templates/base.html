@@ -1,141 +1,102 @@
-<!DOCTYPE html>
-<html lang="pt" xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml">
-<head>
-  <meta charset="utf-8" />
-  <meta property="og:image" content="{% block ogimage %}http://demo.cratica.org:7080/media/img/democratica-white-small.png{% endblock %}"/>
-  <meta property="og:title" content="{% block ogtitle %}Demo.cratica (Beta){% endblock %}"/>
-  <meta property="og:description" content="{% block ogdescription %}A forma fácil de ler o Parlamento. Um site independente para saber quem são e o que dizem os deputados da Assembleia da República Portuguesa.{% endblock %}"/>
-  <meta property="og:url" content="http://demo.cratica.org{% block ogurl %}/{% endblock %}"/>
-  <meta property="og:type" content="{% block ogtype %}website{% endblock %}"/>
-  <title>{% block title %}Demo.cratica (Beta){% endblock %}</title>
+<!doctype html>
+<html class="no-js" lang="pt">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>{% block title %}Demo.cratica (Beta){% endblock %}</title>
+    <meta name="description" content="A forma fácil de ler o Parlamento. Um site independente para saber quem são e o que dizem os deputados da Assembleia da República Portuguesa.">
 
-  <link rel="stylesheet" href="/media/css/reset.css" type="text/css" media="screen" />
-  <link rel="stylesheet" href="/media/js/uniform/css/uniform.default.css" type="text/css" />
-  <link rel="stylesheet" href="/media/css/tipsy.css" type="text/css" />
-  <link href='http://fonts.googleapis.com/css?family=Merriweather:400,900,400italic,900italic' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="/media/css/style.css" type="text/css" media="screen" />
-  <link rel="stylesheet" href="/media/css/print.css" type="text/css" media="print" />
+    <!-- bower:css -->
+    <!-- endbower -->
+    <link rel="stylesheet" href="assets/css/style.css">
 
-  <link rel="shortcut icon" href="/media/img/favicon.ico" />
+    <link rel="shortcut icon" href="assets/img/favicon.ico">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+    
+    <!-- Facebook share -->  
+    <meta property="og:title" content="{% block ogtitle %}Demo.cratica (Beta){% endblock %}"/>
+    <meta property="og:description" content="{% block ogdescription %}A forma fácil de ler o Parlamento. Um site independente para saber quem são e o que dizem os deputados da Assembleia da República Portuguesa.{% endblock %}"/>
+    <meta property="og:url" content="http://demo.cratica.org{% block ogurl %}/{% endblock %}"/>
+    <meta property="og:image" content="{% block ogimage %}http://demo.cratica.org:7080/media/img/democratica-white-small.png{% endblock %}"/>
+    <meta property="og:type" content="{% block ogtype %}website{% endblock %}"/>
 
-  <script type="text/javascript" src="/media/js/jquery-1.5.2.min.js"></script>
-  <script type="text/javascript" src="/media/js/css_browser_selector.js"></script>
-  <script type="text/javascript" src="/media/js/uniform/jquery.uniform.js"></script>
-  <script type="text/javascript" src="/media/js/jquery.clear-on-focus.js"></script>
-  <script type="text/javascript" src="/media/js/tipsy/jquery.tipsy.js"></script>
-  
-  <!--[if (gte IE 6)&(lte IE 8)]>
-    <script type="text/javascript" src="/media/js/selectivizr.js"></script>
-  <![endif]--> 
-  
-  {% block extrascripts %}{% endblock %}
-  
-  <script type="text/javascript">
-    $(document).ready(function(){  
-      $(".searchbox").search();
-      $("input, textarea, select, button").not(".search-btn").not(".searchbox").uniform();
-          });
-  </script>
-</head>
-
-<body class="{% block extrabodyclass %}default{% endblock %}">  
-  <nav id="menu">
-    <ul id="menu-box">
-      <li id="homepage"><a href="/">Demo.cratica</a></li>
-      <li><a href="/">Início</a></li>
-      <li><a href="/deputados/">Deputados</a></li>
-      <li><a href="/sessoes/">Sessões</a></li>
-      <!-- <li><a href="/labs/">Labs</a></li> -->
-      <!-- <li><a href="http://demo.cratica.org/blog">Blog</a></li> -->
-      <!-- <li><a href="/acerca/">Acerca</a></li> -->
-      {# <li><a href="">Contacto</a></li> #}
-      <li id="search">
-            <form method="get" action="/">
-              <input type="text" name="q" value="Pesquisa em construção!" class="searchbox placeholder" /><input type="submit" class="search-btn" value="Ir" />
-              <!-- https://duckduckgo.com/?q=PESQUISA&kp=pt-pt&kf=1 -->
-              <!-- <iframe src="http://duckduckgo.com/search.html?site=demo.cratica.org&prefill=Search DuckDuckGo" style="overflow:hidden;margin:0;padding:0;width:408px;height:40px;" frameborder="0"></iframe> 
-              
-                https://duckduckgo.com/search_box
-              
-              -->
-          </form>
-      </li>
-    </ul><!-- /#menu-box -->
-  </nav> <!-- /#menu -->
-  
-  <div id="content">
-    {% block contentdiv %}{% endblock %}
-  </div> <!-- /#content -->
-  
-  {#
-  {% if request.user.is_authenticated %}  
-  <div id="toolbar">
-    {% block toolbar_contents %}
-    <ul class="left">
-      {% if messages %}
-      {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-      {% endfor %}
-      {% endif %}
-    </ul>
-    <ul class="right">
-      <li><a href="">Logout?</a>
-    </ul>
-    {% endblock %}
-  </div>
-  {% endif %}
-  #}
-
-  <footer id="footer">
-    <div id="footer-box">
-      <p class="follow-twitter">Estamos no <a href="http://identi.ca/demo_cratica">identi.ca </a> e no <a href="http://twitter.com/demo_cratica">twitter</a></p>
-      
-      <h5>Um projecto </h5>
-      <p><a href="http://manufacturaindependente.org" class="manufactura footer-logo" title="Manufactura Independente">Manufactura Independente</a></p>
-      
-      <h5>Apoio e Suporte</h5>
-      <ul>
-        <li><a href="http://unimos.net" class="unimos footer-logo" title="Unimos.net">Unimos.net</a></li>
-        <li><a href="http://transparenciahackday.org" class="transparencia-porto footer-logo" title="Transparência Hackday Portugal">Transparência Hackday Portugal</a></li>
-        <li>Hacklaviva</li>
-      </ul>
-      
-      <h5>Fontes de Informação</h5>
-      <p><a href="http://www.parlamento.pt/">Parlamento.pt</a></p>
-      
-    </div> <!-- /#footer-box -->
-  </footer> <!-- /#footer -->
-
-  {#
-  <div id="footer">
-    <div id="footer-box">
-      <ul id="navigation">
+    {% block extrascripts %}{% endblock %}
+  </head>
+  <body class="{% block extrabodyclass %}default{% endblock %}">  
+    <nav id="menu">
+      <ul id="menu-box">
+        <li id="homepage"><a href="/">Demo.cratica</a></li>
         <li><a href="/">Início</a></li>
-        <li><a href="/acerca">Acerca</a></li>
-        <li><a href="">FAQ</a></li>
-        <li><a href="">Termos e Condições</a></li>
-        <li><a href="">Contacto</a></li>
-        <li><a href="">Glossário</a></li>
-      </ul>
-    </div> <!-- /#footer-box -->
-  </div> <!-- /#footer -->
-  #}
+        <li><a href="/deputados/">Deputados</a></li>
+        <li><a href="/sessoes/">Sessões</a></li>
+        <!-- <li><a href="/labs/">Labs</a></li> -->
+        <!-- <li><a href="http://demo.cratica.org/blog">Blog</a></li> -->
+        <!-- <li><a href="/acerca/">Acerca</a></li> -->
+        {# <li><a href="">Contacto</a></li> #}
+        <li id="search">
+              <form method="get" action="/">
+                <input type="text" name="q" value="Pesquisa em construção!" class="searchbox placeholder" /><input type="submit" class="search-btn" value="Ir" />
+                <!-- https://duckduckgo.com/?q=PESQUISA&kp=pt-pt&kf=1 -->
+                <!-- <iframe src="http://duckduckgo.com/search.html?site=demo.cratica.org&prefill=Search DuckDuckGo" style="overflow:hidden;margin:0;padding:0;width:408px;height:40px;" frameborder="0"></iframe> 
+                
+                  https://duckduckgo.com/search_box
+                
+                -->
+            </form>
+        </li>
+      </ul><!-- /#menu-box -->
+    </nav> <!-- /#menu -->
+    
+    <div id="content">
+      {% block contentdiv %}{% endblock %}
+    </div> <!-- /#content -->
+    
+    <footer id="footer">
+      <div id="footer-box">
+        <p class="follow-twitter">Estamos no <a href="http://identi.ca/demo_cratica">identi.ca </a> e no <a href="http://twitter.com/demo_cratica">twitter</a></p>
+        
+        <h5>Um projecto </h5>
+        <p><a href="http://manufacturaindependente.org" class="manufactura footer-logo" title="Manufactura Independente">Manufactura Independente</a></p>
+        
+        <h5>Apoio e Suporte</h5>
+        <ul>
+          <li><a href="http://unimos.net" class="unimos footer-logo" title="Unimos.net">Unimos.net</a></li>
+          <li><a href="http://transparenciahackday.org" class="transparencia-porto footer-logo" title="Transparência Hackday Portugal">Transparência Hackday Portugal</a></li>
+          <li>Hacklaviva</li>
+        </ul>
+        
+        <h5>Fontes de Informação</h5>
+        <p><a href="http://www.parlamento.pt/">Parlamento.pt</a></p>
+        
+      </div> <!-- /#footer-box -->
+    </footer> <!-- /#footer -->
 
-  <script type="text/javascript">
-  var _paq = _paq || [];
-  _paq.push(["setCookieDomain", "*.centraldedados.pt"]);
-  _paq.push(['trackPageView']);
-  _paq.push(['enableLinkTracking']);
-  (function() {
-    var u="//piwik.manufacturaindependente.org/";
-    _paq.push(['setTrackerUrl', u+'piwik.php']);
-    _paq.push(['setSiteId', 2]);
-    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-  })();
-  </script>
-  <noscript><p><img src="//piwik.manufacturaindependente.org/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
-  <!-- End Piwik Code -->
+    <!-- bower:js -->
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../bower_components/modernizr/modernizr.js"></script>
+    <script src="../bower_components/fastclick/lib/fastclick.js"></script>
+    <script src="../bower_components/jquery.cookie/jquery.cookie.js"></script>
+    <script src="../bower_components/jquery-placeholder/jquery.placeholder.js"></script>
+    <script src="../bower_components/foundation/js/foundation.js"></script>
+    <!-- endbower -->
+
+    <script type="text/javascript">
+    var _paq = _paq || [];
+    _paq.push(["setCookieDomain", "*.centraldedados.pt"]);
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//piwik.manufacturaindependente.org/";
+      _paq.push(['setTrackerUrl', u+'piwik.php']);
+      _paq.push(['setSiteId', 2]);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    })();
+    </script>
+    <noscript><p><img src="//piwik.manufacturaindependente.org/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+    <!-- End Piwik Code -->
 
   </body>
 </html>
