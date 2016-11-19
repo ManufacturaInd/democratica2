@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var connect = require('gulp-connect');
+var cleanCSS = require('gulp-clean-css');
 var wiredep = require('wiredep').stream;
 
 gulp.task('connect', function(){
@@ -17,6 +18,7 @@ gulp.task('sass', function () {
         sourceComments: true,
         includePaths: ['bower_components/foundation/scss']
       }).on('error', sass.logError))
+      .pipe(cleanCSS({compatibility: 'ie8'}))
       .pipe(gulp.dest('dist/assets/css'));
 });
 

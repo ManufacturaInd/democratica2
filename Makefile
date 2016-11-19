@@ -1,6 +1,7 @@
 # Project : Demo.cratica
 # -----------------------------------------------------------------------------
-# Author : Ricardo Lafuente <r@manufacturaindependente.org>
+# Authors : Ana Isabel Carvalho <a@manufacturaindependente.org>
+#           Ricardo Lafuente <r@manufacturaindependente.org>
 # -----------------------------------------------------------------------------
 # License : GNU General Public License
 # -----------------------------------------------------------------------------
