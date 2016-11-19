@@ -44,15 +44,15 @@ install:
 	. `pwd`/.env/bin/activate; pip install -r requirements.txt
 
 serve:
-	. `pwd`/.env/bin/activate; cd _output && livereload --host 0.0.0.0 --port $(SERVER_PORT)
+	. `pwd`/.env/bin/activate; cd dist && livereload --host 0.0.0.0 --port $(SERVER_PORT)
 
 upload:
-	rsync --compress --progress --recursive --update --delete _output/ $(SSH_PATH)
+	rsync --compress --progress --recursive --update --delete dist/ $(SSH_PATH)
 
 fakeupload:
-	rsync --dry-run --compress --progress --recursive --update --delete _output/ $(SSH_PATH)
+	rsync --dry-run --compress --progress --recursive --update --delete dist/ $(SSH_PATH)
 
 clean:
-	rm -fr _output
+	rm -fr dist
 
 
