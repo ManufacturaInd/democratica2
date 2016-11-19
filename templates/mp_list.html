@@ -2,25 +2,6 @@
 
 {% block title %}Deputados &mdash; Demo.cratica (Beta){% endblock %}
 
-{% block extrascripts %}
-<!-- este script é da pesquisa rápida na lista de deputados, para já só é usado nesta página -->
-<script type="text/javascript" src="/media/js/jquery.quicksearch.js"></script>
-<script type="text/javascript">
-  $(document).ready(function(){  
-    $(".searchbox").search();
-    
-    // este pedaço é usado para chamar a pesquisa rápida
-    $(".mp-list > li").quicksearch({
-    position: 'prepend',
-    attached: '.mp-filters',
-    labelText: null,
-    loaderImg: '/media/img/icons/loading-16px.gif',
-    inputText: 'Filtrar...'
-  });
-  });
-</script>
-{% endblock %}
-
 {% block content %}
 <div id="content-box">
     {% for col in mps|sort(attribute="shortname")|slice(3) %}
