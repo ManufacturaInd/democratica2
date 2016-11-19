@@ -41,7 +41,7 @@ html-quick:
 
 install:
 	virtualenv .env --no-site-packages --distribute --prompt=\(democratica\)
-	. `pwd`/.env/bin/activate; pip install -r requirements.txt
+	. `pwd`/.env/bin/activate; pip install -r site-generator/requirements.txt
 
 serve:
 	. `pwd`/.env/bin/activate; cd dist && livereload --host 0.0.0.0 --port $(SERVER_PORT)

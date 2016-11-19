@@ -1,0 +1,21 @@
+{
+  "name": "democratica2",
+  "description": "Nova versão do Demo.cratica, feita de raiz",
+  "main": "index.js",
+  "authors": [
+    "Manufactura Independente"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/ManufacturaInd/democratica2",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "foundation": "^5.5.3"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "democratica2",
+  "version": "1.0.0",
+  "description": "Nova versão do Demo.cratica, feita de raiz",
+  "main": "index.js",
+  "dependencies": {
+    "bower": "^1.8.0",
+    "gulp": "^3.9.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ManufacturaInd/democratica2.git"
+  },
+  "author": "Manufactura Independente",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ManufacturaInd/democratica2/issues"
+  },
+  "homepage": "https://github.com/ManufacturaInd/democratica2#readme"
+}
