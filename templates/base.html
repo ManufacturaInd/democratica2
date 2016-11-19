@@ -21,10 +21,9 @@
     <meta property="og:url" content="http://demo.cratica.org{% block ogurl %}/{% endblock %}"/>
     <meta property="og:image" content="{% block ogimage %}http://demo.cratica.org:7080/media/img/democratica-white-small.png{% endblock %}"/>
     <meta property="og:type" content="{% block ogtype %}website{% endblock %}"/>
-
-    {% block extrascripts %}{% endblock %}
   </head>
-  <body class="{% block extrabodyclass %}default{% endblock %}">  
+  <body class="{% block extrabodyclass %}default{% endblock %}">
+  
     <nav id="menu">
       <ul id="menu-box">
         <li id="homepage"><a href="/">Demo.cratica</a></li>
@@ -82,6 +81,8 @@
     <script src="../bower_components/foundation/js/foundation.js"></script>
     <!-- endbower -->
 
+    {% block extrascripts %}{% endblock %}
+    
     <script type="text/javascript">
     var _paq = _paq || [];
     _paq.push(["setCookieDomain", "*.centraldedados.pt"]);
