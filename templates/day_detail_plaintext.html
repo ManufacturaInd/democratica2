@@ -8,11 +8,21 @@
 {#{% block ogurl %}{% url "day_detail" day.date.year day.date.month day.date.day %}{% endblock %} #}
 {% block ogtype %}transcript{% endblock %}
 
+{#
+{% block extrascripts %}
+    <script src="https://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
+{% endblock %}
+#}
+
 {% block content %}
       <div id="content-box">
         
         <ul id="dar-tabs" class="tabs">
           <li><span>Transcrição</span></li>
+          {#
+          <li><a href="stats" title="">Estatísticas</a></li>
+          <li><a href="{% url "day_revisions" day.date.year day.date.month day.date.day %}" title="">Revisões</a></li>
+          #}
         </ul>
          
         <h2 class="ribbon">{{ session_date.day }} de {{ monthnames[session_date.month-1] }} de {{ session_date.year }}</h2>
@@ -22,18 +32,13 @@
         {# {% if pdf_url %}<p>Consultar o <a href="{{ pdf_url }}">PDF oficial</a> ou a <a href="">versão web oficial</a> desta transcrição.</p>{% endif %} #}
 
         <div class="intervention">
-          {% for entry in contents %}
           <div class="entry">
-            <div class="left">
-              {{ entry.speaker }}
-            </div>
             <div class="right">
               <div class="entry-content">
-                {{ entry.text|safe }}
+                {{ text|safe }}
               </div>
             </div>
           </div>
-          {% endfor %}
         </div>
         
         <p class="notice">Versão Beta: Esta informação pode estar incompleta e/ou conter incorrecções.</p>

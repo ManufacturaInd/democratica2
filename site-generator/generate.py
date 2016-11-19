@@ -54,8 +54,8 @@ def generate_site(fast_run):
     env.filters['date'] = format_date
 
     # Generate the site!
-    log.info("Copying static files...")
-    copy_tree(MEDIA_SOURCE_DIR, os.path.join(OUTPUT_DIR, MEDIA_PATH))
+    # log.info("Copying static files...")
+    # copy_tree(MEDIA_SOURCE_DIR, os.path.join(OUTPUT_DIR, MEDIA_PATH))
 
     log.info("Generating index...")
     render_template_into_file(env, 'index.html', 'index.html')
@@ -134,22 +134,29 @@ def generate_site(fast_run):
     date_data.reverse()
     for leg, sess, num, d, dpub, page_start, page_end in date_data:
         dateobj = dateparser.parse(d)
-        text = get_session_text(leg, sess, num)
-        if not text:
+        contents = get_session_text(leg, sess, num)
+        if not contents:
             log.warn("File for %s-%s-%s is missing from the transcripts dataset!" % (leg, sess, num))
             continue
-        context = {'session_date': dateobj,
-                   'year_number': year_number,
-                   'text': text,
-                   'monthnames': MESES,
-                   'pdf_url': 'xpto',
-                   }
+
         target_dir = "%s%d/%02d/%02d" % (TRANSCRIPTS_PATH, dateobj.year, dateobj.month, dateobj.day)
         if not os.path.exists(os.path.join(OUTPUT_DIR, target_dir)):
             create_dir(os.path.join(OUTPUT_DIR, target_dir))
         filename = "%s/index.html" % target_dir
-        render_template_into_file(env, 'day_detail.html', filename, context)
-        # log.debug(d)
+        if type(contents) in (str, unicode):
+            context = {'session_date': dateobj,
+                       'year_number': year_number,
+                       'text': contents,
+                       'monthnames': MESES,
+                       'pdf_url': 'xpto',
+                       }
+            render_template_into_file(env, 'day_detail_plaintext.html', filename, context)
+        elif type(contents) == dict:
+            contents['session_date'] = dateparser.parse(contents['session_date'])
+            contents['monthnames'] = MESES
+            # usar entradas do .json como contexto
+            render_template_into_file(env, 'day_detail.html', filename, contents)
+
         if fast_run:
             COUNTER += 1
             if COUNTER > 20:

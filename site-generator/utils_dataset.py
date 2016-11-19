@@ -4,6 +4,7 @@ import os
 import codecs
 import unicodecsv as csv
 import json
+import glob
 import mistune
 import datetime
 from dateutil import parser as dateparser
@@ -121,15 +122,16 @@ def generate_mp_list(only_active=True):
 
 def get_session_text(leg, sess, num, html=True):
     if 'S' in num:
-        sourcefile = "%02d-%d-%s.txt" % (int(leg), int(sess), num)
+        fnstart = "%02d-%d-%s" % (int(leg), int(sess), num)
     else:
-        sourcefile = "%02d-%d-%03d.txt" % (int(leg), int(sess), int(num))
-    sourcepath = os.path.join(TRANSCRIPTS_DIR, sourcefile)
+        fnstart = "%02d-%d-%03d" % (int(leg), int(sess), int(num))
+    # encontrar .txt ou .json
+    fn = glob.glob(os.path.join(TRANSCRIPTS_DIR, fnstart) + '*')[0]
     try:
-        text = codecs.open(sourcepath, 'r', 'utf-8').read()
+        text = codecs.open(fn, 'r', 'utf-8').read()
     except IOError:
         return None
-    if html:
+    if fn.endswith('.txt'):
         entries = text.split('\n\n')
         newentries = []
         for e in entries:
@@ -138,5 +140,7 @@ def get_session_text(leg, sess, num, html=True):
         newtext = "\n\n".join(newentries)
         newhtml = mistune.markdown(newtext)
         return newhtml.replace("_", "")
+    elif fn.endswith('json'):
+        return json.loads(text)
     else:
         return text
