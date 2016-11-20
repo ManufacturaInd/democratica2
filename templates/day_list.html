@@ -4,7 +4,21 @@
 {% block extrabodyclass %}no-background{% endblock %}
 
 {% block content %}
-    <div id="content-box">
+    <section>
+      <div class="row">
+        <div class="year-select large-12 columns">
+          <strong>Sessões parlamentares em</strong>
+          <button id="year-button" href="#" data-dropdown="year-drop" aria-controls="year-drop" aria-expanded="false" class="dropdown">{{ year_number }}</button>
+          <ul id="year-drop" data-dropdown-content class="f-dropdown" aria-hidden="true">
+            {% for y in all_years %}
+            <li><a {% if y == year %}class="selected"{% endif %} href="/sessoes/{{ y }}/">{{ y }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    
+    
+     <!-- previous template -->
       <h2>Sessões parlamentares em {{ year_number }}</h2>
       <ul class="year-nav">
       {% for y in all_years %}

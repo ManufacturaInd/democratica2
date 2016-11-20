@@ -23,32 +23,37 @@
     <meta property="og:type" content="{% block ogtype %}website{% endblock %}"/>
   </head>
   <body class="{% block extrabodyclass %}default{% endblock %}">
-  
-    <nav id="menu">
-      <ul id="menu-box">
-        <li id="homepage"><a href="/">Demo.cratica</a></li>
-        <li><a href="/">Início</a></li>
-        <li><a href="/deputados/">Deputados</a></li>
-        <li><a href="/sessoes/">Sessões</a></li>
-        <!-- <li><a href="/labs/">Labs</a></li> -->
-        <!-- <li><a href="http://demo.cratica.org/blog">Blog</a></li> -->
-        <!-- <li><a href="/acerca/">Acerca</a></li> -->
-        {# <li><a href="">Contacto</a></li> #}
-        <li id="search">
-              <form method="get" action="/">
-                <input type="text" name="q" value="Pesquisa em construção!" class="searchbox placeholder" /><input type="submit" class="search-btn" value="Ir" />
-                <!-- https://duckduckgo.com/?q=PESQUISA&kp=pt-pt&kf=1 -->
-                <!-- <iframe src="http://duckduckgo.com/search.html?site=demo.cratica.org&prefill=Search DuckDuckGo" style="overflow:hidden;margin:0;padding:0;width:408px;height:40px;" frameborder="0"></iframe> 
-                
-                  https://duckduckgo.com/search_box
-                
-                -->
-            </form>
-        </li>
-      </ul><!-- /#menu-box -->
-    </nav> <!-- /#menu -->
     
-    <div id="content">
+    <div class="contain-to-grid main-menu">
+      <nav class="top-bar" role="navigation">
+        <ul class="title-area">
+          <li class="name">
+            <h1><a href="/">Demo.cratica</a></h1>
+          </li>
+          <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+        </ul>
+        <section class="top-bar-section">
+          <ul class="right">
+            <li class="has-form">
+              <div class="row collapse">
+                <div class="large-8 small-9 columns">
+                  <input placeholder="Em construção!" type="text">
+                </div>
+                <div class="large-4 small-3 columns">
+                  <a href="#" class="button expand">Pesquisar</a>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <ul class="left">
+            <li><a href="/deputados/">Deputados</a></li>
+            <li><a href="/sessoes/">Sessões</a></li>
+          </ul>
+        </section>
+      </nav>
+    </div>
+    
+    <div id="content" class="row collapse">
       {% block contentdiv %}{% endblock %}
     </div> <!-- /#content -->
     
@@ -80,6 +85,10 @@
     <script src="../bower_components/jquery-placeholder/jquery.placeholder.js"></script>
     <script src="../bower_components/foundation/js/foundation.js"></script>
     <!-- endbower -->
+    
+    <script type="text/javascript">
+      $(document).foundation()
+    </script>
 
     {% block extrascripts %}{% endblock %}
     
@@ -96,7 +105,7 @@
       g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
     })();
     </script>
-    <noscript><p><img src="//piwik.manufacturaindependente.org/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+    <noscript><p><img src="//piwik.manufacturaindependente.org/piwik.php?idsite=2" style="border:0;" alt=""></p></noscript>
     <!-- End Piwik Code -->
 
   </body>

@@ -50,14 +50,89 @@
   src: local('Merriweather'), url('../fonts/Merriweather/Merriweather-Regular.ttf') format('truetype');
 }
 
+/* Colours
+*/
+
+$democratica-blue: #535d6c; /* links */
+$light-blue: #6f7c91;
+$very-light-blue: #939dac;
+$ultralight-blue: #b7bec8; /* borders */
+$dark-blue: #373e48; /* menu background */
+$ultra-darkblue: #151e2b;
+
 /* Import Foundation
 */
 
 @import "partials/settings";
-@import "partials/foundation";
+@import "foundation";
 
-
-/* Custom
+/* General
 */
+
+html {
+	background: $dark-blue url(../img/backgrounds/bg-texture-blue.png) repeat 0 0;
+}
+
+/* Top navigation
+*/
+
+.contain-to-grid.main-menu {
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.4);
+}
+
+.top-bar {
+  .name h1 a {
+    font-family: "League Gothic", sans-serif;
+    text-transform: uppercase;
+  }
+  .top-bar-section {
+    ul.left li a {
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 2px $ultra-darkblue;
+    }
+  }
+}
+
+/* Homepage
+*/
+
+#header {
+  .columns img {
+    margin: 1rem 0;
+  }
+}
+
+/* Session list
+*/
+
+.year-select {
+  strong {
+    font-size: 2.3125rem;
+    font-weight: 300;
+    color: $light-blue;
+  }
+  button.dropdown {
+    font-size: 2.3125rem;
+    font-weight: 300;
+    color: $light-blue;
+    background-color: transparent;
+    border-bottom: 1px solid $ultralight-blue;
+    padding: 0 2rem 1.0625rem 0;
+  }
+}
+
+/* Session
+*/
+
+.session #content {
+  background: #fff url(../img/backgrounds/bg-texture-black.png) repeat 0 0;
+  box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
+}
+
+
+
+
+
 
 

@@ -1,116 +1,39 @@
-<!DOCTYPE html>
-<html lang="pt">
-  <head>
-    <meta charset="utf-8" />
-    <meta property="og:image" content="{% block ogimage %}http://demo.cratica.org:7080/media/img/democratica-white-small.png{% endblock %}"/>
-    <meta property="og:title" content="Demo.cratica"/>
-    <meta property="og:description" content="A forma fácil de ler o Parlamento. Um site independente para saber quem são e o que dizem os deputados da Assembleia da República Portuguesa."/>
 
-    <title>Demo.cratica (Beta)</title>
+{% extends "base.html" %}
+{% block extrabodyclass %}home{% endblock %}
 
-    <link rel="stylesheet" href="/media/css/reset.css" type="text/css" media="print" />
-    <link rel="stylesheet" href="/media/js/uniform/css/uniform.default.css" type="text/css" />
-    <link rel="stylesheet" href="/media/css/style.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="/media/css/print.css" type="text/css" media="print" />
-  
-    <link rel="shortcut icon" href="/media/img/favicon.ico" />
-   
-    <script type="text/javascript" src="/media/js/css_browser_selector.js"></script>
-    <script type="text/javascript" src="/media/js/jquery-1.5.2.min.js"></script>
-    <script type="text/javascript" src="/media/js/jquery.localscroll-1.2.7-min.js"></script>
-    <script type="text/javascript" src="/media/js/jquery.scrollTo-1.4.2-min.js"></script>
+{% block contentdiv %}
+  {% block content %}
 
-    <script type="text/javascript">
-      $(document).ready(function() {
-        // Animated Scroll
-        $("#reveal-button").localScroll();				
-      });
-    </script>
-
-  </head>
-
-<body id="home">
-
- <div id="menu">
-    <ul id="menu-box">
-      <li id="homepage"><a href="/">Demo.cratica</a></li>
-      <li><a href="/" class="active">Início</a></li>
-      <li><a href="/deputados/">Deputados</a></li>
-      <li><a href="/sessoes/">Sessões</a></li>
-      <!-- <li><a href="http://demo.cratica.org/blog">Blog</a></li> -->
-      <!-- <li><a href="/acerca/">Acerca</a></li> -->
-      {# <li><a href="">Contacto</a></li> #}
-      <li id="search">
-            <form method="get" action="/">
-              <input type="text" name="q" value="Pesquisa em construção!" class="searchbox placeholder" /><input type="submit" class="search-btn" value="Ir" />
-          </form>
-      </li>
-    </ul> <!-- /#menu-box -->
-  </div> <!-- /#menu -->
-
-  <div id ="content">
-  
-  <div id="content-box">
+    <header id="header" class="row">
+      <div class="small-12 columns text-center">
+        <h2><img src="assets/img/democratica-big.png" alt="Democratica"></h2>
+        <h3 class="secondary">Um repositório de informação sobre a Assembleia da República Portuguesa.</h3>
+        <p class="alert-box secondary">Estamos em versão <strong>beta</strong>, o que significa que ainda há erros e partes incompletas. Caso seja necessária informação de fiabilidade garantida, é melhor consultar o site do <a href="http://www.parlamento.pt">Parlamento</a>.</p>
+	    </div>
+	  </header><!-- /#header-->
+	  
+	  <section id="main" class="row">
+	    <div class="medium-6 small-12 columns">
+	      <a href="deputados/">
+          <h2>Os Deputados</h2>
+          <p>Ver informações, notícias e outros dados sobre os deputados desde 1991.</p>
+	      </a>
+	    </div>
+	    <div class="medium-6 small-12 columns">
+	      <a class="box right" href="sessoes/">
+          <h2>As Sessões</h2>
+          <p>Ler, pesquisar e consultar as sessões da Assembleia da República.</p>
+        </a>
+	    </div>
+	  </section><!-- /#main-->
     
-      <div id="header">
-        <h1>Democratica</h1>
-        <p>Um repositório de informação sobre a Assembleia da República Portuguesa.</p>
-        <p class="beta">Estamos em versão <strong>beta</strong>, o que significa que ainda há erros e partes incompletas. Caso seja necessária informação de fiabilidade garantida, é melhor consultar o site do <a href="http://www.parlamento.pt">Parlamento</a>.</p>
-	    </div>
-	    
-	    <div id="main">
-        <a class="box" href="deputados/">
-	        <h2>Os Deputados</h2>
-	        <p>Ver informações, notícias e outros dados sobre os deputados desde 1976.</p>
-	      </a>
-	      
-        <a class="box right" href="sessoes/">
-	        <h2>As Sessões</h2>
-	        <p>Ler, pesquisar e consultar as sessões da Assembleia da República.</p>
-	      </a>
-	    </div>
-  </div> <!-- /#content-box -->
-  
-  <div id="about">
-    <p class="follow-twitter">Estamos no <a href="http://identi.ca/demo_cratica">identi.ca</a> e no <a href="http://twitter.com/demo_cratica">Twitter</a></p>
-  
-  <!--
-    <ul id="navigation">
-      <li><a href="/">Início</a></li>
-      <li><a href="/acerca">Acerca</a></li>
-      <li><a href="">FAQ</a></li>
-      <li><a href="">Termos e Condições</a></li>
-      <li><a href="">Contacto</a></li>
-      <li><a href="">Glossário</a></li>
-    </ul>
-  -->
-    <h3 id="reveal-button"><a href="#mais">O que é o Demo.cratica?</a></h3>
-
-   </div> <!-- /#about-->
- 
-   <div id="mais">
-   {% include 'snippets/texto-acerca.html' %}
-   </div> <!-- /#more-box -->
- 
- </div> <!-- /#content -->
-
-  <!-- Piwik -->
-  <script type="text/javascript">
-    var _paq = _paq || [];
-    _paq.push(["setCookieDomain", "*.demo.cratica.org"]);
-    _paq.push(['trackPageView']);
-    _paq.push(['enableLinkTracking']);
-    (function() {
-      var u="//piwik.manufacturaindependente.org/";
-      _paq.push(['setTrackerUrl', u+'piwik.php']);
-      _paq.push(['setSiteId', 3]);
-      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-      g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-    })();
-  </script>
-  <noscript><p><img src="//piwik.manufacturaindependente.org/piwik.php?idsite=3" style="border:0;" alt="" /></p></noscript>
-  <!-- End Piwik Code -->
-
-
-</body>
-</html>
+    <section id="about" class="row">
+      <div class="small-12 columns">
+        <h3>O que é o Demo.cratica?</h3>
+       {% include 'snippets/texto-acerca.html' %}
+      </div>
+    </section><!-- /#about-->
+   
+  {% endblock %}
+{% endblock %}
