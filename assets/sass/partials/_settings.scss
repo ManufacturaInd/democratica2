@@ -126,7 +126,7 @@ $primary-color: $democratica-blue;
 // We use these to control various global styles
 $body-bg: transparent;
 $body-font-color: $dark-blue;
-// $body-font-family: $font-family-sans-serif;
+$body-font-family: $font-family-sans-serif;
 // $body-font-weight: $font-weight-normal;
 // $body-font-style: normal;
 
@@ -210,7 +210,7 @@ $body-font-color: $dark-blue;
 // $include-html-type-classes: $include-html-classes;
 
 // We use these to control header font styles
-// $header-font-family: $body-font-family;
+$header-font-family: $font-family-sans-serif;
 $header-font-weight: 300;
 // $header-font-style: normal;
 $header-font-color: $light-blue;

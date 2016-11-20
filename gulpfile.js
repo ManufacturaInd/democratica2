@@ -3,6 +3,7 @@ var sass = require('gulp-sass');
 var connect = require('gulp-connect');
 var cleanCSS = require('gulp-clean-css');
 var wiredep = require('wiredep').stream;
+var mainBowerFiles = require('gulp-main-bower-files');
 
 gulp.task('connect', function(){
   connect.server({
@@ -37,6 +38,12 @@ gulp.task('scripts', function () {
       .pipe(gulp.dest('dist/assets/scripts'));
 });
 
+gulp.task('bowerfiles', function(){
+  return gulp.src('./bower.json')
+    .pipe(mainBowerFiles( ))
+    //.pipe(uglify())
+    .pipe(gulp.dest('dist/bower_components'));
+});
 
 gulp.task('livereload', function (){
   return gulp.src('./public/**/*')
@@ -72,6 +79,6 @@ gulp.task('wiredep', function () {
         .pipe(gulp.dest('templates'));
 });
 
-gulp.task('build', ['sass', 'fonts', 'img', 'scripts']);
-gulp.task('default', ['sass', 'fonts', 'img', 'scripts', 'connect', 'watch']);
+gulp.task('build', ['sass', 'fonts', 'img', 'scripts', 'bowerfiles']);
+gulp.task('default', ['sass', 'fonts', 'img', 'scripts', 'bowerfiles', 'connect', 'watch']);
 
