@@ -46,10 +46,23 @@
 @font-face {
   font-family: 'Merriweather';
   font-weight: 400;
-  font-style: italic;
+  font-style: normal;
   src: local('Merriweather'), url('../fonts/Merriweather/Merriweather-Regular.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'Merriweather';
+  font-weight: 400;
+  font-style: italic;
+  src: local('Merriweather Italic'), url('../fonts/Merriweather/Merriweather-Italic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Merriweather';
+  font-weight: 700;
+  font-style: normal;
+  src: local('Merriweather Bold'), url('../fonts/Merriweather/Merriweather-Bold.ttf') format('truetype');
+}
 /* Colours
 */
 
@@ -59,12 +72,21 @@ $very-light-blue: #939dac;
 $ultralight-blue: #b7bec8; /* borders */
 $dark-blue: #373e48; /* menu background */
 $ultra-darkblue: #151e2b;
+$white-blue: #dbdee3; /* homepage buttons */
 
 /* Import Foundation
 */
 
 @import "partials/settings";
 @import "foundation";
+
+/* Mixins
+*/
+
+@mixin background-opacity($color, $opacity: 0.3) {
+  background: $color; /* fallback */
+  background: rgba($color, $opacity);
+}
 
 /* General
 */
@@ -78,11 +100,15 @@ ol.no-bullet li {
   list-style-type: none !important;
 }
 
+.alert-box {
+  font-family: $font-family-sans-serif;
+}
+
 /* Top navigation
 */
 
 .contain-to-grid.main-menu {
-  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 5px rgba($black, 0.4);
   margin-bottom: 2rem;
 }
 
@@ -97,6 +123,11 @@ ol.no-bullet li {
       letter-spacing: 1px;
       text-shadow: 1px 1px 2px $ultra-darkblue;
     }
+    .has-form {
+      .button {
+        text-shadow: 1px 1px 2px $ultra-darkblue;
+      }
+    }
   }
 }
 
@@ -104,8 +135,60 @@ ol.no-bullet li {
 */
 
 #header {
-  .columns img {
-    margin: 1rem 0;
+  h1, h2, h3, h4, h5, h6,
+  p { color: $ultralight-blue; }
+  a { color: $white; }
+}
+
+body.home {
+  #header {
+    margin-top: 1.5rem;
+    h1, h2, h3, h4, h5, h6,
+    p { color: $ultralight-blue; }
+    a { color: $white; }
+  }
+    
+  #main {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    .box-button {
+      a {
+        display: block;
+        background: $white url(../img/backgrounds/bg-texture-black.png) repeat 0 0;
+        border-radius: 5px;
+        padding: 1rem;
+        margin-top: 1rem;
+        min-height: 10rem;
+        box-shadow: 2px 2px 3px rgba($dark-blue, 0.8);
+        h2 {
+          padding-bottom: 0.5rem;
+          border-bottom: 1px solid $ultralight-blue;
+        }
+        p {
+          margin-bottom: 0;
+        } 
+      }
+    }
+  }
+  
+  .alert-box {
+    color: $ultralight-blue;
+    background-color: transparent;
+    border: 0;
+    a { color: $white; }
+  }
+  
+  #about {
+    font-family: $font-family-serif;
+    padding: 0 .9375rem;
+    .columns {
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+      background: $white url(../img/backgrounds/bg-texture-black.png) repeat 0 0;
+    }
+    a {
+      font-weight: 700;
+    }
   }
 }
 
@@ -233,7 +316,7 @@ ol.no-bullet li {
 
 #calendar ul a:hover,
 #calendar ul a:focus {
-  background-color: #fff;
+  background-color: $white;
 }
 
 /* Session
@@ -244,12 +327,12 @@ ol.no-bullet li {
 
 header.row {
 	.ribbon {
-	  background-color: #fff;
+	  background-color: $white;
 	  clear: both;
 	  padding: 0.75rem 1.5rem 0.45rem;
 	  margin: 0 -1.5rem 1rem;
 	  position: relative;
-	  box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+	  box-shadow: 2px 2px 0 rgba($black,0.2);
 
 	  &:before,
 	  &:after {
@@ -279,8 +362,8 @@ header.row {
 
 .session #content {
   font-family: $font-family-serif;
-  background: #fff url(../img/backgrounds/bg-texture-black.png) repeat 0 0;
-  box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
+  background: $white url(../img/backgrounds/bg-texture-black.png) repeat 0 0;
+  box-shadow: 2px 2px 3px rgba($black,0.5);
   padding-top: 2rem;
 }
 
@@ -288,35 +371,40 @@ header.row {
 */
 
 #footer {
+  color: $ultralight-blue;
   margin-top: 3rem;
   margin-bottom: 2rem;
-  text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.3);
-  a {
-   color: #fff !important;
-   text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.3);
-  }
+  text-shadow: 0 -1px 1px rgba($black, 0.3);
   
-  h4 { margin-bottom: 2rem; }
-  
-  p {
-    font-size: 80%;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-  
-  .credits {
-    margin-bottom: 2rem;
+  .row {
     a {
-      display: inline-block;
-      margin: 0 0.65rem;
-      &.thackday img {
-        margin-right: 0.25rem;
-      }
+     color: $white !important;
+     display: inline-block;
+     text-shadow: 0 -1px 1px rgba($black, 0.3);
     }
-    img {
-      display: inline-block;
-      height: 15px;
-      width: auto;
+
+    h1, h2, h3, h4, h5, h6 {
+      color: $ultralight-blue;
+      margin-top: 2.5rem;
+    }
+
+    p {
+      font-size: 80%;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .credits {
+      a {
+        margin: 0 0.65rem;
+        &.thackday img {
+          margin-right: 0.25rem;
+        }
+      }
+      img {
+        height: 15px;
+        width: auto;
+      }
     }
   }
 }

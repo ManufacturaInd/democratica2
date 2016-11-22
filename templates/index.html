@@ -1,39 +1,44 @@
-
 {% extends "base.html" %}
 {% block extrabodyclass %}home{% endblock %}
 
-{% block contentdiv %}
-  {% block content %}
+{% block content %}
 
-    <header id="header" class="row">
-      <div class="small-12 columns text-center">
-        <h2><img src="assets/img/democratica-big.png" alt="Democratica"></h2>
-        <h3 class="secondary">Um repositório de informação sobre a Assembleia da República Portuguesa.</h3>
-        <p class="alert-box secondary">Estamos em versão <strong>beta</strong>, o que significa que ainda há erros e partes incompletas. Caso seja necessária informação de fiabilidade garantida, é melhor consultar o site do <a href="http://www.parlamento.pt">Parlamento</a>.</p>
-	    </div>
-	  </header><!-- /#header-->
-	  
-	  <section id="main" class="row">
-	    <div class="medium-6 small-12 columns">
-	      <a href="deputados/">
-          <h2>Os Deputados</h2>
-          <p>Ver informações, notícias e outros dados sobre os deputados desde 1991.</p>
-	      </a>
-	    </div>
-	    <div class="medium-6 small-12 columns">
-	      <a class="box right" href="sessoes/">
-          <h2>As Sessões</h2>
-          <p>Ler, pesquisar e consultar as sessões da Assembleia da República.</p>
-        </a>
-	    </div>
-	  </section><!-- /#main-->
-    
-    <section id="about" class="row">
-      <div class="small-12 columns">
-        <h3>O que é o Demo.cratica?</h3>
-       {% include 'snippets/texto-acerca.html' %}
-      </div>
-    </section><!-- /#about-->
+  <header id="header" class="row">
+    <div class="small-12 columns text-center">
+      <h2><img src="assets/img/democratica-big.png" alt="Democratica"></h2>
+      <h3 class="secondary">Um repositório de informação sobre a Assembleia da República Portuguesa.</h3>
+    </div>
+  </header><!-- /#header-->
+  
+  <section id="main" class="row text-center">
+    <div class="box-button medium-6 small-12 columns">
+      <a href="deputados/">
+        <h2>Os Deputados</h2>
+        <p>Ver informações, notícias e outros dados sobre os deputados desde 1991.</p>
+      </a>
+    </div>
+    <div class="box-button medium-6 small-12 columns">
+      <a href="sessoes/">
+        <h2>As Sessões</h2>
+        <p>Ler, pesquisar e consultar as sessões da Assembleia da República.</p>
+      </a>
+    </div>
+  </section><!-- /#main-->
+  
+  <div class="row text-center">
+    <div class="small-12 columns">
+      <p class="alert-box secondary">
+        Estamos em versão <strong>beta</strong>, o que significa que ainda há erros e partes incompletas. <br>
+        Caso seja necessária informação de fiabilidade garantida, é melhor consultar o site do <a href="http://www.parlamento.pt">Parlamento</a>.
+      </p>
+    </div>
+  </div>
+  
+  <section id="about" class="row">
+    <div class="small-12 columns">
+      <h3 class="text-center">O que é o Demo.cratica?</h3>
+     {% include 'snippets/texto-acerca.html' %}
+    </div>
+  </section><!-- /#about-->
    
-  {% endblock %}
 {% endblock %}
