@@ -8,7 +8,7 @@ from zenlog import log
 from dateutil import parser as dateparser
 
 from utils import create_dir, format_date
-from utils_dataset import get_gov_dataset, get_date_dataset, get_govpost_dataset, generate_datedict, generate_mp_list, get_session_text
+from utils_dataset import get_gov_dataset, get_date_dataset, get_govpost_dataset, generate_datedict, generate_mp_list, get_session_contents, get_session_info
 
 OUTPUT_DIR = "dist"
 TRANSCRIPTS_PATH = "sessoes/"
@@ -127,10 +127,11 @@ def generate_site(fast_run):
     date_data.reverse()
     for leg, sess, num, d, dpub, page_start, page_end in date_data:
         dateobj = dateparser.parse(d)
-        contents = get_session_text(leg, sess, num)
+        contents = get_session_contents(leg, sess, num)
         if not contents:
             log.warn("File for %s-%s-%s is missing from the transcripts dataset!" % (leg, sess, num))
             continue
+        info = get_session_info(leg, sess, num)
 
         target_dir = "%s%d/%02d/%02d" % (TRANSCRIPTS_PATH, dateobj.year, dateobj.month, dateobj.day)
         if not os.path.exists(os.path.join(OUTPUT_DIR, target_dir)):
@@ -143,6 +144,8 @@ def generate_site(fast_run):
                        'monthnames': MESES,
                        'pdf_url': 'xpto',
                        }
+            if info:
+                context['session_info'] = info
             render_template_into_file(env, 'day_detail_plaintext.html', filename, context)
         elif type(contents) == dict:
             contents['session_date'] = dateparser.parse(contents['session_date'])

@@ -120,18 +120,26 @@ def generate_mp_list(only_active=True):
     return mps
 
 
-def get_session_text(leg, sess, num, html=True):
+def get_mp_from_shortname(shortname):
+    mps = generate_mp_list()
+    mp = filter(lambda x: x['shortname'] == shortname, mps)[0]
+    return mp
+
+
+def get_session_contents(leg, sess, num):
     if 'S' in num:
         fnstart = "%02d-%d-%s" % (int(leg), int(sess), num)
     else:
         fnstart = "%02d-%d-%03d" % (int(leg), int(sess), int(num))
     # encontrar .txt ou .json
-    fn = glob.glob(os.path.join(TRANSCRIPTS_DIR, fnstart) + '*')[0]
-    try:
-        text = codecs.open(fn, 'r', 'utf-8').read()
-    except IOError:
+    files = glob.glob(os.path.join(TRANSCRIPTS_DIR, fnstart) + '*')
+    if not files:
         return None
-    if fn.endswith('.txt'):
+    fn = files[0]
+    text = codecs.open(fn, 'r', 'utf-8').read()
+    if fn.endswith('.json'):
+        return json.loads(text)
+    elif fn.endswith('.txt'):
         entries = text.split('\n\n')
         newentries = []
         for e in entries:
@@ -140,7 +148,20 @@ def get_session_text(leg, sess, num, html=True):
         newtext = "\n\n".join(newentries)
         newhtml = mistune.markdown(newtext)
         return newhtml.replace("_", "")
-    elif fn.endswith('json'):
-        return json.loads(text)
     else:
         return text
+
+
+def get_session_info(leg, sess, num):
+    if 'S' in num:
+        fnstart = "%02d-%d-%s" % (int(leg), int(sess), num)
+    else:
+        fnstart = "%02d-%d-%03d" % (int(leg), int(sess), int(num))
+    files = glob.glob(os.path.join(TRANSCRIPTS_DIR, fnstart) + '*.json')
+    if not files:
+        return None
+    fn = files[0]
+    text = codecs.open(fn, 'r', 'utf-8').read()
+    data = json.loads(text)
+    del data['contents']
+    return data
