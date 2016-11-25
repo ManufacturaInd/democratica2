@@ -1,4 +1,5 @@
-{% extends "base_mp.html" %}
+{% extends "base.html" %}
+{% block extrabodyclass %}mp white-bg{% endblock %}
 
 {% block title %}{{ mp.shortname }} &mdash; Demo.cratica (Beta){% endblock %}
 
@@ -7,8 +8,6 @@
 {% block ogimage %}{% if mp.photo_url %}{{ mp.photo_url }}{% endif %}{% endblock %}
 {% block ogtype %}politician{% endblock %}
 {% block ogdescription %}Dados sobre {{ mp.shortname }} no Demo.cratica, a forma fácil de ler o Parlamento.{% endblock %}
-
-{% block extrabodyclass %}default mp{% endblock %}
 
 {% block content %}
     <div id="content-box">

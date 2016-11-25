@@ -1,6 +1,6 @@
-{% extends 'base_transcripts.html' %}
+{% extends 'base.html' %}
 
-{% block extrabodyclass %}default dar{% endblock %}
+{% block extrabodyclass %}session white-bg{% endblock %}
 
 {% block title %}{{ session_date.day }} de {{ monthnames[session_date.month-1] }} de {{ session_date.year }} &mdash; Demo.cratica (Beta){% endblock %}
 
@@ -8,42 +8,45 @@
 {#{% block ogurl %}{% url "day_detail" day.date.year day.date.month day.date.day %}{% endblock %} #}
 {% block ogtype %}transcript{% endblock %}
 
-{#
-{% block extrascripts %}
-    <script src="https://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
-{% endblock %}
-#}
-
 {% block content %}
-      <div id="content-box">
-        
-        <ul id="dar-tabs" class="tabs">
-          <li><span>Transcrição</span></li>
-          {#
-          <li><a href="stats" title="">Estatísticas</a></li>
-          <li><a href="{% url "day_revisions" day.date.year day.date.month day.date.day %}" title="">Revisões</a></li>
-          #}
-        </ul>
-         
-        <h2 class="ribbon">{{ session_date.day }} de {{ monthnames[session_date.month-1] }} de {{ session_date.year }}</h2>
 
-        <p><strong>Nota:</strong> As transcrições ainda estão em desenvolvimento. Pode haver inconsistências e erros de processamento.</p>
+  <!-- Tabs
+  <div class="row">
+    <ul id="dar-tabs" class="tabs">
+      <li><span>Transcrição</span></li>
+      {#
+      <li><a href="stats" title="">Estatísticas</a></li>
+      <li><a href="{% url "day_revisions" day.date.year day.date.month day.date.day %}" title="">Revisões</a></li>
+      #}
+    </ul>
+  </div> -->
 
+  <header class="row">
+    <div class="small-12 columns text-center">
+	    <h2 class="ribbon">{{ session_date.day }} de {{ monthnames[session_date.month-1] }} de {{ session_date.year }}</h2>
+	  </div>
+  </header>
+
+  <section>
+    <div class="row">
+      <div class="small-12 columns">
+        <p class="alert-box secondary"><strong>Nota:</strong> As transcrições ainda estão em desenvolvimento. Pode haver inconsistências e erros de processamento.</p>
         {# {% if pdf_url %}<p>Consultar o <a href="{{ pdf_url }}">PDF oficial</a> ou a <a href="">versão web oficial</a> desta transcrição.</p>{% endif %} #}
-
-        <div class="intervention">
-          <div class="entry">
-            <div class="right">
-              <div class="entry-content">
-                {{ text|safe }}
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <p class="notice">Versão Beta: Esta informação pode estar incompleta e/ou conter incorrecções.</p>
-
-      </div><!-- /#content-box -->
+	    </div>
+	  </div>
+    <div class="intervention">
+     <div class="entry row">
+       <div class="entry-content medium-offset-2 medium-10 small-12 columns">
+        {{ text|safe }}
+       </div>
+     </div>
+    </div><!-- /.intervention -->
+    <div class="row">
+      <div class="small-12 columns">
+  	  <p class="alert-box secondary">Versão Beta: Esta informação pode estar incompleta e/ou conter incorrecções.</p>
+  	</div>
+  </section>
+  
 {% endblock content %}
 
 

@@ -1,6 +1,5 @@
-{% extends 'base_transcripts.html' %}
-
-{% block extrabodyclass %}default dar{% endblock %}
+{% extends 'base.html' %}
+{% block extrabodyclass %}session white-bg{% endblock %}
 
 {% block title %}{{ session_date.day }} de {{ monthnames[session_date.month-1] }} de {{ session_date.year }} &mdash; Demo.cratica (Beta){% endblock %}
 
@@ -9,36 +8,37 @@
 {% block ogtype %}transcript{% endblock %}
 
 {% block content %}
-      <div id="content-box">
-        
-        <ul id="dar-tabs" class="tabs">
-          <li><span>Transcrição</span></li>
-        </ul>
-         
-        <h2 class="ribbon">{{ session_date.day }} de {{ monthnames[session_date.month-1] }} de {{ session_date.year }}</h2>
+  <header class="row">
+    <div class="small-12 columns text-center">
+	    <h2 class="ribbon">{{ session_date.day }} de {{ monthnames[session_date.month-1] }} de {{ session_date.year }}</h2>
+	  </div>
+  </header>
 
-        <p><strong>Nota:</strong> As transcrições ainda estão em desenvolvimento. Pode haver inconsistências e erros de processamento.</p>
-
-        {# {% if pdf_url %}<p>Consultar o <a href="{{ pdf_url }}">PDF oficial</a> ou a <a href="">versão web oficial</a> desta transcrição.</p>{% endif %} #}
-
-        <div class="intervention">
-          {% for entry in contents %}
-          <div class="entry">
-            <div class="left">
-              {{ entry.speaker }}
-            </div>
-            <div class="right">
-              <div class="entry-content">
-                {{ entry.text|safe }}
-              </div>
-            </div>
+  <section>
+    <div class="row">
+      <div class="small-12 columns">
+        <p class="alert-box secondary"><strong>Nota:</strong> As transcrições ainda estão em desenvolvimento. Pode haver inconsistências e erros de processamento.</p>
+	      {# {% if pdf_url %}<p>Consultar o <a href="{{ pdf_url }}">PDF oficial</a> ou a <a href="">versão web oficial</a> desta transcrição.</p>{% endif %} #}
+	    </div>
+	  </div>
+    <div class="intervention">
+      {% for entry in contents %}
+        <div class="entry row">
+          <div class="speaker medium-4 small-12 columns">
+            {{ entry.speaker }}
           </div>
-          {% endfor %}
-        </div>
-        
-        <p class="notice">Versão Beta: Esta informação pode estar incompleta e/ou conter incorrecções.</p>
-
-      </div><!-- /#content-box -->
+          <div class="entry-content medium-8 small-12 columns">
+            {{ entry.text|safe }}
+          </div>
+        </div><!-- /.entry -->
+      {% endfor %}
+	  </div><!-- /.intervention -->
+    <div class="row">
+      <div class="small-12 columns">
+  	  <p class="alert-box secondary">Versão Beta: Esta informação pode estar incompleta e/ou conter incorrecções.</p>
+  	</div>
+  </section>
+  
 {% endblock content %}
 
 
