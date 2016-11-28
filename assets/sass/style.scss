@@ -74,19 +74,18 @@ $dark-blue: #373e48; /* menu background */
 $ultra-darkblue: #151e2b;
 $white-blue: #dbdee3; /* homepage buttons */
 
+$ps: #d888bb;
+$psd: #cb8d41;
+$pcp: #c74343;
+$be: #671717;
+$cds-pp: #606798;
+$pev: #607454;
+
 /* Import Foundation
 */
 
 @import "partials/settings";
 @import "foundation";
-
-/* Mixins
-*/
-
-@mixin background-opacity($color, $opacity: 0.3) {
-  background: $color; /* fallback */
-  background: rgba($color, $opacity);
-}
 
 /* General
 */
@@ -95,13 +94,36 @@ html {
 	background: $dark-blue url(../img/backgrounds/bg-texture-blue.png) repeat 0 0;
 }
 
-ul.no-bullet li,
-ol.no-bullet li {
-  list-style-type: none !important;
+body.white-bg #content {
+  background: $white url(../img/backgrounds/bg-texture-black.png) repeat 0 0;
+  & > section {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+  }
 }
 
 .alert-box {
   font-family: $font-family-sans-serif;
+}
+
+span.profile-pic {
+  display: inline-block;
+  width: 83px;
+  height: 83px;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 2px solid $white-blue;
+  background-color: $white;
+  img {
+    width: 83px;
+    height: auto;
+    margin-top: 25px;
+    }
+}
+
+ul:not(.no-bullet) li {
+  list-style-type: "— ";
 }
 
 /* Top navigation
@@ -325,14 +347,16 @@ body.home {
 /* ribbon titles
 */
 
-header.row {
+header.row,
+header.row.collapse {
 	.ribbon {
 	  background-color: $white;
 	  clear: both;
-	  padding: 0.75rem 1.5rem 0.45rem;
-	  margin: 0 -1.5rem 1rem;
+	  padding: 0.75rem 0.5rem 0.45rem;
+	  margin: 0 -0.5rem 1rem;
 	  position: relative;
 	  box-shadow: 2px 2px 0 rgba($black,0.2);
+	  box-sizing: content-box;
 
 	  &:before,
 	  &:after {
@@ -362,9 +386,92 @@ header.row {
 
 .session #content {
   font-family: $font-family-serif;
-  background: $white url(../img/backgrounds/bg-texture-black.png) repeat 0 0;
   box-shadow: 2px 2px 3px rgba($black,0.5);
   padding-top: 2rem;
+}
+
+/* MP page
+*/
+
+body.mp {
+  
+  #mp-header {
+    h2 {
+      line-height: 1;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      span {
+        display: inline-block;
+        vertical-align: middle;
+        small {
+          display: inline-block;
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+
+  ul ul {
+    margin-bottom: 1rem;
+  }
+  
+  dl {
+    display: table;
+    clear: both;
+    dt {
+      display: inline-block;
+      float: left;
+      clear: both;
+      min-width: 11rem;
+      margin-right: 1rem;
+    }
+    dd {
+      display: inline-block;
+      float: left;
+    }
+  }
+    
+  table.mandates {
+    border-spacing: 0 0.45rem;
+    border-collapse: collapse;
+    width: 100%;
+    
+    th {
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    td {
+      border-top: 2px solid $ultralight-blue;
+      &.party::before {
+        content: "";
+        background-color: $cds-pp;
+        display: inline-block;
+        margin: 0 0.3125rem 0 0;
+        height: 0.625rem;
+        width: 0.625rem;
+        border-radius: 0.625rem;
+        vertical-align: middle;
+      }
+      &.ps::before { background-color: $ps; }
+      &.psd::before { background-color: $psd; }
+      &.pcp::before { background-color: $pcp; }
+      &.be::before { background-color: $be; }
+      &.cds-pp::before { background-color: $cds-pp; }
+      &.pev::before { background-color: $pev; }
+      small {
+        font-size: 85%;
+        font-weight: 700;
+        opacity: 0.6;
+        margin-left: 1rem;
+      }
+      a {
+        display: inline-block;
+        border-bottom: 1px solid $ultralight-blue;
+        margin-right: 0.45rem;
+      }
+    }
+  }
+  
 }
 
 /* Footer
