@@ -55,7 +55,7 @@ def generate_site(fast_run):
 
     log.info("Generating MP index...")
     mps = generate_mp_list()
-    context = {"mps": mps}
+    context = {"mps": mps, 'page_name': 'deputados'}
     render_template_into_file(env, 'mp_list.html', "deputados/index.html", context)
 
     gov_data = get_gov_dataset()
@@ -93,7 +93,7 @@ def generate_site(fast_run):
             m['end_date'] = dateparser.parse(m['end_date'])
             # nice effect: if no end date, set to today
 
-        context = {'mp': mp, 'l': None}
+        context = {'mp': mp, 'l': None, 'page_name': 'deputados'}
         filename = os.path.join(MPS_PATH, mp['slug'], 'index.html')
         render_template_into_file(env, 'mp_detail.html', filename, context)
 
@@ -106,6 +106,7 @@ def generate_site(fast_run):
                    'year_number': year_number,
                    'all_years': all_years,
                    'datedict': datedict,
+                   'page_name': 'sessoes',
                    }
         target_dir = os.path.join(TRANSCRIPTS_PATH + "%s/" % year_number)
         filename = target_dir + "index.html"
@@ -118,6 +119,7 @@ def generate_site(fast_run):
                'year_number': year_number,
                'all_years': all_years,
                'datedict': datedict,
+               'page_name': 'sessoes',
                }
     render_template_into_file(env, 'day_list.html', TRANSCRIPTS_PATH + 'index.html', context)
 
@@ -143,6 +145,7 @@ def generate_site(fast_run):
                        'text': contents,
                        'monthnames': MESES,
                        'pdf_url': 'xpto',
+                       'page_name': 'sessoes',
                        }
             if info:
                 context['session_info'] = info
@@ -150,6 +153,7 @@ def generate_site(fast_run):
         elif type(contents) == dict:
             contents['session_date'] = dateparser.parse(contents['session_date'])
             contents['monthnames'] = MESES
+            contents['page_name'] = 'sessoes'
             # usar entradas do .json como contexto
             render_template_into_file(env, 'day_detail.html', filename, contents)
 
