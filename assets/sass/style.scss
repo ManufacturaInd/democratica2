@@ -99,6 +99,7 @@ body.white-bg #content {
   & > section {
     padding-left: 1rem;
     padding-right: 1rem;
+    padding-bottom: 1rem;
   }
 }
 
@@ -397,6 +398,8 @@ body.mp {
   #mp-header {
     h2 {
       line-height: 1;
+      padding-left: 1rem;
+      padding-right: 1rem;
       span {
         display: inline-block;
         vertical-align: middle;
