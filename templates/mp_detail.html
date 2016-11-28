@@ -10,167 +10,171 @@
 {% block ogdescription %}Dados sobre {{ mp.shortname }} no Demo.cratica, a forma fácil de ler o Parlamento.{% endblock %}
 
 {% block content %}
-    <div id="content-box">
-    
-      {#
-      <ul id="mp-tabs" class="tabs">
-        <li><span>Geral</span></li>
-      </ul>
-      #}
-      
-      <div id="mp-header">
-        {% if mp.photo_url %}
-          <p class="mp-photo">
-            <img src="{{ mp.photo_url }}" alt="{{ mp.shortname }}" />
-          </p>
-        {% endif %}
-        <h2>
-	<small> <img src="/media/img/parties/{{ mp.party|lower }}.png" alt="{{ mp.party }}" /></small>
-          {{ mp.shortname }}
-        </h2>
-      </div>
-      
-      <div class="mp-information">
-        <ul class="mp-details mp-details-left">
-          <li>
-            <h4>Dados</h4>
-            <ul>
-              <li class="single-field"><p>Nome completo:</p> <h5>{{ mp.name }}</h5></li>
-              <li class="single-field"><p>Partido:</p> <h5>{{ mp.party }}</h5></li>
-              <li class="single-field"><p>Data de nascimento:</p> <h5>{{ mp.birthdate }}</h5></li>
-              <li class="single-field"><p>Profissão:</p> <h5>{{ mp.occupation }}</h5></li>
-            </ul>
-          </li>
-          
-          <li>
-            <h4>Mandatos</h4>
-            <ul>
-              {% for mandate in mp.mandates|sort(reverse=True, attribute='legislature') %}
-              <li>
+
+  <header id="mp-header" class="row">
+    <div class="small-12 columns ribbon">
+          <h2>
+            {% if mp.photo_url %}
+              <span class="profile-pic"><img src="{{ mp.photo_url }}" alt="{{ mp.shortname }}"></span>
+            {% endif %}
+            <span>
+              <small><img src="/assets/img/parties/{{ mp.party|lower }}.png" alt="{{ mp.party }}"></small>
+              {{ mp.shortname }}
+            </span>
+          </h2>
+    </div>
+  </header>
+
+
+  <section>
+    <div class="row">
+      <div class="small-12 columns">    
+        <h3>Dados</h3>
+        <dl>
+          <dt>Nome completo</dt><dd>{{ mp.name }}</dd>
+          <dt>Partido</dt><dd>{{ mp.party }}</dd>
+          <dt>Data de nascimento</dt><dd>{{ mp.birthdate }}</dd>
+          <dt>Profissão</dt><dd>{{ mp.occupation }}</dd>
+        </dl>
+        <h3>Mandatos</h3>
+        <table class="mandates">
+          <thead>
+            <tr>
+              <th>Legislatura</th>
+              <th>Partido</th>
+              <th>Círculo</th>
+              <th>Detalhes</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for mandate in mp.mandates|sort(reverse=True, attribute='legislature') %}
+              <tr>
                 {% if mandate.end_date %}
-                {{ mandate.legislature }}ª Leg. &ndash; {{ mandate.party }} &ndash; {{ mandate.constituency }} (de {{ mandate.start_date.year }} a {{ mandate.end_date.year }})
+                  <td>{{ mandate.legislature }}ª <small>{{ mandate.start_date.year }}&mdash;{{ mandate.end_date.year }}</small></td>
+                  <td class="party {{ mp.party|lower }}">{{ mandate.party }}</td>
+                  <td>{{ mandate.constituency }}</td>
                 {% else %}
-                {{ mandate.legislature }}ª Leg. &ndash; {{ mandate.party }} &ndash; {{ mandate.constituency }} (desde {{ mandate.start_date|date }})
+                  <td>{{ mandate.legislature }}ª <span>{{ mandate.start_date|date }}&mdash;</span></td>
+                  <td>{{ mandate.party }}</td>
+                  <td>{{ mandate.constituency }}</td>
                 {% endif %}
-                <a href="{{ mandate.activity_url }}">Atividade</a> {% if mandate.interest_url %}<a href="{{ mandate.interest_url }}">Registo de interesses</a>{% endif %}
-              </li>
-              {% endfor %}
-            </ul>
-          </li>
-
-          <li>
-            <h4>Habilitações e cargos</h4>
-            <ul>
-              {% if mp.education %}
-              <li><h5>Habilitações Literárias</h5></li> 
-              {% for item in mp.education %}
-                <li>{{ item }}</li>
-              {% endfor %}
-              {% endif %}
-
-              {% if mp.current_jobs %}
-              <li><h5>Cargos atuais</h5></li> 
-              {% for item in mp.current_jobs %}
-                <li>{{ item }}</li>
-              {% endfor %}
-              {% endif %}
-
-              {% if mp.commissions %}
-              <li><h5>Comissões Parlamentares</h5></li> 
-              {% for item in mp.commissions %}
-                <li>{{ item }}</li>
-              {% endfor %}
-              {% endif %}
-
-            </ul>
-          </li>
-
-        </ul>
+                <td>
+                  <a href="{{ mandate.activity_url }}">Atividade</a>
+                  {% if mandate.interest_url %}
+                    <a href="{{ mandate.interest_url }}">Registo de interesses</a>
+                  {% endif %}
+                </td>
+              </tr>
+          {% endfor %}
+          </tbody>
+        </table>
         
-        <ul class="mp-details">
-
-          {% if mp.govposts %}
-          <li>
-            <h4>Cargos governamentais</h4>
-            <ul>
-              {% for p in mp.govposts %}
-              <li>G.C. {{ p.gov.number }} ({{ p.gov.start_date|date }}-{{ p.gov.end_date|date }}): <strong>{{ p.post }}</strong> 
-                {% if p.gov.start_date != p.start_date and p.gov.end_date != p.end_date %}(desde {{ p.start_date|date }} até {{ p.end_date|date }})
-                {% else %}
-                {% if p.gov.start_date != p.start_date %}(desde {{ p.start_date|date }}){% endif %}
-                {% if p.gov.end_date != p.end_date %}(até {{ p.end_date|date }}){% endif %}
-                {% endif %}
-              </li>
-              {% endfor %}
-            </ul>
-          </li>
+        <h3>Habilitações e cargos</h3>
+        <ul class="no-bullet">
+          {% if mp.education %}
+            <li>
+              <strong>Habilitações Literárias</strong>
+              <ul>
+                {% for item in mp.education %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            </li>
           {% endif %}
-
-          {% if mp.jobs %}
-          <li><h5>Cargos exercidos</h5></li> 
-          {% for item in mp.jobs %}
-            <li>{{ item }}</li>
-          {% endfor %}
+          {% if mp.current_jobs %}
+            <li>
+              <strong>Cargos atuais</strong>
+              <ul>
+                {% for item in mp.current_jobs %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            </li>
           {% endif %}
-
-          {% if mp.awards %}
-          <li><h5>Condecorações</h5></li> 
-          {% for item in mp.awards %}
-            <li>{{ item }}</li>
-          {% endfor %}
+          {% if mp.commissions %}
+            <li><strong>Comissões Parlamentares</strong>
+              <ul>
+                {% for item in mp.commissions %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            </li>
           {% endif %}
+        </ul>   
+        {% if mp.govposts %}
+          <h4>Cargos Governamentais</h4>
+          <ul>
+            {% for p in mp.govposts %}
+            <li>G.C. {{ p.gov.number }} ({{ p.gov.start_date|date }}-{{ p.gov.end_date|date }}): <strong>{{ p.post }}</strong> 
+              {% if p.gov.start_date != p.start_date and p.gov.end_date != p.end_date %}(desde {{ p.start_date|date }} até {{ p.end_date|date }})
+              {% else %}
+              {% if p.gov.start_date != p.start_date %}(desde {{ p.start_date|date }}){% endif %}
+              {% if p.gov.end_date != p.end_date %}(até {{ p.end_date|date }}){% endif %}
+              {% endif %}
+            </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
 
+        {% if mp.jobs %}
+          <h4>Cargos exercidos</h4>
+          <ul>
+            {% for item in mp.jobs %}
+              <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
 
+        {% if mp.awards %}
+          <h4>Condecorações</h4> 
+          <ul>
+            {% for item in mp.awards %}
+              <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
 
-
-          {% if mp.favourite_word %}
-          <li>
+        {% if mp.favourite_word %}
           <h4>Factos</h4>
           <ul>
             <li>Segundo as nossas contas, a palavra preferida de {{ mp.shortname }} é <strong>{{ mp.favourite_word }}</strong>.
           </ul>
-          </li>
-          {% endif %}
+        {% endif %}
 
-          <li>
-          {% if mp.news %}
+        {% if mp.news %}
           <h4>Notícias recentes</h4>
             <ul>
               {% for newsobj in mp.news %}
               <li><a href="{{ newsobj.url }}">{{ newsobj.title }}</a><small> {{ newsobj.source }}</small></li>
               {% endfor %}
             </ul>
-          </li>
-          {% endif %}
-  
-          <li>
-            <h4>Ligações</h4>
-            <ul>
-              <li><a href="http://www.parlamento.pt/DeputadoGP/Paginas/Biografia.aspx?BID={{ mp.id }}">Parlamento.pt</a></li>
-              {% if mp.email %}<li class="email"><a href="mailto:{{ mp.email }}" title="{{ mp.email }}" rel="tipsy">Enviar e-mail</a></li>{% endif %}
-              {% if mp.website_url %}<li><a href="{{ mp.website_url }}">Website</a></li>{% endif %}
-              {% if mp.blog_url %}<li><a href="{{ mp.blog_url }}">Blog</a></li>{% endif %}
+        {% endif %}
 
-              {% if mp.wikipedia_url %}<li><a href="{{ mp.wikipedia_url }}">Wikipedia</a></li>{% endif %}
-              {% if mp.twitter_url %}<li><a href="{{ mp.twitter_url }}">Twitter</a></li>{% endif %}
-            </ul>
-          </li>
+        <h4>Ligações</h4>
+        <ul class="no-bullet">
+          <li><a href="http://www.parlamento.pt/DeputadoGP/Paginas/Biografia.aspx?BID={{ mp.id }}">Parlamento.pt</a></li>
+          {% if mp.email %}<li class="email"><a href="mailto:{{ mp.email }}" title="{{ mp.email }}" rel="tipsy">Enviar e-mail</a></li>{% endif %}
+          {% if mp.website_url %}<li><a href="{{ mp.website_url }}">Website</a></li>{% endif %}
+          {% if mp.blog_url %}<li><a href="{{ mp.blog_url }}">Blog</a></li>{% endif %}
 
-          {% if mp.tweets %}
-          <li class="twitter">
-            <h4>Últimos tweets</h4>
-            <ul>
-              {% for t in mp.tweets %}
-              <li><a href="{{ l.twitter_url }}/statuses/{{ t.id }}">#</a> {{ t.text }} <small>há {{ t.created_at }}</small></li>
-              {% endfor %}
-            </ul>
-          </li>
-          {% endif %}
+          {% if mp.wikipedia_url %}<li><a href="{{ mp.wikipedia_url }}">Wikipedia</a></li>{% endif %}
+          {% if mp.twitter_url %}<li><a href="{{ mp.twitter_url }}">Twitter</a></li>{% endif %}
         </ul>
-        
-      </div> <!-- /mp-information -->
 
-      <p class="notice">Versão Beta: Esta informação pode estar incompleta e/ou conter incorrecções.</p>
+        {% if mp.tweets %}
+          <h4>Últimos tweets</h4>
+          <ul class="no-bullet">
+            {% for t in mp.tweets %}
+            <li><a href="{{ l.twitter_url }}/statuses/{{ t.id }}">#</a> {{ t.text }} <small>há {{ t.created_at }}</small></li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+    </div><!-- /.row -->
 
-    </div><!-- /#content-box -->
+    <div class="row">
+      <div class="small-12 columns">
+	    <p class="alert-box secondary">Versão Beta: Esta versão pode estar incompleta e/ou conter incorrecções.</p>
+	  </div><!-- /.row-->
+
+  </section>
 {% endblock %}

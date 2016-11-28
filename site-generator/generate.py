@@ -13,7 +13,7 @@ from utils_dataset import get_gov_dataset, get_date_dataset, get_govpost_dataset
 OUTPUT_DIR = "dist"
 TRANSCRIPTS_PATH = "sessoes/"
 MPS_PATH = "deputados/"
-PHOTO_URL_BASE = '/media/img/deputados/'
+PHOTO_URL_BASE = '/assets/img/deputados/'
 TEMPLATE_DIR = "templates/"
 
 MESES = ['janeiro', 'fevereiro', u'março', 'abril', 'maio', 'junho', 'julho',
