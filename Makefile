@@ -24,11 +24,15 @@
 # See https://github.com/jplusplus/resonate2014/blob/master/Makefile for
 # the basis from where this file was created.
 
-# your SSH target dir for rsync
+# live
 SSH_HOSTNAME = democratica
 SSH_DIR = /web/demo.cratica.org/public_html/
+# staging
+STAGING_HOSTNAME = wf
+STAGING_DIR = ~/webapps/democratica_staging/
 
 SSH_PATH = $(SSH_HOSTNAME):$(SSH_DIR)
+STAGING_PATH = $(STAGING_HOSTNAME):$(STAGING_DIR)
 # server port for local server
 SERVER_PORT = 8002
 MAIN_SCRIPT = $(wildcard site-generator/generate.py)
@@ -49,11 +53,17 @@ install:
 serve:
 	. `pwd`/.env/bin/activate; cd dist && livereload --host 0.0.0.0 --port $(SERVER_PORT)
 
-upload:
+live-upload:
 	rsync --compress --progress --recursive --update --delete dist/ $(SSH_PATH)
 
-fakeupload:
+live-fakeupload:
 	rsync --dry-run --compress --progress --recursive --update --delete dist/ $(SSH_PATH)
+
+upload:
+	rsync --compress --progress --recursive --update --delete dist/ $(STAGING_PATH)
+
+fakeupload:
+	rsync --dry-run --compress --progress --recursive --update --delete dist/ $(STAGING_PATH)
 
 clean:
 	rm -fr dist
