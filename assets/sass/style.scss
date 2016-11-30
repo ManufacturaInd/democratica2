@@ -418,6 +418,7 @@ body.mp {
   dl {
     display: table;
     clear: both;
+    line-height: 1.2;
     dt {
       display: inline-block;
       float: left;
@@ -428,6 +429,7 @@ body.mp {
     dd {
       display: inline-block;
       float: left;
+      margin-bottom: 0.25rem;
     }
   }
     
