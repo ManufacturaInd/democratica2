@@ -10,25 +10,12 @@
         <strong>Sessões parlamentares em</strong>
         <button id="year-button" href="#" data-dropdown="year-drop" aria-controls="year-drop" aria-expanded="false" class="dropdown">{{ year_number }}</button>
         <ul id="year-drop" data-dropdown-content class="f-dropdown" aria-hidden="true">
-          {% for y in all_years %}
+          {% for y in all_years|sort(reverse=True) %}
           <li><a {% if y == year %}class="selected"{% endif %} href="/sessoes/{{ y }}/">{{ y }}</a></li>
           {% endfor %}
         </ul>
       </div>
     </div><!-- /.row-->
-    
-    <!-- previous template -->
-    <div class="row">
-     <div class="year-select large-12 columns">
-       <h2>Sessões parlamentares em {{ year_number }}</h2>
-       <ul class="year-nav inline-list">
-         {% for y in all_years %}
-           <li><a {% if y == year %}class="selected"{% endif %} href="/sessoes/{{ y }}/">{{ y }}</a></li>
-         {% endfor %}
-       </ul>
-      </div>
-    </div><!-- /.row-->
-    <!-- end template -->
 
     <div class="row">
       <div class="large-12 columns">
