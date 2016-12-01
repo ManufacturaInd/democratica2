@@ -16,7 +16,7 @@ MPINFO_DATASET_FILE = os.path.expanduser("~/datasets-central/parlamento-deputado
 GOV_DATASET_FILE = os.path.expanduser("~/datasets-central/governos/data/governos-pm.csv")
 GOVPOST_DATASET_FILE = os.path.expanduser("~/datasets-central/governos/data/governos-cargos.csv")
 TRANSCRIPTS_DIR = os.path.expanduser("~/datasets/dar-transcricoes-txt/data/")
-TRANSCRIPT_DATASET_FILE = os.path.expanduser("~/datasets-central/parlamento-datas_sessoes/data/datas-debates.csv")
+TRANSCRIPT_DATASET_FILE = os.path.expanduser("~/datasets-central/parlamento-datas_sessoes/data/datas-debates-novo.csv")
 TRANSCRIPT_DATASET_FILE_2 = os.path.expanduser("~/datasets-central/parlamento-datas_sessoes/data/datas-parlamento.csv")
 
 
@@ -112,6 +112,14 @@ def generate_datedict():
                     has_session = False
                 datedict[year][month][day_number] = {'weekday': day_date.weekday(),
                                                      'has_session': has_session}
+                if has_session:
+                    session_glob = TRANSCRIPTS_DIR + "/*_%d-%02d-%02d.json" % (year, month, day_number)
+                    if glob.glob(session_glob):
+                        # sacar a topword
+                        s = json.loads(open(glob.glob(session_glob)[0], 'r').read())
+                        if 'stats' in s:
+                            topword = s['stats']['topwords']['session'][0][0]
+                            datedict[year][month][day_number]['topword'] = topword
     return datedict
 
 

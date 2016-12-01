@@ -34,11 +34,7 @@
                 {% endif %}
                 {% if year[month][day]['has_session'] == True %}
                 <li>
-                <a href="{{ "/sessoes/%d/%02d/%02d/" % (year_number, month, day) }}" class="session-yes
-                  {% if year[month][day]['weekday'] in [0,6] %} 
-                    weekend
-                  {% endif %}
-                  "{# rel="tipsy" title="Palavra do dia <strong> {{ words|lookup:day }}</strong>"#}>{{ day }}</a>
+                <a href="{{ "/sessoes/%d/%02d/%02d/" % (year_number, month, day) }}" class="session-yes  {% if year[month][day]['weekday'] in [0,6] %}weekend {% endif %}" {% if year[month][day]['topword'] %} rel="tipsy" title="{{ year[month][day]['topword'] }}"{% endif %}>{{ day }}</a>
                 </li>
                 {% else %}
                   <li>

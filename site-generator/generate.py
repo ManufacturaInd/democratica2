@@ -170,7 +170,7 @@ def generate_site(fast_run):
 
         if fast_run:
             COUNTER += 1
-            if COUNTER > 20:
+            if COUNTER > 200:
                 break
 
 
