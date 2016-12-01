@@ -74,6 +74,15 @@ def get_govpost_dataset():
 
 
 def generate_datedict():
+    '''
+    Creates a dict with details for every day:
+    * which weekday it is
+    * whether there was a session on that day
+
+    It's laid out in year - month - day - details order.
+    Example:
+    OrderedDict([(1976, {1: {1: {'weekday': 3, 'has_session': False}, 2: {'weekday': 4, 'has_session': False}, 3: {'weekday': 5, 'has_session': False}, .....
+    '''
     # process dates into a year->dates dict
     datedict = OrderedDict()
     data = get_date_dataset()
