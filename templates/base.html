@@ -46,8 +46,8 @@
             </li>
           </ul>
           <ul class="left">
-            <li><a href="/deputados/">Deputados</a></li>
-            <li><a href="/sessoes/">Sessões</a></li>
+            <li {% if page_name == "deputados" %} class="active" {% endif %}><a href="/deputados/">Deputados</a></li>
+            <li {% if page_name == "sessoes" %} class="active" {% endif %}><a href="/sessoes/">Sessões</a></li>
           </ul>
         </section>
       </nav>
