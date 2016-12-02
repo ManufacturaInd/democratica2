@@ -153,6 +153,9 @@ def generate_site(fast_run):
         if type(contents) in (str, unicode):
             context = {'session_date': dateobj,
                        'year_number': year_number,
+                       'leg': leg,
+                       'sess': sess,
+                       'num': num,
                        'text': contents,
                        'monthnames': MESES,
                        'pdf_url': 'xpto',
