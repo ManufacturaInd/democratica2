@@ -36,10 +36,10 @@
           <ul class="right">
             <li class="has-form">
               <div class="row collapse">
-                <div class="large-8 small-9 columns">
+                <div class="large-7 small-5 columns">
                   <input placeholder="Em construção!" type="text">
                 </div>
-                <div class="large-4 small-3 columns">
+                <div class="large-5 small-5 columns">
                   <a href="#" class="button expand">Pesquisar</a>
                 </div>
               </div>
@@ -75,23 +75,20 @@
     </footer> <!-- /#footer -->
 
     <!-- bower:js -->
-    <script src="/bower_components/jquery/dist/jquery.js"></script>
-    <script src="/bower_components/modernizr/modernizr.js"></script>
-    <script src="/bower_components/fastclick/lib/fastclick.js"></script>
-    <script src="/bower_components/jquery.cookie/jquery.cookie.js"></script>
-    <script src="/bower_components/jquery-placeholder/jquery.placeholder.js"></script>
-    <script src="/bower_components/foundation/js/foundation.js"></script>
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../bower_components/what-input/what-input.js"></script>
+    <script src="../bower_components/foundation-sites/dist/foundation.js"></script>
     <!-- endbower -->
-    
+            
     <script type="text/javascript">
-      $(document).foundation()
+      jQuery(document).foundation()
     </script>
-
+    
     {% block extrascripts %}{% endblock %}
     
     <script type="text/javascript">
     var _paq = _paq || [];
-    _paq.push(["setCookieDomain", "*.centraldedados.pt"]);
+    _paq.push(["setCookieDomain", "*.demo.cratica.org"]);
     _paq.push(['trackPageView']);
     _paq.push(['enableLinkTracking']);
     (function() {

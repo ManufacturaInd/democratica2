@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import os
+import glob
 import codecs
 import click
 import jinja2
 from zenlog import log
 from dateutil import parser as dateparser
 
-from utils import create_dir, format_date
+from utils import create_dir, format_date, quick_hash_file
 from utils_dataset import get_gov_dataset, get_date_dataset, get_govpost_dataset, generate_datedict, generate_mp_list, get_session_contents, get_session_info
 
 OUTPUT_DIR = "dist"
@@ -33,6 +34,16 @@ def render_template_into_file(env, templatename, filename, context=None, place_i
     outfile = codecs.open(filename, 'w', 'utf-8')
     outfile.write(html)
     outfile.close()
+
+
+def create_hash_list(globs):
+    '''Accepts a list of glob pattern strings and returns a dictionary with filename/md5hash pairs.'''
+    hashes = {}
+    for g in globs:
+        filenames = glob.glob(g)
+        for fn in filenames:
+            hashes[fn] = quick_hash_file(fn)
+    return hashes
 
 
 @click.option("-f", "--fast-run", help="Generate only a few transcripts to save time", is_flag=True, default=False)
@@ -142,6 +153,9 @@ def generate_site(fast_run):
         if type(contents) in (str, unicode):
             context = {'session_date': dateobj,
                        'year_number': year_number,
+                       'leg': leg,
+                       'sess': sess,
+                       'num': num,
                        'text': contents,
                        'monthnames': MESES,
                        'pdf_url': 'xpto',
@@ -151,15 +165,15 @@ def generate_site(fast_run):
                 context['session_info'] = info
             render_template_into_file(env, 'day_detail_plaintext.html', filename, context)
         elif type(contents) == dict:
+            # usar entradas do .json como contexto
             contents['session_date'] = dateparser.parse(contents['session_date'])
             contents['monthnames'] = MESES
             contents['page_name'] = 'sessoes'
-            # usar entradas do .json como contexto
             render_template_into_file(env, 'day_detail.html', filename, contents)
 
         if fast_run:
             COUNTER += 1
-            if COUNTER > 20:
+            if COUNTER > 200:
                 break
 
 
