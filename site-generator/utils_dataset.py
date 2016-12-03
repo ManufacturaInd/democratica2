@@ -11,10 +11,6 @@ from dateutil import parser as dateparser
 from collections import OrderedDict
 from utils import slugify
 
-MP_DATASET_FILE = os.path.expanduser("~/datasets-central/parlamento-deputados/data/deputados.json")
-MPINFO_DATASET_FILE = os.path.expanduser("~/datasets-central/parlamento-deputados/data/deputados-extra.csv")
-GOV_DATASET_FILE = os.path.expanduser("~/datasets-central/governos/data/governos-pm.csv")
-GOVPOST_DATASET_FILE = os.path.expanduser("~/datasets-central/governos/data/governos-cargos.csv")
 TRANSCRIPTS_DIR = os.path.expanduser("~/datasets/dar-transcricoes-txt/data/")
 TRANSCRIPT_DATASET_FILE = os.path.expanduser("~/datasets-central/parlamento-datas_sessoes/data/datas-debates-novo.csv")
 TRANSCRIPT_DATASET_FILE_2 = os.path.expanduser("~/datasets-central/parlamento-datas_sessoes/data/datas-parlamento.csv")
@@ -43,34 +39,6 @@ def get_date_dataset():
             # print newrow
 
     return data
-
-
-def get_gov_dataset():
-    data = csv.reader(open(GOV_DATASET_FILE, 'r'))
-    # skip first row
-    data.next()
-    return list(data)
-
-
-def get_mp_dataset():
-    data = json.loads(open(MP_DATASET_FILE, 'r').read())
-    info_data = csv.reader(open(MPINFO_DATASET_FILE, 'r'))
-    info_data.next()
-    for row in info_data:
-        mp = data[row[0]]
-        mp['email'] = row[3]
-        mp['wikipedia_url'] = row[4]
-        mp['twitter_url'] = row[6]
-        mp['blog_url'] = row[7]
-        mp['website_url'] = row[8]
-    return data
-
-
-def get_govpost_dataset():
-    data = csv.reader(open(GOVPOST_DATASET_FILE, 'r'))
-    # skip first row
-    data.next()
-    return list(data)
 
 
 def generate_datedict():
@@ -121,26 +89,6 @@ def generate_datedict():
                             topword = s['stats']['topwords']['session'][0][0]
                             datedict[year][month][day_number]['topword'] = topword
     return datedict
-
-
-def generate_mp_list(only_active=True):
-    mps = []
-    data = get_mp_dataset()
-    for id in data:
-        mp = data[id]
-        if only_active and not mp['active']:
-            continue
-        mp['slug'] = slugify(mp['shortname'])
-        if 'occupation' in mp and len(mp['occupation']) == 1:
-            mp['occupation'] = mp['occupation'][0]
-        mps.append(mp)
-    return mps
-
-
-def get_mp_from_shortname(shortname):
-    mps = generate_mp_list()
-    mp = filter(lambda x: x['shortname'] == shortname, mps)[0]
-    return mp
 
 
 def get_session_contents(leg, sess, num):
