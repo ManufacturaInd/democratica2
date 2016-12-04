@@ -20,11 +20,18 @@
         <p class="alert-box secondary"><strong>{{ leg }}ª</strong> Legislatura &mdash; <strong>{{ sess }}ª</strong> Sessão Legislativa &mdash; Diário n.º <strong>{{ num }}</strong></p>
 	    </div>
 	  </div>
+    {{ speakers }}
     <div class="intervention">
       {% for entry in contents %}
         <div class="entry row">
           <div class="speaker medium-4 small-12 columns">
-            {{ entry.speaker }}
+            {% if entry['speaker'] in speakers %}
+              {% with speaker = speakers[entry['speaker']] %}
+              <a href="{{ speaker.url_democratica }}">{{ speaker.shortname }}</a>
+              {% endwith %}
+            {% else %}
+              {{ entry.speaker }}
+            {% endif %}
           </div>
           <div class="entry-content medium-8 small-12 columns">
             {{ entry.text|safe }}
