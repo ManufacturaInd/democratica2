@@ -25,40 +25,67 @@
             <div class="month">
               <h4><abbr title="{{ month }}">{{ month }}</abbr></h4>
               <ul class="no-bullet">
-              {% strip %}
               {% for day in year[month] %}
                 {% if day == 1 %}
                   {%+ for x in range(year[month][day].weekday) %} 
-                  <li><span class="empty">&nbsp;</span></li>
+                  <li><span class="day empty">&nbsp;</span></li>
                   {% endfor %}
                 {% endif %}
                 {% if year[month][day]['has_session'] == True %}
                 <li>
-                  <a href="{{ "/sessoes/%d/%02d/%02d/" % (year_number, month, day) }}" class="session-yes  {% if year[month][day]['weekday'] in [0,6] %}weekend {% endif %}">
-                    
+                  <a href="{{ "/sessoes/%d/%02d/%02d/" % (year_number, month, day) }}" class="session-yes  {% if year[month][day]['weekday'] in [0,6] %}weekend{% endif %}">
+                    {% if year[month][day]['topword'] %}
+                      <span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover='false' tabindex=1 title="{{ year[month][day]['topword'] }}">
+                        {{ day }}
+                      </span>
+                    {% else %}
                       {{ day }}
-
+                    {% endif %}
                   </a>
                 </li>
                 {% else %}
                   <li>
-                    <span {% if year[month][day]['weekday'] in [0,6] %}
-                      class="weekend" 
-                    {% endif %}>
+                    <span class="day  {% if year[month][day]['weekday'] in [0,6] %} weekend{% endif %}">
                       {{ day }}
                     </span>
                   </li>
                 {% endif %}
               {% endfor %}
-              {% endstrip %}
               </ul>
             </div><!-- /month -->
             {% endfor %}
-          </div><!-- /year-->
-        </div><!-- /calendar-->
+          </div><!-- /.year -->
+        </div><!-- /#calendar -->
       </div>
     </div><!-- /.row--> 
-
+    
+    <!-- Mobile calendar -->
+     <div id="list-calendar" class="row">
+        <div class="year small-12 columns">
+          {% for month in year %}
+          <div class="month">
+            <ul class="no-bullet text-center">
+            {% for day in year[month] %}
+              {% if year[month][day]['has_session'] == True %}
+              <li>
+                <a href="{{ "/sessoes/%d/%02d/%02d/" % (year_number, month, day) }}" class="session-yes  {% if year[month][day]['weekday'] in [0,6] %}weekend{% endif %}">
+                  {% if year[month][day]['topword'] %}
+                    <span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover='false' tabindex=1 title="{{ year[month][day]['topword'] }}">
+                      {{ day }} {{ month }} {{ year_number }}
+                    </span>
+                  {% else %}
+                    {{ day }}
+                  {% endif %}
+                </a>
+              </li>
+              {% endif %}
+            {% endfor %}
+            </ul>
+          </div><!-- /month -->
+          {% endfor %}
+        </div><!-- /.year.columns -->
+      </div><!-- /#list-calendar .row-->
+    
   </section>
 
 {% endblock %}
