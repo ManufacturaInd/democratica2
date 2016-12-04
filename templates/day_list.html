@@ -8,8 +8,8 @@
     <div class="row">
       <div class="year-select large-12 columns">
         <strong>Sessões parlamentares em</strong>
-        <button id="year-button" href="#" data-dropdown="year-drop" aria-controls="year-drop" aria-expanded="false" class="dropdown">{{ year_number }}</button>
-        <ul id="year-drop" data-dropdown-content class="f-dropdown" aria-hidden="true">
+        <button id="year-button" class="button" href="#" type="button" data-toggle="year-drop">{{ year_number }}</button>
+        <ul id="year-drop" class="dropdown-pane" id="year-drop" data-dropdown>
           {% for y in all_years|sort(reverse=True) %}
           <li><a {% if y == year %}class="selected"{% endif %} href="/sessoes/{{ y }}/">{{ y }}</a></li>
           {% endfor %}
@@ -34,14 +34,20 @@
                 {% endif %}
                 {% if year[month][day]['has_session'] == True %}
                 <li>
-                <a href="{{ "/sessoes/%d/%02d/%02d/" % (year_number, month, day) }}" class="session-yes  {% if year[month][day]['weekday'] in [0,6] %}weekend {% endif %}" {% if year[month][day]['topword'] %} rel="tipsy" title="{{ year[month][day]['topword'] }}"{% endif %}>{{ day }}</a>
+                  <a href="{{ "/sessoes/%d/%02d/%02d/" % (year_number, month, day) }}" class="session-yes  {% if year[month][day]['weekday'] in [0,6] %}weekend {% endif %}">
+                    
+                      {{ day }}
+
+                  </a>
                 </li>
                 {% else %}
                   <li>
                     <span {% if year[month][day]['weekday'] in [0,6] %}
                       class="weekend" 
-                    {% endif %}
-                    {#rel="tipsy" title=""#}>{{ day }}</span></li>
+                    {% endif %}>
+                      {{ day }}
+                    </span>
+                  </li>
                 {% endif %}
               {% endfor %}
               {% endstrip %}
@@ -56,3 +62,7 @@
   </section>
 
 {% endblock %}
+
+{% block extrascripts %}
+{% endblock %}
+

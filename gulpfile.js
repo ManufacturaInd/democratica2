@@ -17,7 +17,7 @@ gulp.task('sass', function () {
       .pipe(sass({ 
         errLogToConsole: true,
         sourceComments: true,
-        includePaths: ['bower_components/foundation/scss']
+        includePaths: ['bower_components/foundation-sites/scss']
       }).on('error', sass.logError))
       .pipe(cleanCSS({compatibility: 'ie8'}))
       .pipe(gulp.dest('dist/assets/css'));
@@ -64,7 +64,7 @@ gulp.task('wiredep', function () {
             directory: 'bower_components',
             ignorePath: 'bower_components/'
         }))
-        .pipe(gulp.dest('assets/sass'));
+        .pipe(gulp.dest('assets/css'));
     gulp.src('assets/scripts/*.js')
         .pipe(wiredep({
             directory: 'bower_components',

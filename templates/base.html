@@ -23,9 +23,9 @@
     <meta property="og:type" content="{% block ogtype %}website{% endblock %}"/>
   </head>
   <body class="{% block extrabodyclass %}default{% endblock %}">
-    
+    <!--
     <div class="contain-to-grid main-menu">
-      <nav class="top-bar" role="navigation">
+      <nav class="top-bar">
         <ul class="title-area">
           <li class="name">
             <h1><a href="/">Demo.cratica</a></h1>
@@ -52,6 +52,34 @@
         </section>
       </nav>
     </div>
+    -->
+    
+<div id="main-menu">
+  <div class="column row">
+    <nav class="top-bar">
+      <div class="top-bar-title">
+        <span data-responsive-toggle="responsive-menu" data-hide-for="medium">
+          <button class="menu-icon" type="button" data-toggle></button>
+        </span>
+        <strong><a href="/">Demo.cratica</a></strong>
+      </div>
+      <div id="responsive-menu">
+        <div class="top-bar-left">
+          <ul class="menu">
+                <li {% if page_name == "deputados" %} class="active" {% endif %}><a href="/deputados/">Deputados</a></li>
+                <li {% if page_name == "sessoes" %} class="active" {% endif %}><a href="/sessoes/">Sessões</a></li>
+              </ul>
+        </div>
+        <div class="top-bar-right">
+          <ul class="menu">
+            <li><input type="search" placeholder="Em construção!"></li>
+            <li><button type="button" class="button">Pesquisar</button></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div><!-- /.row.column -->
+</div><!-- /#main-menu -->
     
     <div id="content" class="row collapse">
       {% block content %}{% endblock %}
@@ -79,9 +107,9 @@
     <script src="../bower_components/what-input/what-input.js"></script>
     <script src="../bower_components/foundation-sites/dist/foundation.js"></script>
     <!-- endbower -->
-            
-    <script type="text/javascript">
-      jQuery(document).foundation()
+    
+    <script>
+      $(document).foundation();
     </script>
     
     {% block extrascripts %}{% endblock %}
