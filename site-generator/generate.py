@@ -172,6 +172,8 @@ def generate_site(fast_run):
                'year_number': year_number,
                'all_years': all_years,
                'datedict': datedict,
+               'months': MESES,
+               'months_short': [m[:3] for m in MESES],
                'page_name': 'sessoes',
                }
     render_template_into_file(env, 'day_list.html', TRANSCRIPTS_PATH + 'index.html', context)

@@ -71,7 +71,7 @@
                 <a href="{{ "/sessoes/%d/%02d/%02d/" % (year_number, month, day) }}" class="session-yes  {% if year[month][day]['weekday'] in [0,6] %}weekend{% endif %}">
                   {% if year[month][day]['topword'] %}
                     <span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover='false' tabindex=1 title="{{ year[month][day]['topword'] }}">
-                      {{ day }} {{ month }} {{ year_number }}
+                      {{ day }} {{ months[month] }} {{ year_number }}
                     </span>
                   {% else %}
                     {{ day }}
