@@ -22,7 +22,7 @@
 	  </div>
     <div class="intervention">
       {% for entry in contents %}
-        <div class="entry row">
+        <div class="entry {{ entry.type }} row">
           <div class="speaker medium-4 small-12 columns">
             {% if entry['speaker'] in speakers %}
               {% with speaker = speakers[entry['speaker']] %}
