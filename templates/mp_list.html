@@ -9,7 +9,7 @@
   <section>
     <div id="mpsearch-list" class="row">
       <div id="mpsearch-box">
-        <input class="search" placeholder="Pesquisar..." />
+        <input id="mpsearch-input" class="search" placeholder="Pesquisar..." />
         <input id="mpsearch-active" type="checkbox" />
         <label for="mpsearch-active">Apenas deputados ativos</label>
         <button class="sort" data-sort="name">Ordenar por nome</button> 
@@ -76,6 +76,7 @@
 
     // Queremos apenas deputados ativos no início, ativar a checkbox
     $("#mpsearch-active").prop('checked', true).change();
+    $("#mpsearch-input").focus();
   });
   </script>
 {% endblock %}
