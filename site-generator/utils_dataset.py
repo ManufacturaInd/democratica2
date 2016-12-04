@@ -11,10 +11,6 @@ from dateutil import parser as dateparser
 from collections import OrderedDict
 from utils import slugify
 
-MP_DATASET_FILE = os.path.expanduser("~/datasets-central/parlamento-deputados/data/deputados.json")
-MPINFO_DATASET_FILE = os.path.expanduser("~/datasets-central/parlamento-deputados/data/deputados-extra.csv")
-GOV_DATASET_FILE = os.path.expanduser("~/datasets-central/governos/data/governos-pm.csv")
-GOVPOST_DATASET_FILE = os.path.expanduser("~/datasets-central/governos/data/governos-cargos.csv")
 TRANSCRIPTS_DIR = os.path.expanduser("~/datasets/dar-transcricoes-txt/data/")
 TRANSCRIPT_DATASET_FILE = os.path.expanduser("~/datasets-central/parlamento-datas_sessoes/data/datas-debates-novo.csv")
 TRANSCRIPT_DATASET_FILE_2 = os.path.expanduser("~/datasets-central/parlamento-datas_sessoes/data/datas-parlamento.csv")
@@ -43,34 +39,6 @@ def get_date_dataset():
             # print newrow
 
     return data
-
-
-def get_gov_dataset():
-    data = csv.reader(open(GOV_DATASET_FILE, 'r'))
-    # skip first row
-    data.next()
-    return list(data)
-
-
-def get_mp_dataset():
-    data = json.loads(open(MP_DATASET_FILE, 'r').read())
-    info_data = csv.reader(open(MPINFO_DATASET_FILE, 'r'))
-    info_data.next()
-    for row in info_data:
-        mp = data[row[0]]
-        mp['email'] = row[3]
-        mp['wikipedia_url'] = row[4]
-        mp['twitter_url'] = row[6]
-        mp['blog_url'] = row[7]
-        mp['website_url'] = row[8]
-    return data
-
-
-def get_govpost_dataset():
-    data = csv.reader(open(GOVPOST_DATASET_FILE, 'r'))
-    # skip first row
-    data.next()
-    return list(data)
 
 
 def generate_datedict():
@@ -123,27 +91,7 @@ def generate_datedict():
     return datedict
 
 
-def generate_mp_list(only_active=True):
-    mps = []
-    data = get_mp_dataset()
-    for id in data:
-        mp = data[id]
-        if only_active and not mp['active']:
-            continue
-        mp['slug'] = slugify(mp['shortname'])
-        if 'occupation' in mp and len(mp['occupation']) == 1:
-            mp['occupation'] = mp['occupation'][0]
-        mps.append(mp)
-    return mps
-
-
-def get_mp_from_shortname(shortname):
-    mps = generate_mp_list()
-    mp = filter(lambda x: x['shortname'] == shortname, mps)[0]
-    return mp
-
-
-def get_session_contents(leg, sess, num):
+def get_session_from_legsessnum(leg, sess, num):
     if 'S' in num:
         fnstart = "%02d-%d-%s" % (int(leg), int(sess), num)
     else:
@@ -182,3 +130,100 @@ def get_session_info(leg, sess, num):
     data = json.loads(text)
     del data['contents']
     return data
+
+
+# FIXME: Duplicate code from darparser
+
+MP_DATASET_FILE = os.path.expanduser("~/datasets-central/parlamento-deputados/data/deputados.json")
+MPINFO_DATASET_FILE = os.path.expanduser("~/datasets-central/parlamento-deputados/data/deputados-extra.csv")
+GOV_DATASET_FILE = os.path.expanduser("~/datasets-central/governos/data/governos-pm.csv")
+GOVPOST_DATASET_FILE = os.path.expanduser("~/datasets-central/governos/data/governos-cargos.csv")
+
+
+def get_mp_dataset():
+    data = json.loads(open(MP_DATASET_FILE, 'r').read())
+    info_data = csv.reader(open(MPINFO_DATASET_FILE, 'r'))
+    info_data.next()
+    for row in info_data:
+        mp = data[row[0]]
+        mp['email'] = row[3]
+        mp['wikipedia_url'] = row[4]
+        mp['twitter_url'] = row[6]
+        mp['blog_url'] = row[7]
+        mp['website_url'] = row[8]
+    return data
+
+
+def get_gov_dataset():
+    data = csv.reader(open(GOV_DATASET_FILE, 'r'))
+    # skip first row
+    data.next()
+    return list(data)
+
+
+def get_govpost_dataset():
+    data = csv.reader(open(GOVPOST_DATASET_FILE, 'r'))
+    # skip first row
+    data.next()
+    return list(data)
+
+
+def generate_mp_list(only_active=True):
+    mps = []
+    data = get_mp_dataset()
+    for id in data:
+        mp = data[id]
+        if only_active and not mp['active']:
+            continue
+        mp['slug'] = slugify(mp['shortname'])
+        if 'occupation' in mp and len(mp['occupation']) == 1:
+            mp['occupation'] = mp['occupation'][0]
+        mps.append(mp)
+    return mps
+
+mp_data = generate_mp_list(only_active=False)
+
+
+def get_mp_from_shortname(shortname, leg=None):
+    results = filter(lambda x: x['shortname'] == shortname, mp_data)
+    mp = None
+    if len(results) == 0:
+        log.error("No MP results for shortname %s" % shortname.encode('utf-8'))
+        return None
+    elif len(results) > 1:
+        if leg:
+            # vários resultados - ver qual deles tem mandato nesta legislatura
+            leg_mps = []
+            for r in results:
+                for m in r['mandates']:
+                    if m['legislature'] == leg:
+                        leg_mps.append(r)
+                        continue
+            if len(leg_mps) == 1:
+                mp = leg_mps[0]
+            else:
+                log.error("Multiple MP results for shortname %s: %s" % (shortname, ", ".join([mp['shortname'] for mp in results])))
+        else:
+            log.error("Multiple MP results for shortname %s: %s" % (shortname, ", ".join([mp['shortname'] for mp in results])))
+        mp = results[0]
+    if mp:
+        del mp['mandates']
+        del mp['commissions']
+        if 'jobs' in mp:
+            del mp['jobs']
+        if 'education' in mp:
+            del mp['education']
+        if 'awards' in mp:
+            del mp['awards']
+    return mp
+
+
+def get_mp_from_id(id):
+    results = filter(lambda x: x['id'] == int(id), mp_data)
+    if len(results) == 0:
+        log.error("No MP results for id %d" % id)
+        return None
+    elif len(results) > 1:
+        log.error("Multiple MP results for id %d: %s" % (id, ", ".join(results)))
+        return results[0]
+    return results[0]

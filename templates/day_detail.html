@@ -22,9 +22,17 @@
 	  </div>
     <div class="intervention">
       {% for entry in contents %}
-        <div class="entry row">
+        <div class="entry {{ entry.type }} row">
           <div class="speaker medium-4 small-12 columns">
-            {{ entry.speaker }}
+            {% if entry['speaker'] in speakers %}
+              {% with speaker = speakers[entry['speaker']] %}
+              <img src="{{ speaker.image_url }}">
+              <a href="/deputados/{{ speaker.slug }}/">{{ speaker.shortname }}</a>
+              <span class="{{ speaker.party|lower }}">{{ speaker.party }}</span>
+              {% endwith %}
+            {% else %}
+              {{ entry.speaker }}
+            {% endif %}
           </div>
           <div class="entry-content medium-8 small-12 columns">
             {{ entry.text|safe }}

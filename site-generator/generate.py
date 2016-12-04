@@ -7,9 +7,10 @@ import click
 import jinja2
 from zenlog import log
 from dateutil import parser as dateparser
+from collections import OrderedDict
 
 from utils import create_dir, format_date, quick_hash_file
-from utils_dataset import get_gov_dataset, get_date_dataset, get_govpost_dataset, generate_datedict, generate_mp_list, get_session_contents, get_session_info
+from utils_dataset import get_gov_dataset, get_date_dataset, get_govpost_dataset, generate_datedict, generate_mp_list, get_session_from_legsessnum, get_session_info
 
 OUTPUT_DIR = "dist"
 TRANSCRIPTS_PATH = "sessoes/"
@@ -56,8 +57,7 @@ def generate_site(fast_run):
 
     # Init Jinja
     env = jinja2.Environment(loader=jinja2.FileSystemLoader([TEMPLATE_DIR]),
-                             extensions=['jinja2htmlcompress.SelectiveHTMLCompress'],
-                             trim_blocks=True, lstrip_blocks=True)
+                             extensions=['jinja2htmlcompress.SelectiveHTMLCompress', 'jinja2.ext.with_'], trim_blocks=True, lstrip_blocks=True)
     env.filters['date'] = format_date
 
     # Generate the site!
@@ -65,7 +65,7 @@ def generate_site(fast_run):
     render_template_into_file(env, 'index.html', 'index.html')
 
     log.info("Generating MP index...")
-    mps = generate_mp_list()
+    mps = generate_mp_list(only_active=False)
     context = {"mps": mps, 'page_name': 'deputados'}
     render_template_into_file(env, 'mp_list.html', "deputados/index.html", context)
 
@@ -108,6 +108,49 @@ def generate_site(fast_run):
         filename = os.path.join(MPS_PATH, mp['slug'], 'index.html')
         render_template_into_file(env, 'mp_detail.html', filename, context)
 
+    log.info("Generating HTML session pages...")
+    if fast_run:
+        COUNTER = 0
+    date_data.reverse()
+    for leg, sess, num, d, dpub, page_start, page_end in date_data:
+        dateobj = dateparser.parse(d)
+        session = get_session_from_legsessnum(leg, sess, num)
+        if not session:
+            log.warn("File for %s-%s-%s is missing from the transcripts dataset!" % (leg, sess, num))
+            continue
+        target_dir = "%s%d/%02d/%02d" % (TRANSCRIPTS_PATH, dateobj.year, dateobj.month, dateobj.day)
+        if not os.path.exists(os.path.join(OUTPUT_DIR, target_dir)):
+            create_dir(os.path.join(OUTPUT_DIR, target_dir))
+        filename = "%s/index.html" % target_dir
+        info = get_session_info(leg, sess, num)
+        if type(session) in (str, unicode):
+            context = {'session_date': dateobj,
+                       'year_number': year_number,
+                       'leg': leg,
+                       'sess': sess,
+                       'num': num,
+                       'text': session,
+                       'monthnames': MESES,
+                       'pdf_url': 'xpto',
+                       'page_name': 'sessoes',
+                       }
+            if info:
+                context['session_info'] = info
+            render_template_into_file(env, 'day_detail_plaintext.html', filename, context)
+
+        elif type(session) in (dict, OrderedDict):
+            # usar entradas do .json como contexto
+            session['session_date'] = dateparser.parse(session['session_date'])
+            session['monthnames'] = MESES
+            session['page_name'] = 'sessoes'
+            render_template_into_file(env, 'day_detail.html', filename, session)
+        if fast_run:
+            COUNTER += 1
+            if COUNTER > 200:
+                break
+
+
+
     log.info("Generating session index...")
     datedict = generate_datedict()
     all_years = [y for y in datedict]
@@ -122,7 +165,6 @@ def generate_site(fast_run):
         target_dir = os.path.join(TRANSCRIPTS_PATH + "%s/" % year_number)
         filename = target_dir + "index.html"
         render_template_into_file(env, 'day_list.html', filename, context)
-
     # Get most recent year and make the session index
     y = all_years[-1]
     year = datedict[y]
@@ -134,47 +176,6 @@ def generate_site(fast_run):
                }
     render_template_into_file(env, 'day_list.html', TRANSCRIPTS_PATH + 'index.html', context)
 
-    log.info("Generating HTML session pages...")
-    if fast_run:
-        COUNTER = 0
-    date_data.reverse()
-    for leg, sess, num, d, dpub, page_start, page_end in date_data:
-        dateobj = dateparser.parse(d)
-        contents = get_session_contents(leg, sess, num)
-        if not contents:
-            log.warn("File for %s-%s-%s is missing from the transcripts dataset!" % (leg, sess, num))
-            continue
-        info = get_session_info(leg, sess, num)
-
-        target_dir = "%s%d/%02d/%02d" % (TRANSCRIPTS_PATH, dateobj.year, dateobj.month, dateobj.day)
-        if not os.path.exists(os.path.join(OUTPUT_DIR, target_dir)):
-            create_dir(os.path.join(OUTPUT_DIR, target_dir))
-        filename = "%s/index.html" % target_dir
-        if type(contents) in (str, unicode):
-            context = {'session_date': dateobj,
-                       'year_number': year_number,
-                       'leg': leg,
-                       'sess': sess,
-                       'num': num,
-                       'text': contents,
-                       'monthnames': MESES,
-                       'pdf_url': 'xpto',
-                       'page_name': 'sessoes',
-                       }
-            if info:
-                context['session_info'] = info
-            render_template_into_file(env, 'day_detail_plaintext.html', filename, context)
-        elif type(contents) == dict:
-            # usar entradas do .json como contexto
-            contents['session_date'] = dateparser.parse(contents['session_date'])
-            contents['monthnames'] = MESES
-            contents['page_name'] = 'sessoes'
-            render_template_into_file(env, 'day_detail.html', filename, contents)
-
-        if fast_run:
-            COUNTER += 1
-            if COUNTER > 200:
-                break
 
 
 if __name__ == "__main__":
