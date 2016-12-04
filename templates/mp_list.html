@@ -62,17 +62,14 @@
 
     $("#mpsearch-active").change(function() {
       if (this.checked) {
-        console.log("checked");
         mpList.filter(function(mp) {
           if (mp.values().active == "True") {
-            console.log(mp);
             return true;
           } else {
             return false;
           }
         });
       } else {
-        console.log("unchecked");
         mpList.filter();
       }
     });
