@@ -26,7 +26,9 @@
           <div class="speaker medium-4 small-12 columns">
             {% if entry['speaker'] in speakers %}
               {% with speaker = speakers[entry['speaker']] %}
-              <img src="{{ speaker.image_url }}">
+              {% if speaker.image_url %}
+                <img src="/assets/img/deputados/{{ speaker.slug }}.jpg">
+              {% endif %}
               <a href="/deputados/{{ speaker.slug }}/">{{ speaker.shortname }}</a>
               <span class="{{ speaker.party|lower }}">{{ speaker.party }}</span>
               {% endwith %}

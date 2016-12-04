@@ -15,7 +15,7 @@
     <div class="small-12 columns ribbon">
           <h2>
             {% if mp.photo_url %}
-              <span class="profile-pic"><img src="{{ mp.photo_url }}" alt="{{ mp.shortname }}"></span>
+              <span class="profile-pic"><img src="/assets/img/deputados/{{ mp.slug }}.jpg" alt="{{ mp.shortname }}"></span>
             {% endif %}
             <span>
               <small><img src="/assets/img/parties/{{ mp.party|lower }}.png" alt="{{ mp.party }}"></small>
