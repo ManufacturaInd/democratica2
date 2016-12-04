@@ -65,7 +65,7 @@ def generate_site(fast_run):
     render_template_into_file(env, 'index.html', 'index.html')
 
     log.info("Generating MP index...")
-    mps = generate_mp_list()
+    mps = generate_mp_list(only_active=False)
     context = {"mps": mps, 'page_name': 'deputados'}
     render_template_into_file(env, 'mp_list.html', "deputados/index.html", context)
 

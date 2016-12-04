@@ -27,7 +27,7 @@
             {% if entry['speaker'] in speakers %}
               {% with speaker = speakers[entry['speaker']] %}
               <img src="{{ speaker.image_url }}">
-              <a href="{{ speaker.url_democratica }}">{{ speaker.shortname }}</a>
+              <a href="/deputados/{{ speaker.slug }}/">{{ speaker.shortname }}</a>
               <span class="{{ speaker.party|lower }}">{{ speaker.party }}</span>
               {% endwith %}
             {% else %}
