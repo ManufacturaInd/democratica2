@@ -76,6 +76,7 @@ $ultralight-blue: #b7bec8; /* borders */
 $dark-blue: #373e48; /* menu background */
 $ultra-darkblue: #151e2b;
 $white-blue: #dbdee3; /* homepage buttons */
+$calendar-day-blue: #636f82;
 
 $ps: #d888bb;
 $psd: #cb8d41;
@@ -272,31 +273,32 @@ body.home {
 /* Calendar
 */
 
-/*
 #calendar {
-  
+  .has-tip {
+    cursor: inherit !important;
+    border-bottom:  0 !important;
+  }
   ul {
-    display: table-cell;
+    font-size: 90%;
+    font-weight: 700;
     line-height: 1;
     li {
       display: inline-block;
-      background-color: white;
       text-align: center;
-      width: 2.8%;
+      width: 2.5%;
       a, span {
-        font-size: 90%;
-        font-weight: 700;
-        display: inline-block;
-        padding: 0.25rem 0;
+        display: block;
+        padding: 0.35rem 0;
         min-width: 22px;
       }
-      
+      .day { background-color: $calendar-day-blue; }
       .empty   { background: transparent; }
       .weekend { background-color: #535d6c; }
       a.session-yes {
         background-color: #e9ddaf;
         color: #484537;
         border-radius: 3px;
+        span { display: inline-block; padding: 0; }
       }
       .missing {
         background-color: #f1ecd5;
@@ -315,11 +317,23 @@ body.home {
     }
   }
 }
-*/
+
+@media screen and (max-width: 39.9375em) { /* Small only */
+  #calendar {
+    ul li {
+      width: 5%;
+      a, span {
+        min-width: 22px;
+      }
+    }
+  }
+}
+
 
 /* calendar from previous css
 */
 
+/*
 #calendar {
   background-color: #373e48;
   padding-top: 1rem;
@@ -357,7 +371,7 @@ body.home {
 }
 
 #calendar ul a,
-#calendar ul span {
+#calendar ul span.day {
   display: inline-block;
   min-width: 22px;
   padding: 0.35rem 0.25rem;
@@ -415,7 +429,7 @@ body.home {
 #calendar ul a:focus {
   background-color: $white;
 }
-
+*/
 
 /* Session
 */

@@ -23,63 +23,33 @@
     <meta property="og:type" content="{% block ogtype %}website{% endblock %}"/>
   </head>
   <body class="{% block extrabodyclass %}default{% endblock %}">
-    <!--
-    <div class="contain-to-grid main-menu">
-      <nav class="top-bar">
-        <ul class="title-area">
-          <li class="name">
-            <h1><a href="/">Demo.cratica</a></h1>
-          </li>
-          <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-        </ul>
-        <section class="top-bar-section">
-          <ul class="right">
-            <li class="has-form">
-              <div class="row collapse">
-                <div class="large-7 small-5 columns">
-                  <input placeholder="Em construção!" type="text">
-                </div>
-                <div class="large-5 small-5 columns">
-                  <a href="#" class="button expand">Pesquisar</a>
-                </div>
-              </div>
-            </li>
-          </ul>
-          <ul class="left">
-            <li {% if page_name == "deputados" %} class="active" {% endif %}><a href="/deputados/">Deputados</a></li>
-            <li {% if page_name == "sessoes" %} class="active" {% endif %}><a href="/sessoes/">Sessões</a></li>
-          </ul>
-        </section>
-      </nav>
-    </div>
-    -->
-    
-<div id="main-menu">
-  <div class="column row">
-    <nav class="top-bar">
-      <div class="top-bar-title">
-        <span data-responsive-toggle="responsive-menu" data-hide-for="medium">
-          <button class="menu-icon" type="button" data-toggle></button>
-        </span>
-        <strong><a href="/">Demo.cratica</a></strong>
-      </div>
-      <div id="responsive-menu">
-        <div class="top-bar-left">
-          <ul class="menu">
-                <li {% if page_name == "deputados" %} class="active" {% endif %}><a href="/deputados/">Deputados</a></li>
-                <li {% if page_name == "sessoes" %} class="active" {% endif %}><a href="/sessoes/">Sessões</a></li>
+
+    <div id="main-menu">
+      <div class="column row">
+        <nav class="top-bar">
+          <div class="top-bar-title">
+            <span data-responsive-toggle="responsive-menu" data-hide-for="medium">
+              <button class="menu-icon" type="button" data-toggle></button>
+            </span>
+            <strong><a href="/">Demo.cratica</a></strong>
+          </div>
+          <div id="responsive-menu">
+            <div class="top-bar-left">
+              <ul class="menu">
+                    <li {% if page_name == "deputados" %} class="active" {% endif %}><a href="/deputados/">Deputados</a></li>
+                    <li {% if page_name == "sessoes" %} class="active" {% endif %}><a href="/sessoes/">Sessões</a></li>
+                  </ul>
+            </div>
+            <div class="top-bar-right">
+              <ul class="menu">
+                <li><input type="search" placeholder="Em construção!"></li>
+                <li><button type="button" class="button">Pesquisar</button></li>
               </ul>
-        </div>
-        <div class="top-bar-right">
-          <ul class="menu">
-            <li><input type="search" placeholder="Em construção!"></li>
-            <li><button type="button" class="button">Pesquisar</button></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </div><!-- /.row.column -->
-</div><!-- /#main-menu -->
+            </div>
+          </div>
+        </nav>
+      </div><!-- /.row.column -->
+    </div><!-- /#main-menu -->
     
     <div id="content" class="row collapse">
       {% block content %}{% endblock %}
