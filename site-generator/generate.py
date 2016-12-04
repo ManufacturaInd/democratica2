@@ -149,8 +149,6 @@ def generate_site(fast_run):
             if COUNTER > 200:
                 break
 
-
-
     log.info("Generating session index...")
     datedict = generate_datedict()
     all_years = [y for y in datedict]
@@ -160,6 +158,8 @@ def generate_site(fast_run):
                    'year_number': year_number,
                    'all_years': all_years,
                    'datedict': datedict,
+                   'months': MESES,
+                   'months_short': [m[:3] for m in MESES],
                    'page_name': 'sessoes',
                    }
         target_dir = os.path.join(TRANSCRIPTS_PATH + "%s/" % year_number)
@@ -175,7 +175,6 @@ def generate_site(fast_run):
                'page_name': 'sessoes',
                }
     render_template_into_file(env, 'day_list.html', TRANSCRIPTS_PATH + 'index.html', context)
-
 
 
 if __name__ == "__main__":

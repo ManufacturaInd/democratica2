@@ -23,7 +23,7 @@
           <div class="year">
             {% for month in year %}
             <div class="month">
-              <h4><abbr title="{{ month }}">{{ month }}</abbr></h4>
+              <h4><abbr title="{{ months_short[month] }}">{{ months_short[month] }}</abbr></h4>
               <ul class="no-bullet">
               {% strip %}
               {% for day in year[month] %}
