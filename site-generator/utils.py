@@ -58,6 +58,8 @@ def format_date(value, format='medium'):
     localized string using babel."""
     from babel.dates import format_date as babel_format_date
     import datetime
+    if not value:
+        return None
     from dateutil import parser as dateparser
     if type(value) not in (datetime.date, datetime.datetime):
         value = dateparser.parse(value)
@@ -71,9 +73,9 @@ def quick_hash_file(filename):
     BUF_SIZE = 65536
     md5 = hashlib.md5()
     with open(sys.argv[1], 'rb') as f:
-	while True:
-	    data = f.read(BUF_SIZE)
-	    if not data:
-		break
-	    md5.update(data)
+        while True:
+            data = f.read(BUF_SIZE)
+            if not data:
+                break
+            md5.update(data)
     return md5.hexdigest()

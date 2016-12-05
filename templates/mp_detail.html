@@ -32,7 +32,7 @@
         <dl>
           <dt>Nome completo</dt><dd>{{ mp.name }}</dd>
           <dt>Partido</dt><dd>{{ mp.party }}</dd>
-          <dt>Data de nascimento</dt><dd>{{ mp.birthdate }}</dd>
+          <dt>Data de nascimento</dt><dd>{{ mp.birthdate|date("long")|lower }}</dd>
           <dt>Profissão</dt><dd>{{ mp.occupation }}</dd>
         </dl>
         <h3>Mandatos</h3>
@@ -151,13 +151,13 @@
 
         <h4>Ligações</h4>
         <ul class="no-bullet">
-          <li><a href="http://www.parlamento.pt/DeputadoGP/Paginas/Biografia.aspx?BID={{ mp.id }}">Parlamento.pt</a></li>
+          <li><a href="http://www.parlamento.pt/DeputadoGP/Paginas/Biografia.aspx?BID={{ mp.id }}" target="_blank">Parlamento.pt</a></li>
           {% if mp.email %}<li class="email"><a href="mailto:{{ mp.email }}" title="{{ mp.email }}" rel="tipsy">Enviar e-mail</a></li>{% endif %}
-          {% if mp.website_url %}<li><a href="{{ mp.website_url }}">Website</a></li>{% endif %}
-          {% if mp.blog_url %}<li><a href="{{ mp.blog_url }}">Blog</a></li>{% endif %}
+          {% if mp.website_url %}<li><a href="{{ mp.website_url }}" target="_blank">Website</a></li>{% endif %}
+          {% if mp.blog_url %}<li><a href="{{ mp.blog_url }}" target="_blank">Blog</a></li>{% endif %}
 
-          {% if mp.wikipedia_url %}<li><a href="{{ mp.wikipedia_url }}">Wikipedia</a></li>{% endif %}
-          {% if mp.twitter_url %}<li><a href="{{ mp.twitter_url }}">Twitter</a></li>{% endif %}
+          {% if mp.wikipedia_url %}<li><a href="{{ mp.wikipedia_url }}" target="_blank">Wikipedia</a></li>{% endif %}
+          {% if mp.twitter_url %}<li><a href="{{ mp.twitter_url }}" target="_blank">Twitter</a></li>{% endif %}
         </ul>
 
         {% if mp.tweets %}
