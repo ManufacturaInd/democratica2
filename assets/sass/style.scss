@@ -241,11 +241,13 @@ body.home {
 */
 
 .year-select {
+  margin-bottom: 0.75rem;
   strong {
     font-size: 2.3125rem;
     line-height: 1;
     font-weight: 300;
     color: $light-blue;
+    padding-bottom: 0.5rem;
   }
   button.button {
     font-size: 2.3125rem;
@@ -254,13 +256,25 @@ body.home {
     color: $light-blue;
     background-color: transparent;
     border-bottom: 1px solid $ultralight-blue;
-    padding: 0 1.5rem 0.5rem 0;
+    padding: 0 0.5rem 0rem 0;
     margin-left: 0.5rem;
-    
     &::after {
+      content: "";
+      display: inline-block;
+      background: url("data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2017.309%209.361'%3E%3Cpolyline%20fill='none'%20stroke='%236f7c91'%20stroke-miterlimit='10'%20points='16.956,0.354%208.655,8.654%200.354,0.354'/%3E%3C/svg%3E") no-repeat;
+      width: 17px;
+      height: 9px;
+      margin-left: 0.25rem;
+      -webkit-transition: all .3s;
+      transition: all .3s;
+      -webkit-transform-origin: 50% 50%;
+      transform-origin: 50% 50%;
+    }
+    
+    /*&::after {
       right: 0;
       margin-top: -.5625rem;
-    }
+    }*/
   }
   #year-drop {
     background-color: $white-blue;
@@ -278,6 +292,19 @@ body.home {
     cursor: inherit !important;
     border-bottom:  0 !important;
   }
+  h4 {
+    font-size: 90%;
+    font-weight: 700;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.35rem 0;
+    abbr[title] {
+      color: $ultralight-blue;
+      border-bottom: none;
+      cursor: inherit;
+    }
+  }
   ul {
     font-size: 90%;
     font-weight: 700;
@@ -285,11 +312,11 @@ body.home {
     li {
       display: inline-block;
       text-align: center;
-      width: 2.5%;
+      width: 2.4%;
       a, span {
         display: block;
         padding: 0.35rem 0;
-        min-width: 22px;
+        min-width: 25px;
       }
       .day { background-color: $calendar-day-blue; }
       .empty   { background: transparent; }
@@ -329,6 +356,13 @@ body.home {
   }
 }
 
+
+#calendar-list {
+  li {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+}
 
 /* calendar from previous css
 */
