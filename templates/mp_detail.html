@@ -32,7 +32,7 @@
         <dl>
           <dt>Nome completo</dt><dd>{{ mp.name }}</dd>
           <dt>Partido</dt><dd>{{ mp.party }}</dd>
-          <dt>Data de nascimento</dt><dd>{{ mp.birthdate }}</dd>
+          <dt>Data de nascimento</dt><dd>{{ mp.birthdate|date("long")|lower }}</dd>
           <dt>Profissão</dt><dd>{{ mp.occupation }}</dd>
         </dl>
         <h3>Mandatos</h3>
