@@ -125,7 +125,7 @@ def generate_site(fast_run):
         info = get_session_info(leg, sess, num)
         if type(session) in (str, unicode):
             context = {'session_date': dateobj,
-                       'year_number': year_number,
+                       'year_number': dateobj.year,
                        'leg': leg,
                        'sess': sess,
                        'num': num,
