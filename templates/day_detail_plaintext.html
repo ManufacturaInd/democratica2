@@ -2,9 +2,9 @@
 
 {% block extrabodyclass %}session white-bg{% endblock %}
 
-{% block title %}{{ session_date.day }} de {{ monthnames[session_date.month-1] }} de {{ session_date.year }} &mdash; Demo.cratica (Beta){% endblock %}
+{% block title %}{{ session_date.day }} de {{ monthnames[session_date.month-1] }} de {{ session_date.year }} &mdash; Demo.cratica{% endblock %}
 
-{% block ogtitle %}{{ session_date }} &mdash; Demo.cratica (Beta){% endblock %}
+{% block ogtitle %}{{ session_date }} &mdash; Demo.cratica{% endblock %}
 {#{% block ogurl %}{% url "day_detail" day.date.year day.date.month day.date.day %}{% endblock %} #}
 {% block ogtype %}transcript{% endblock %}
 
@@ -30,7 +30,6 @@
   <section>
     <div class="row">
       <div class="small-12 columns">
-        <p class="alert-box secondary"><strong>Nota:</strong> As transcrições ainda estão em desenvolvimento. Pode haver inconsistências e erros de processamento.</p>
         {# {% if pdf_url %}<p>Consultar o <a href="{{ pdf_url }}">PDF oficial</a> ou a <a href="">versão web oficial</a> desta transcrição.</p>{% endif %} #}
 	    </div>
 	  </div>
@@ -41,10 +40,6 @@
        </div>
      </div>
     </div><!-- /.intervention -->
-    <div class="row">
-      <div class="small-12 columns">
-  	  <p class="alert-box secondary">Versão Beta: Esta informação pode estar incompleta e/ou conter incorrecções.</p>
-  	</div>
   </section>
   
 {% endblock content %}

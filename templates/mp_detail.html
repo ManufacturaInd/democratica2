@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block extrabodyclass %}mp white-bg{% endblock %}
 
-{% block title %}{{ mp.shortname }} &mdash; Demo.cratica (Beta){% endblock %}
+{% block title %}{{ mp.shortname }} &mdash; Demo.cratica{% endblock %}
 
-{% block ogtitle %}{{ mp.shortname }} &mdash; Demo.cratica (Beta){% endblock %}
+{% block ogtitle %}{{ mp.shortname }} &mdash; Demo.cratica{% endblock %}
 {% block ogurl %}{{ url }}{% endblock %}
 {% block ogimage %}{% if mp.photo_url %}{{ mp.photo_url }}{% endif %}{% endblock %}
 {% block ogtype %}politician{% endblock %}
@@ -169,11 +169,6 @@
           </ul>
         {% endif %}
     </div><!-- /.row -->
-
-    <div class="row">
-      <div class="small-12 columns">
-	    <p class="alert-box secondary">Versão Beta: Esta versão pode estar incompleta e/ou conter incorrecções.</p>
-	  </div><!-- /.row-->
 
   </section>
 {% endblock %}

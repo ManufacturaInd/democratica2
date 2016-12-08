@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block extrabodyclass %}session white-bg{% endblock %}
 
-{% block title %}{{ session_date.day }} de {{ monthnames[session_date.month-1] }} de {{ session_date.year }} &mdash; Demo.cratica (Beta){% endblock %}
+{% block title %}{{ session_date.day }} de {{ monthnames[session_date.month-1] }} de {{ session_date.year }} &mdash; Demo.cratica{% endblock %}
 
-{% block ogtitle %}{{ session_date }} &mdash; Demo.cratica (Beta){% endblock %}
+{% block ogtitle %}{{ session_date }} &mdash; Demo.cratica{% endblock %}
 {#{% block ogurl %}{% url "day_detail" day.date.year day.date.month day.date.day %}{% endblock %} #}
 {% block ogtype %}transcript{% endblock %}
 
@@ -41,12 +41,8 @@
           </div>
         </div><!-- /.entry -->
       {% endfor %}
-	  </div><!-- /.intervention -->
-    <div class="row">
-      <div class="small-12 columns">
-  	  <p class="alert-box secondary">Versão Beta: Esta informação pode estar incompleta e/ou conter incorrecções.</p>
-  	</div>
-  </section>
+      </div><!-- /.intervention -->
+    </section>
   
 {% endblock content %}
 
