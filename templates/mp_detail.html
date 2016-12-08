@@ -58,7 +58,9 @@
                   <td>{{ mandate.constituency }}</td>
                 {% endif %}
                 <td>
+                  {% if mandate.activity_url %}
                   <a href="{{ mandate.activity_url }}" target="_blank">Atividade</a>
+                  {% endif %}
                   {% if mandate.interest_url %}
                     <a href="{{ mandate.interest_url }}" target="_blank">Registo de interesses</a>
                   {% endif %}
@@ -68,6 +70,7 @@
           </tbody>
         </table>
         
+        {% if mp.education or mp.current_jobs or mp.commissions or mp.govposts or mp.jobs or mp.awards %}
         <h3>Habilitações e cargos</h3>
         <ul class="no-bullet">
           {% if mp.education %}
@@ -148,6 +151,7 @@
               {% endfor %}
             </ul>
         {% endif %}
+      {% endif %}
 
         <h4>Ligações</h4>
         <ul class="no-bullet">
