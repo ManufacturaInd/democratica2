@@ -7,9 +7,10 @@ import click
 import jinja2
 from zenlog import log
 from dateutil import parser as dateparser
+import datetime
 from collections import OrderedDict
 
-from utils import create_dir, format_date, quick_hash_file
+from utils import create_dir, format_date, quick_hash_file, years_since
 from utils_dataset import get_gov_dataset, get_date_dataset, get_govpost_dataset, generate_datedict, generate_mp_list, get_session_from_legsessnum, get_session_info
 
 OUTPUT_DIR = "dist"
@@ -104,7 +105,10 @@ def generate_site(fast_run):
             m['end_date'] = dateparser.parse(m['end_date'])
             # nice effect: if no end date, set to today
 
-        context = {'mp': mp, 'l': None, 'page_name': 'deputados'}
+        context = {'mp': mp,
+                   'mp_age': years_since(dateparser.parse(mp['birthdate']).date()) if 'birthdate' in mp else None,
+                   'l': None,
+                   'page_name': 'deputados'}
         filename = os.path.join(MPS_PATH, mp['slug'], 'index.html')
         render_template_into_file(env, 'mp_detail.html', filename, context)
 

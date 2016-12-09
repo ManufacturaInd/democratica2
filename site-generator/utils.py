@@ -79,3 +79,24 @@ def quick_hash_file(filename):
                 break
             md5.update(data)
     return md5.hexdigest()
+
+
+def years_ago(years, from_date=None):
+    import datetime
+    from dateutil.relativedelta import relativedelta
+    if from_date is None:
+        from_date = datetime.date.today()
+    return from_date - relativedelta(years=years)
+
+
+def years_since(begin, end=None):
+    # http://stackoverflow.com/a/765990
+    import datetime
+    if end is None:
+        end = datetime.date.today()
+    num_years = int((end - begin).days / 365.25)
+    if begin > years_ago(num_years, end):
+        return num_years - 1
+    else:
+        return num_years
+
