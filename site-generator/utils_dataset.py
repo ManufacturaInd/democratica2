@@ -145,7 +145,7 @@ def get_mp_dataset():
     info_data = csv.reader(open(MPINFO_DATASET_FILE, 'r'))
     info_data.next()
     for row in info_data:
-        mp = data[row[0]]
+        mp = data[row[1]]
         mp['email'] = row[3]
         mp['wikipedia_url'] = row[4]
         mp['twitter_url'] = row[6]
