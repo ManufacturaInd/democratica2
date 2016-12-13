@@ -10,29 +10,18 @@
 
 {% block content %}
 
-  <!-- Tabs
-  <div class="row">
-    <ul id="dar-tabs" class="tabs">
-      <li><span>Transcrição</span></li>
-      {#
-      <li><a href="stats" title="">Estatísticas</a></li>
-      <li><a href="{% url "day_revisions" day.date.year day.date.month day.date.day %}" title="">Revisões</a></li>
-      #}
-    </ul>
-  </div> -->
-
   <header class="row">
     <div class="small-12 columns text-center">
-	    <h2 class="ribbon">{{ session_date.day }} de {{ monthnames[session_date.month-1] }} de {{ session_date.year }}</h2>
-	  </div>
+      <h2 class="ribbon">{{ session_date.day }} de {{ monthnames[session_date.month-1] }} de {{ session_date.year }}</h2>
+    </div>
   </header>
 
   <section>
     <div class="row">
       <div class="small-12 columns">
-        {# {% if pdf_url %}<p>Consultar o <a href="{{ pdf_url }}">PDF oficial</a> ou a <a href="">versão web oficial</a> desta transcrição.</p>{% endif %} #}
-	    </div>
-	  </div>
+        {% if url_pdf %}<p>Consultar o <a href="{{ url_pdf }}" target="_blank">PDF oficial</a> ou a <a href="{{ url_debates }}" target="_blank">versão web oficial</a> desta transcrição.</p>{% endif %}
+      </div>
+    </div>
     <div class="intervention">
      <div class="entry row">
        <div class="entry-content medium-offset-2 medium-10 small-12 columns">
