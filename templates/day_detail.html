@@ -18,8 +18,9 @@
     <div class="row">
       <div class="small-12 columns">
         <p class="alert-box secondary"><strong>{{ leg }}ª</strong> Legislatura &mdash; <strong>{{ sess }}ª</strong> Sessão Legislativa &mdash; Diário n.º <strong>{{ num }}</strong></p>
-	    </div>
-	  </div>
+        {% if url_pdf %}<p>Consultar o <a href="{{ url_pdf }}" target="_blank">PDF oficial</a> ou a <a href="{{ url_debates }}" target="_blank">versão web oficial</a> desta transcrição.</p>{% endif %}
+      </div>
+    </div>
     <div class="intervention">
       {% for entry in contents %}
         <div class="entry {{ entry.type }} row">

@@ -18,6 +18,8 @@ def slugify(s):
     s = s.replace("-", "")
     s = s.replace(" ", "-")
     s = s.replace("'", "-")
+    s = s.replace("[", "")
+    s = s.replace("]", "")
     s = replace_letters(s, u"áàâã", u"a")
     s = replace_letters(s, u"éèê", u"e")
     s = replace_letters(s, u"íì", u"i")
@@ -99,4 +101,3 @@ def years_since(begin, end=None):
         return num_years - 1
     else:
         return num_years
-
