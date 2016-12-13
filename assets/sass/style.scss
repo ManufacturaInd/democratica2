@@ -112,8 +112,7 @@ body.white-bg #content {
   font-family: $body-font-family;
 }
 
-span.profile-pic {
-  display: inline-block;
+.profile-pic { /* general styling */
   width: 83px;
   height: 83px;
   overflow: hidden;
@@ -123,13 +122,31 @@ span.profile-pic {
   img {
     width: 83px;
     height: auto;
-    margin-top: 25px;
     }
+}
+
+.ribbon .profile-pic { /* mp page styling */
+  display: inline-block;
 }
 
 #content ul:not(.no-bullet) li {
   list-style-type: "— ";
 }
+
+.party {
+  font-size: 90%;
+  font-family: $body-font-family;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.ps     { color: $ps; }
+.psd    { color: $psd; }
+.pcp    { color: $pcp; }
+.be     { color: $be; }
+.cds-pp { color: $cds-pp; }
+.pev    { color: $pev; }
 
 /* Top navigation
 */
@@ -289,8 +306,7 @@ body.home {
 
 #calendar {
   .has-tip {
-    cursor: inherit !important;
-    border-bottom:  0 !important;
+    cursor: inherit;
   }
   h4 {
     font-size: 90%;
@@ -476,7 +492,7 @@ header.row.collapse {
 	.ribbon {
 	  background-color: $white;
 	  clear: both;
-	  padding: 0.75rem 0.65rem 0.45rem;
+	  padding: 0.75rem 0.65rem;
 	  margin: 0 0.32rem 1rem;
 	  position: relative;
 	  box-shadow: 2px 2px 0 rgba($black,0.2);
@@ -505,6 +521,11 @@ header.row.collapse {
 	    left: auto;
 	    right: 0;
 	  }
+	  
+	  h2 {
+	    margin-bottom: 0;
+	    vertical-align: middle;
+	  }
   }
 }
 
@@ -512,6 +533,37 @@ header.row.collapse {
   font-family: $font-family-serif;
   box-shadow: 2px 2px 3px rgba($black,0.5);
   padding-top: 2rem;
+
+  .entry {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    .speaker {
+      font-family: $body-font-family;
+      h5 {
+        line-height: 1.2;
+        margin-bottom: 0;
+      }
+      .profile-pic {
+        margin: 0 auto;
+      }
+    }
+    
+    .entry-content {
+      border-bottom: 1px solid $ultralight-blue;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      p:last-child {
+        margin-bottom: 0;
+      }
+    }
+    
+    &.cont .profile-pic {
+      width: 30px;
+      height: 30px;
+    }
+  }
+  
+
 }
 
 /* MP page

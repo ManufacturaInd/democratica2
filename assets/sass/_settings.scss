@@ -553,8 +553,8 @@ $titlebar-icon-spacing: 0.25rem;
 // 35. Tooltip
 // -----------
 
-$has-tip-font-weight: $global-weight-bold;
-$has-tip-border-bottom: dotted 1px $dark-gray;
+$has-tip-font-weight: $global-weight-normal;
+$has-tip-border-bottom: none 0 transparent;
 $tooltip-background-color: $black;
 $tooltip-color: $white;
 $tooltip-padding: 0.75rem;
