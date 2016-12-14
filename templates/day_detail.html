@@ -8,6 +8,13 @@
 {% block ogtype %}transcript{% endblock %}
 
 {% block content %}
+  <div class="row">
+    <div class="small-12 columns text-right">
+      <p class="intro"><span>
+        <strong>{{ leg }}ª</strong> Legislatura &mdash; <strong>{{ sess }}ª</strong> Sessão Legislativa &mdash; Diário n.º <strong>{{ num }}</strong>
+      </span></p>
+    </div>
+  </div>
   <header class="row">
     <div class="small-12 columns ribbon text-center">
 	    <h2>{{ session_date.day }} de {{ monthnames[session_date.month-1] }} de {{ session_date.year }}</h2>
@@ -15,39 +22,54 @@
   </header>
 
   <section>
-    <div class="row">
-      <div class="small-12 columns">
-        <p class="alert-box secondary"><strong>{{ leg }}ª</strong> Legislatura &mdash; <strong>{{ sess }}ª</strong> Sessão Legislativa &mdash; Diário n.º <strong>{{ num }}</strong></p>
-        {% if url_pdf %}<p>Consultar o <a href="{{ url_pdf }}" target="_blank">PDF oficial</a> ou a <a href="{{ url_debates }}" target="_blank">versão web oficial</a> desta transcrição.</p>{% endif %}
+    {% if url_pdf %}
+      <div class="row">
+        <div class="small-12 columns">
+          <p>Consultar o <a href="{{ url_pdf }}" target="_blank">PDF oficial</a> ou a <a href="{{ url_debates }}" target="_blank">versão web oficial</a> desta transcrição.</p>
+        </div>
       </div>
-    </div>
-    <div class="intervention">
-      {% for entry in contents %}
-        <div class="entry {{ entry.type }} row">
-          <div class="speaker medium-3 small-2 columns text-center">
-            {% if entry['speaker'] in speakers %}
-              {% with speaker = speakers[entry['speaker']] %}
-              {% if speaker.image_url %}
-                <p class="profile-pic">
-                  <img src="/assets/img/deputados/{{ speaker.slug }}.jpg">
+    {% endif %}
+    {% for entry in contents %}
+      <div class="entry {{ entry.type }} row">
+        <div class="speaker medium-3 small-2 columns text-center">
+          {% if entry['speaker'] in speakers %}
+            {% with speaker = speakers[entry['speaker']] %}
+              {% if entry.type== 'cont' %}
+                <p>
+                  {% if speaker.image_url %}
+                    <span class="profile-pic {{ speaker.party|lower }}">
+                      <img src="/assets/img/deputados/{{ speaker.slug }}.jpg">
+                    </span>
+                  {% endif %}
+                  <span class="block text-left">
+                    <a href="/deputados/{{ speaker.slug }}/">
+                      <strong>{{ speaker.shortname }}</strong>
+                    </a>
+                    <span class="party {{ speaker.party|lower }}">{{ speaker.party }}</span>
+                  </span>
                 </p>
+              {% else %}
+                {% if speaker.image_url %}
+                  <p class="profile-pic  {{ speaker.party|lower }}">
+                    <img src="/assets/img/deputados/{{ speaker.slug }}.jpg">
+                  </p>
+                {% endif %}
+                <a href="/deputados/{{ speaker.slug }}/">
+                  <h5 class="secondary">{{ speaker.shortname }}</h5>
+                </a>
+                <span class="party {{ speaker.party|lower }}">{{ speaker.party }}</span>
               {% endif %}
-              <a href="/deputados/{{ speaker.slug }}/">
-                <h5 class="secondary">{{ speaker.shortname }}</h5>
-              </a>
-              <span class="party {{ speaker.party|lower }}">{{ speaker.party }}</span>
-              {% endwith %}
-            {% else %}
-              {{ entry.speaker }}
-            {% endif %}
-          </div>
-          <div class="entry-content medium-9 small-10 columns">
-            {{ entry.text|safe }}
-          </div>
-        </div><!-- /.entry -->
-      {% endfor %}
-      </div><!-- /.intervention -->
-    </section>
+            {% endwith %}
+          {% else %}
+            <p><strong>{{ entry.speaker }}</strong></p>
+          {% endif %}
+        </div>
+        <div class="entry-content medium-9 small-10 columns">
+          {{ entry.text|safe }}
+        </div>
+      </div><!-- /.entry.row -->
+    {% endfor %}
+  </section>
   
 {% endblock content %}
 

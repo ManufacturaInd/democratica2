@@ -69,8 +69,8 @@ $font-family-serif: "Merriweather", "Linux Libertine", Georgia, Cambria, "Times 
 /* Colours
 */
 
-$democratica-blue: #535d6c; /* links */
-$light-blue: #6f7c91;
+$democratica-blue: #535d6c;
+$light-blue: #6f7c91; /* links */
 $very-light-blue: #939dac;
 $ultralight-blue: #b7bec8; /* borders */
 $dark-blue: #373e48; /* menu background */
@@ -102,13 +102,13 @@ html {
 body.white-bg #content {
   background: $white url(../img/backgrounds/bg-texture-black.png) repeat 0 0;
   & > section {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
     padding-bottom: 1rem;
   }
 }
 
-.alert-box {
+.callout {
   font-family: $body-font-family;
 }
 
@@ -123,6 +123,12 @@ body.white-bg #content {
     width: 83px;
     height: auto;
     }
+  /*&.ps     { border: 2px solid rgba($ps, 0.4); }
+  &.psd    { border: 2px solid rgba($psd, 0.4); }
+  &.pcp    { border: 2px solid rgba($pcp, 0.4); }
+  &.be     { border: 2px solid rgba($be, 0.4); }
+  &.cds-pp { border: 2px solid rgba($cds-pp, 0.4); }
+  &.pev    { border: 2px solid rgba($pev, 0.4); }*/
 }
 
 .ribbon .profile-pic { /* mp page styling */
@@ -533,33 +539,83 @@ header.row.collapse {
   font-family: $font-family-serif;
   box-shadow: 2px 2px 3px rgba($black,0.5);
   padding-top: 2rem;
+  
+  .intro {
+    font-family: $body-font-family;
+    span {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 3px;
+    }
+  }
 
   .entry {
       padding-top: 0.5rem;
       padding-bottom: 0.5rem;
     .speaker {
+      padding-top: 1rem;
       font-family: $body-font-family;
       h5 {
         line-height: 1.2;
         margin-bottom: 0;
       }
       .profile-pic {
+        display: inline-block;
         margin: 0 auto;
+      }
+      .party {
+        display: block;
+      }
+      p strong {
+          font-size: 1.25rem;
+          font-weight: 300;
       }
     }
     
     .entry-content {
-      border-bottom: 1px solid $ultralight-blue;
-      padding-top: 0.5rem;
-      padding-bottom: 0.5rem;
-      p:last-child {
-        margin-bottom: 0;
+      p:first-child {
+        border-top: 1px solid $ultralight-blue;
+        padding-top: 1.25rem;
       }
+      .p:last-child { margin-bottom: 0; }
     }
     
-    &.cont .profile-pic {
-      width: 30px;
-      height: 30px;
+    &:first-child .entry-content p:first-child { border-top: 0; }
+    
+    &.cont {
+      .speaker p {
+        margin-bottom: 0.25rem;
+        &::before,
+        &::after {
+          content: ' ';
+          display: table;
+        }
+        .profile-pic {
+          display: inline-block;
+          width: 40px;
+          height: 40px;
+          margin-right: 0.25rem;
+          img {
+            width: 40px;
+          }
+        }
+        .block {
+          display: inline-block;
+          line-height: 1.3;
+          strong {
+            font-size: 1.25rem;
+            font-weight: 300;
+            }
+        }
+      }
+    }
+    &.nota,
+    &.aplausos {
+      p {
+        color: rgba($dark-blue, 0.6);
+        font-style: italic;
+      }
     }
   }
   
