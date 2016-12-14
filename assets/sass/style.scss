@@ -611,10 +611,18 @@ header.row.collapse {
       }
     }
     &.nota,
-    &.aplausos {
+    &.aplausos{
       p {
         color: rgba($dark-blue, 0.6);
         font-style: italic;
+      }
+    }
+    
+    &.protestos {
+      p {
+        color: rgba($dark-blue, 0.6);
+        font-weight: 700;
+        letter-spacing: 1px;
       }
     }
   }
