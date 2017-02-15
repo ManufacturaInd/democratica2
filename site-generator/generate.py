@@ -7,8 +7,8 @@ import click
 import jinja2
 from zenlog import log
 from dateutil import parser as dateparser
-import datetime
 from collections import OrderedDict
+import markdown
 
 from utils import create_dir, format_date, quick_hash_file, years_since
 from utils_dataset import get_gov_dataset, get_date_dataset, get_govpost_dataset, generate_datedict, generate_mp_list, get_session_from_legsessnum, get_session_info
@@ -56,14 +56,16 @@ def generate_site(fast_run):
     create_dir(os.path.join(OUTPUT_DIR, TRANSCRIPTS_PATH))
     create_dir(os.path.join(OUTPUT_DIR, MPS_PATH))
 
-    # Init Jinja
+    # Init Jinja and Markdown
     env = jinja2.Environment(loader=jinja2.FileSystemLoader([TEMPLATE_DIR]),
                              extensions=['jinja2htmlcompress.SelectiveHTMLCompress', 'jinja2.ext.with_'], trim_blocks=True, lstrip_blocks=True)
     env.filters['date'] = format_date
+    md = markdown.Markdown(extensions=['meta'])
 
     # Generate the site!
     log.info("Generating index...")
-    render_template_into_file(env, 'index.html', 'index.html')
+    context = {"intro_text": md.convert(codecs.open('content/intro.md', 'r', 'utf-8').read())}
+    render_template_into_file(env, 'index.html', 'index.html', context)
 
     log.info("Generating MP index...")
     mps = generate_mp_list(only_active=False)
