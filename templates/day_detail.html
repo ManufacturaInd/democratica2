@@ -34,7 +34,7 @@
         <div class="speaker medium-3 small-2 columns text-center">
           {% if entry['speaker'] in speakers %}
             {% with speaker = speakers[entry['speaker']] %}
-              {% if entry.type== 'cont' %}
+              {% if entry.type.endswith('continuacao') %}
                 <p>
                   {% if speaker.image_url %}
                     <span class="profile-pic {{ speaker.party|lower }}">
