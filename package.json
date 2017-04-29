@@ -1,12 +1,12 @@
 {
   "name": "democratica2",
   "version": "1.0.0",
-  "description": "Nova versão do Demo.cratica, feita de raiz",
+  "description": "A forma fácil de ler o Parlamento",
   "main": "index.js",
   "dependencies": {
     "bower": "^1.8.0",
     "gulp": "^3.9.1",
-    "gulp-clean-css": "^2.0.13",
+    "gulp-clean-css": "^3",
     "gulp-connect": "^5.0.0",
     "gulp-main-bower-files": "^1.5.3",
     "gulp-sass": "^2.3.2",

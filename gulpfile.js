@@ -4,6 +4,7 @@ var connect = require('gulp-connect');
 var cleanCSS = require('gulp-clean-css');
 var wiredep = require('wiredep').stream;
 var mainBowerFiles = require('gulp-main-bower-files');
+var debug = require('gulp-debug');
 
 gulp.task('connect', function(){
   connect.server({
@@ -12,7 +13,7 @@ gulp.task('connect', function(){
   });
 });
 
-gulp.task('sass', function () {
+gulp.task('styles', function () {
   return gulp.src('assets/sass/**/*.scss')
       .pipe(sass({ 
         errLogToConsole: true,
@@ -23,9 +24,9 @@ gulp.task('sass', function () {
       .pipe(gulp.dest('dist/assets/css'));
 });
 
-gulp.task('fonts', function () {
-  return gulp.src('assets/fonts/**/*.*')
-      .pipe(gulp.dest('dist/assets/fonts'));
+gulp.task('scripts', function () {
+  return gulp.src('assets/scripts/**/*.js')
+      .pipe(gulp.dest('dist/assets/scripts'));
 });
 
 gulp.task('img', function () {
@@ -33,9 +34,9 @@ gulp.task('img', function () {
       .pipe(gulp.dest('dist/assets/img'));
 });
 
-gulp.task('scripts', function () {
-  return gulp.src('assets/scripts/**/*.js')
-      .pipe(gulp.dest('dist/assets/scripts'));
+gulp.task('fonts', function () {
+  return gulp.src('assets/fonts/**/*.*')
+      .pipe(gulp.dest('dist/assets/fonts'));
 });
 
 gulp.task('bowerfiles', function(){
@@ -51,10 +52,10 @@ gulp.task('livereload', function (){
 });
 
 gulp.task('watch', function () {
-  gulp.watch('assets/sass/**/*.scss', ['sass']);
-  gulp.watch('assets/img/**/*.*', ['img']);
-  gulp.watch('assets/scripts/*.js', ['scripts']);
-  gulp.watch('dist/**/**/*', ['livereload']);
+  gulp.watch('assets/sass/**/*.scss', ['styles']);
+  // gulp.watch('assets/img/**/*.*', ['img']);
+  // gulp.watch('assets/scripts/**/*.js', ['scripts']);
+  // gulp.watch('dist/**/**/*', ['livereload']);
 });
 
 // Inject Bower components
@@ -79,6 +80,6 @@ gulp.task('wiredep', function () {
         .pipe(gulp.dest('templates'));
 });
 
-gulp.task('build', ['sass', 'fonts', 'img', 'scripts', 'bowerfiles']);
-gulp.task('default', ['sass', 'fonts', 'img', 'scripts', 'bowerfiles', 'connect', 'watch']);
+gulp.task('build', ['styles', 'fonts', 'img', 'scripts', 'bowerfiles']);
+gulp.task('default', ['styles', 'fonts', 'img', 'scripts', 'bowerfiles', 'connect', 'watch']);
 
