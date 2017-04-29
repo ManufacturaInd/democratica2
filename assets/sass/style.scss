@@ -161,22 +161,37 @@ body.white-bg #content {
   background: $dark-blue;
   box-shadow: 0 4px 5px rgba($black, 0.4);
   margin-bottom: 2rem;
-  font-size: 0.875rem;
+  /*font-size: 0.875rem;
+  line-height: 1;*/
   
   .top-bar {
     a {
       color: #fff;
       text-transform: uppercase;
       letter-spacing: 1px;
+      padding-top: 1.25rem;
+      padding-bottom: 1.25rem;
     }
     
     .top-bar-title {
-      a {
-        font-family: "League Gothic", sans-serif;
-        font-weight: 400;
-        font-size: 1.25rem;
-        line-height: 1;
-        display: inline-block;
+      span {
+        display: table-cell;
+        
+        &.main-menu-icon {
+          padding-right: 0.45rem;
+        }
+        
+        &#logo {
+          a {
+            font-family: "League Gothic", sans-serif;
+            font-weight: 400;
+            font-size: 1.25rem;
+            line-height: 1;
+            padding-top: 1.125rem;
+            padding-bottom: 1.125rem;
+            display: block;
+          }
+        }
       }
     }
     
@@ -187,14 +202,15 @@ body.white-bg #content {
     .top-bar-right {
       .input-group {
         margin: 0;
+        padding-top: 0.45rem;
         input {
-          font-size: 0.875rem;
+          /*font-size: 0.875rem;*/
           margin: 0;
         }
         .button {
           text-transform: uppercase;
-          
-          font-size: 0.75rem;
+          margin-right: 0;/*
+          font-size: 0.75rem;*/
           text-shadow: 1px 1px 2px $ultra-darkblue;
         }
       }
