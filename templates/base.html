@@ -24,26 +24,26 @@
   </head>
   <body class="{% block extrabodyclass %}default{% endblock %}">
 
-    <div id="main-menu">
-      <div class="column row">
-        <nav class="top-bar">
+    <nav id="main-menu">
+      <div class="top-bar">
+        <div class="row large-collapse">
           <div class="top-bar-title">
-            <span data-responsive-toggle="responsive-menu" data-hide-for="medium">
+            <span class="main-menu-icon" data-responsive-toggle="responsive-menu" data-hide-for="medium">
               <button class="menu-icon" type="button" data-toggle></button>
             </span>
-            <a href="/">Demo.cratica</a>
+            <span id="logo"><a href="/">Demo.cratica</a></span>
           </div>
           <div id="responsive-menu">
             <div class="top-bar-left">
               <ul class="menu">
-                    <li {% if page_name == "deputados" %} class="active" {% endif %}><a href="/deputados/">Deputados</a></li>
-                    <li {% if page_name == "sessoes" %} class="active" {% endif %}><a href="/sessoes/">Sessões</a></li>
-                  </ul>
+                <li {% if page_name == "deputados" %} class="active" {% endif %}><a href="/deputados/">Deputados</a></li>
+                <li {% if page_name == "sessoes" %} class="active" {% endif %}><a href="/sessoes/">Sessões</a></li>
+              </ul>
             </div>
             <div class="top-bar-right">
               <ul class="menu">
                 <li>
-                  <form method="get" action="/recherche">
+                  <form method="get" action="/search">
                     <div class="input-group">
                       <input type="search" placeholder="Em construção!" name="search" class="input-group-field">
                       <div class="input-group-button">
@@ -54,10 +54,10 @@
                 </li>
               </ul>
             </div>
-          </div>
-        </nav>        
-      </div><!-- /.row.column -->
-    </div><!-- /#main-menu -->
+          </div>        
+        </div><!-- /.row.column -->
+      </div>
+    </nav><!-- /#main-menu -->
     
     <div id="content" class="row collapse">
       {% block content %}{% endblock %}
