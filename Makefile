@@ -51,7 +51,7 @@ install:
 	. `pwd`/.env/bin/activate; pip install -r site-generator/requirements.txt
 
 serve:
-	. `pwd`/.env/bin/activate; cd dist && livereload --host 0.0.0.0 --port $(SERVER_PORT)
+	gulp serve	
 
 live-upload:
 	rsync --compress --progress --recursive --update --delete dist/ $(SSH_PATH)

@@ -8,7 +8,7 @@ var debug = require('gulp-debug');
 
 gulp.task('connect', function(){
   connect.server({
-    root: 'public',
+    root: 'dist',
     livereload: true
   });
 });
@@ -21,7 +21,8 @@ gulp.task('styles', function () {
         includePaths: ['bower_components/foundation-sites/scss']
       }).on('error', sass.logError))
       .pipe(cleanCSS({compatibility: 'ie8'}))
-      .pipe(gulp.dest('dist/assets/css'));
+      .pipe(gulp.dest('dist/assets/css'))
+      .pipe(connect.reload());
 });
 
 gulp.task('scripts', function () {
@@ -47,8 +48,8 @@ gulp.task('bowerfiles', function(){
 });
 
 gulp.task('livereload', function (){
-  return gulp.src('./public/**/*')
-  .pipe(connect.reload());
+  return gulp.src('./dist/**/*')
+    .pipe(connect.reload);
 });
 
 gulp.task('watch', function () {
