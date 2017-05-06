@@ -8,33 +8,35 @@
 {% block ogtype %}transcript{% endblock %}
 
 {% block content %}
-  <div class="row">
-    <div class="small-12 columns text-right">
-      <p class="intro"><span>
-        <strong>{{ leg }}ª</strong> Legislatura &mdash; <strong>{{ sess }}ª</strong> Sessão Legislativa &mdash; Diário n.º <strong>{{ num }}</strong>
-      </span></p>
-    </div>
-  </div>
-  <header class="row">
-    <div class="small-12 columns ribbon text-center">
-	    <h2>{{ session_date.day }} de {{ monthnames[session_date.month-1] }} de {{ session_date.year }}</h2>
-	  </div>
-  </header>
-
-  <section>
-    {% if url_pdf %}
-      <div class="row">
-        <div class="small-12 columns">
-          <p>Consultar o <a href="{{ url_pdf }}" target="_blank">PDF oficial</a> ou a <a href="{{ url_debates }}" target="_blank">versão web oficial</a> desta transcrição.</p>
-        </div>
+  <div class="row collapse">
+    <div class="row">
+      <div class="small-12 columns text-right">
+        <p class="intro"><span>
+          <strong>{{ leg }}ª</strong> Legislatura &mdash; <strong>{{ sess }}ª</strong> Sessão Legislativa &mdash; Diário n.º <strong>{{ num }}</strong>
+        </span></p>
       </div>
-    {% endif %}
-    {% for entry in contents %}
-      <div class="entry {{ entry.type }} row">
-        {% include "snippets-session/" + entry.type + ".html" %}
-      </div><!-- /.entry.row -->
-    {% endfor %}
-  </section>
+    </div>
+    <header class="row">
+      <div class="small-12 columns ribbon text-center">
+	      <h2>{{ session_date.day }} de {{ monthnames[session_date.month-1] }} de {{ session_date.year }}</h2>
+	    </div>
+    </header>
+
+    <section>
+      {% if url_pdf %}
+        <div class="row notice">
+          <div class="medium-9 medium-offset-3 small-10 small-offset-2 columns">
+            <p>Consultar o <a href="{{ url_pdf }}" target="_blank">PDF oficial</a> ou a <a href="{{ url_debates }}" target="_blank">versão web oficial</a> desta transcrição.</p>
+          </div>
+        </div>
+      {% endif %}
+      {% for entry in contents %}
+        <div class="entry {{ entry.type }} row">
+          {% include "snippets-session/" + entry.type + ".html" %}
+        </div><!-- /.entry.row -->
+      {% endfor %}
+    </section>
+  </div>
   
 {% endblock content %}
 

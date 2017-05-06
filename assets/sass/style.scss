@@ -99,11 +99,13 @@ html {
 	background: $dark-blue url(../img/backgrounds/bg-texture-blue.png) repeat 0 0;
 }
 
-body.white-bg #content {
+body.white-bg #content > div.row {
   background: $white url(../img/backgrounds/bg-texture-black.png) repeat 0 0;
+  padding-top: 1rem;
   & > section {
     padding-left: 2rem;
     padding-right: 2rem;
+    padding-top: 1rem;
     padding-bottom: 1rem;
   }
 }
@@ -154,6 +156,16 @@ body.white-bg #content {
 .be     { color: $be; }
 .cds-pp { color: $cds-pp; }
 .pev    { color: $pev; }
+
+/* external links */
+a[href*="//"]:not([href*="demo.cratica.org"]) {
+  &::after {
+    display: inline-block;
+    content: '↗';
+    color: $light-blue;
+    margin-right: 2px;
+  }
+}
 
 /* Top navigation
 */
@@ -453,107 +465,6 @@ body.home {
   }
 }
 
-/* calendar from previous css
-*/
-
-/*
-#calendar {
-  background-color: #373e48;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-}
-
-#calendar .month {
-  overflow: auto;
-  margin: 3px 0 0;
-}
-
-#calendar .month h4 {
-  display: block;
-  float: left;
-  padding: 5px 0; 
-  min-width: 40px;
-  margin: 0 5px 0 0;
-  font-size: 100%;
-  border-bottom: 0;
-}
-
-#calendar .month abbr {
-  color: #b7bec8;
-  border-bottom: 0;
-  text-transform: uppercase;
-}
-
-#calendar ul {
-  margin-bottom: 0.25rem;
-  margin-left: 0;
-}
-
-#calendar ul li {
-  display: inline-block;
-}
-
-#calendar ul a,
-#calendar ul span.day {
-  display: inline-block;
-  min-width: 22px;
-  padding: 0.35rem 0.25rem;
-  text-align: center;
-  text-decoration: none;
-  color: #3f4958;
-  font-size: 78%;
-  line-height: 1;
-  font-weight: 700;
-}
-
-#calendar ul span {
-  background-color: #636f82;
-}
-
-#calendar ul .empty {
-  background: transparent;
-}
-
-#calendar ul a.session-yes {
-  background-color: #e9ddaf;
-  color: #484537;
-  border-radius: 3px;
-}
-
-#calendar ul .weekend {
-  background-color: #535d6c;
-}
-
-#calendar ul .missing {
-  background-color: #f1ecd5;
-  color: #9e9c95;
-}
-
-#calendar ul .future {
-  background-color: #434c58;
-  color: #4f5a68;
-}
-
-#calendar ul .election {
-  padding: 2px 0px;
-  border: 1px solid #939dac;
-  color: #E9DDAF;
-  background-color: #737d9c;
-  cursor: default;
-  border-radius: 3px;
-}
-
-#calendar ul .empty + span {    
-  border-top-left-radius: 3px;
-  border-bottom-left-radius: 3px;
-}
-
-#calendar ul a:hover,
-#calendar ul a:focus {
-  background-color: $white;
-}
-*/
-
 /* Session
 */
 
@@ -615,6 +526,12 @@ header.row.collapse {
       background: rgba(255, 255, 255, 0.4);
       border-radius: 3px;
     }
+  }
+  
+  .notice {
+    font-family: $body-font-family;
+    font-style: italic;
+    text-align: right;
   }
 
   .entry {
