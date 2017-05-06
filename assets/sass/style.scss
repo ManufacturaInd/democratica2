@@ -119,18 +119,20 @@ body.white-bg #content > div.row {
   height: 83px;
   overflow: hidden;
   border-radius: 50%;
-  border: 2px solid $white-blue;
+  border-width: 2px;
+  border-style: solid;
+  border-color: $white-blue;
   background-color: $white;
   img {
     width: 83px;
     height: auto;
     }
-  /*&.ps     { border: 2px solid rgba($ps, 0.4); }
-  &.psd    { border: 2px solid rgba($psd, 0.4); }
-  &.pcp    { border: 2px solid rgba($pcp, 0.4); }
-  &.be     { border: 2px solid rgba($be, 0.4); }
-  &.cds-pp { border: 2px solid rgba($cds-pp, 0.4); }
-  &.pev    { border: 2px solid rgba($pev, 0.4); }*/
+  &.ps     { border-color: rgba($ps, 0.4); }
+  &.psd    { border-color: rgba($psd, 0.4); }
+  &.pcp    { border-color: rgba($pcp, 0.4); }
+  &.be     { border-color: rgba($be, 0.4); }
+  &.cds-pp { border-color: rgba($cds-pp, 0.4); }
+  &.pev    { border-color: rgba($pev, 0.4); }
 }
 
 .ribbon .profile-pic { /* mp page styling */
@@ -610,7 +612,16 @@ header.row.collapse {
       }
     }
   
-    &.continuacao {}
+    &.dep-continuacao {
+      .speaker {
+        .profile-pic {
+          width: 40px;
+          height: 40px;
+          background: #fff;
+          img { width: 30px; }
+        }
+      }
+    }
   }
   
 

@@ -5,44 +5,46 @@
 {% block title %}Deputados &mdash; Demo.cratica{% endblock %}
 
 {% block content %}
+  
+  <div class="row colapse">
+    <section>
+      <div id="mpsearch-list" class="row">
+        <div id="mpsearch-box">
+          <input id="mpsearch-input" class="search" placeholder="Pesquisar..." />
+          <input id="mpsearch-active" type="checkbox" />
+          <label for="mpsearch-active">Apenas deputados ativos</label>
+          <button class="sort" data-sort="name">Ordenar por nome</button> 
+          <button class="sort" data-sort="party">Ordenar por partido</button> 
+        </div>
 
-  <section>
-    <div id="mpsearch-list" class="row">
-      <div id="mpsearch-box">
-        <input id="mpsearch-input" class="search" placeholder="Pesquisar..." />
-        <input id="mpsearch-active" type="checkbox" />
-        <label for="mpsearch-active">Apenas deputados ativos</label>
-        <button class="sort" data-sort="name">Ordenar por nome</button> 
-        <button class="sort" data-sort="party">Ordenar por partido</button> 
-      </div>
-
-      {# Esta era a lista antiga que dividia em 3 colunas.
-      <div class="large-12 columns">
-      {% for col in mps|sort(attribute="shortname")|slice(3) %}
-        <ul class="no-bullet list mp-list{% if loop.last %} last{% endif %}">
-          {% for mp in col %}   
-            <li class="{{ loop.cycle('odd', 'even') }}"><a href="/deputados/{{ mp.slug }}/">
-              <span class="party {{ mp.party|lower }}">{{ mp.party }}</span>
-              <span class="name">{{ mp.shortname }}</span>
-            </a></li>
-          {% endfor %}
-        </ul>
-      {% endfor %}
-      #}
-      <div class="large-12 columns">
-        <ul class="no-bullet list mp-list">
-          {% for mp in mps|sort(attribute="shortname") %}
-            <li class="{{ loop.cycle('odd', 'even') }}" data-id="{{ mp.id }}">
-              <a href="/deputados/{{ mp.slug }}/">
-                <span class="name active" data-active="{{ mp.active }}">{{ mp.shortname }}</span>
-              </a>
-              <span class="party {{ mp.party|lower }}">{{ mp.party }}</span>
-            </li>
-          {% endfor %}
-        </ul>
-      </div>
-    </div><!-- /.row--> 
-  </section><!-- /.row-->
+        {# Esta era a lista antiga que dividia em 3 colunas.
+        <div class="large-12 columns">
+        {% for col in mps|sort(attribute="shortname")|slice(3) %}
+          <ul class="no-bullet list mp-list{% if loop.last %} last{% endif %}">
+            {% for mp in col %}   
+              <li class="{{ loop.cycle('odd', 'even') }}"><a href="/deputados/{{ mp.slug }}/">
+                <span class="party {{ mp.party|lower }}">{{ mp.party }}</span>
+                <span class="name">{{ mp.shortname }}</span>
+              </a></li>
+            {% endfor %}
+          </ul>
+        {% endfor %}
+        #}
+        <div class="large-12 columns">
+          <ul class="no-bullet list mp-list">
+            {% for mp in mps|sort(attribute="shortname") %}
+              <li class="{{ loop.cycle('odd', 'even') }}" data-id="{{ mp.id }}">
+                <a href="/deputados/{{ mp.slug }}/">
+                  <span class="name active" data-active="{{ mp.active }}">{{ mp.shortname }}</span>
+                </a>
+                <span class="party {{ mp.party|lower }}">{{ mp.party }}</span>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div><!-- /.row--> 
+    </section>
+  </div><!-- /.row.collapse-->
   
 {% endblock %}
 
