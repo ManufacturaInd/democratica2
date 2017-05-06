@@ -141,6 +141,7 @@ body.white-bg #content {
 
 .party {
   font-size: 90%;
+  line-height: 1.1;
   font-family: $body-font-family;
   font-weight: 700;
   text-transform: uppercase;
@@ -161,8 +162,6 @@ body.white-bg #content {
   background: $dark-blue;
   box-shadow: 0 4px 5px rgba($black, 0.4);
   margin-bottom: 2rem;
-  /*font-size: 0.875rem;
-  line-height: 1;*/
   
   .top-bar {
     a {
@@ -175,11 +174,7 @@ body.white-bg #content {
     
     .top-bar-title {
       span {
-        display: table-cell;
-        
-        &.main-menu-icon {
-          padding-right: 0.45rem;
-        }
+        display: inline-block;
         
         &#logo {
           a {
@@ -204,19 +199,72 @@ body.white-bg #content {
         margin: 0;
         padding-top: 0.45rem;
         input {
-          /*font-size: 0.875rem;*/
           margin: 0;
         }
         .button {
           text-transform: uppercase;
-          margin-right: 0;/*
-          font-size: 0.75rem;*/
+          margin-right: 0;
           text-shadow: 1px 1px 2px $ultra-darkblue;
         }
       }
     }
   }
 }
+
+/* Navigation in small screens
+*/
+@media screen and (max-width: 39.9375em) {
+
+  #main-menu .top-bar {
+    .row.column {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .top-bar-title {
+      display: block;
+      margin-right: 0;
+      float: none;
+      padding-right: 1rem;
+      padding-left: 1rem;
+      
+      &::before, &::after {
+        content: " ";
+        display: table;
+      }
+      &::after { clear: both; }
+      
+      .main-menu-icon {
+        padding: 0.2rem 0.45rem;
+        margin-top: 0.75rem;
+        border: 1px solid $democratica-blue;
+        border-radius: 2px;
+        .menu-icon {
+          margin-top: -0.35rem;
+        }
+      }
+    }
+    .menu li a,
+    .top-bar-right .menu .input-group {
+      padding: 0.65rem 1rem;      
+    }
+    #responsive-menu {
+      border-top: 1px solid $democratica-blue;
+      padding-top: 0.25rem;
+      padding-bottom: 0.45rem;
+      
+      &::before, &::after {
+        content: " ";
+        display: table;
+      }
+      &::after { clear: both; }
+      
+      .top-bar-right .input-group input {
+        max-width: 100%;
+      }
+    }
+  }
+}
+
 
 /* Homepage
 */
@@ -570,10 +618,10 @@ header.row.collapse {
   }
 
   .entry {
-      padding-top: 0.5rem;
-      padding-bottom: 0.5rem;
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem;
     .speaker {
-      padding-top: 1rem;
+      padding-top: 1.25rem;
       font-family: $body-font-family;
       h5 {
         line-height: 1.2;
@@ -644,6 +692,8 @@ header.row.collapse {
         letter-spacing: 1px;
       }
     }
+  
+    &.continuacao {}
   }
   
 

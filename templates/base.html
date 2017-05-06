@@ -26,28 +26,28 @@
 
     <nav id="main-menu">
       <div class="top-bar">
-        <div class="row large-collapse">
+        <div class="row column">
           <div class="top-bar-title">
-            <span class="main-menu-icon" data-responsive-toggle="responsive-menu" data-hide-for="medium">
+            <span id="logo"><a href="/">Demo.cratica</a></span>
+            <span class="main-menu-icon show-for-small-only float-right" data-responsive-toggle="responsive-menu" data-hide-for="medium">
               <button class="menu-icon" type="button" data-toggle></button>
             </span>
-            <span id="logo"><a href="/">Demo.cratica</a></span>
           </div>
           <div id="responsive-menu">
             <div class="top-bar-left">
-              <ul class="menu">
+              <ul class="menu vertical medium-horizontal">
                 <li {% if page_name == "deputados" %} class="active" {% endif %}><a href="/deputados/">Deputados</a></li>
                 <li {% if page_name == "sessoes" %} class="active" {% endif %}><a href="/sessoes/">Sessões</a></li>
               </ul>
             </div>
             <div class="top-bar-right">
-              <ul class="menu">
+              <ul class="menu vertical medium-horizontal">
                 <li>
                   <form method="get" action="/search">
                     <div class="input-group">
                       <input type="search" placeholder="Em construção!" name="search" class="input-group-field">
                       <div class="input-group-button">
-                        <input type="submit" value="Pesquisar" class="button ">
+                        <input type="submit" value="Pesquisar" class="button">
                       </div>
                     </div>
                   </form>
@@ -59,7 +59,7 @@
       </div>
     </nav><!-- /#main-menu -->
     
-    <div id="content" class="row collapse">
+    <div id="content">
       {% block content %}{% endblock %}
     </div> <!-- /#content -->
     
@@ -83,7 +83,7 @@
     <!-- bower:js -->
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/what-input/dist/what-input.js"></script>
-    <script src="/bower_components/foundation-sites/dist/js/foundation.js"></script>
+    <script src="/bower_components/foundation-sites/dist/foundation.js"></script>
     <script src="/bower_components/list.js/dist/list.js"></script>
     <!-- endbower -->
     
