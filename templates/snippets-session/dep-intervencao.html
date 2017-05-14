@@ -1,31 +1,15 @@
 <div class="speaker medium-2 small-3 columns text-center">
   {% if entry['speaker'] in speakers %}
     {% with speaker = speakers[entry['speaker']] %}
-      {% if entry.type.endswith('continuacao') %}
-        <p>
-          {% if speaker.image_url %}
-            <span class="profile-pic {{ speaker.party|lower }}">
-              <img src="/assets/img/deputados/{{ speaker.slug }}.jpg">
-            </span>
-          {% endif %}
-          <span class="block text-left">
-            <a href="/deputados/{{ speaker.slug }}/">
-              <strong>{{ speaker.shortname }}</strong>
-            </a>
-            <span class="party {{ speaker.party|lower }}">{{ speaker.party }}</span>
-          </span>
+      {% if speaker.image_url %}
+        <p class="profile-pic  {{ speaker.party|lower }}">
+          <img src="/assets/img/deputados/{{ speaker.slug }}.jpg">
         </p>
-      {% else %}
-        {% if speaker.image_url %}
-          <p class="profile-pic  {{ speaker.party|lower }}">
-            <img src="/assets/img/deputados/{{ speaker.slug }}.jpg">
-          </p>
-        {% endif %}
-        <a href="/deputados/{{ speaker.slug }}/">
-          <h5 class="secondary">{{ speaker.shortname }}</h5>
-        </a>
-        <span class="party {{ speaker.party|lower }}">{{ speaker.party }}</span>
       {% endif %}
+      <a href="/deputados/{{ speaker.slug }}/">
+        <h5 class="secondary">{{ speaker.shortname }}</h5>
+      </a>
+      <span class="party {{ speaker.party|lower }}">{{ speaker.party }}</span>
     {% endwith %}
   {% else %}
     <p><strong>{{ entry.speaker }}</strong></p>
