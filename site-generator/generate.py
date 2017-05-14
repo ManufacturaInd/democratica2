@@ -39,6 +39,7 @@ class SiteGenerator(object):
         self.gov_mp_ids = [int(row[2]) for row in self.govpost_data if row[2]]
         self.date_data = get_date_dataset()
         self.date_data.reverse()
+        self.datedict = generate_datedict()
 
         create_dir(self.output_dir)
         create_dir(os.path.join(self.output_dir, self.sessions_path))
@@ -104,14 +105,13 @@ class SiteGenerator(object):
             self.render_template_into_file('mp_detail.html', filename, context)
 
     def generate_session_index(self):
-        datedict = generate_datedict()
-        all_years = [y for y in datedict]
-        for year_number in datedict:
-            year = datedict[year_number]
+        all_years = [y for y in self.datedict]
+        for year_number in self.datedict:
+            year = self.datedict[year_number]
             context = {'year': year,
                        'year_number': year_number,
                        'all_years': all_years,
-                       'datedict': datedict,
+                       'datedict': self.datedict,
                        'months': MESES,
                        'months_short': [m[:3] for m in MESES],
                        'page_name': 'sessoes',
@@ -121,11 +121,11 @@ class SiteGenerator(object):
             self.render_template_into_file('session_list.html', filename, context)
         # Get most recent year and make the session homepage (when you open the "sessions" tab)
         y = all_years[-1]
-        year = datedict[y]
+        year = self.datedict[y]
         context = {'year': year,
                    'year_number': year_number,
                    'all_years': all_years,
-                   'datedict': datedict,
+                   'datedict': self.datedict,
                    'months': MESES,
                    'months_short': [m[:3] for m in MESES],
                    'page_name': 'sessoes',
@@ -177,6 +177,7 @@ class SiteGenerator(object):
 @click.option("-f", "--fast-run", help="Generate only a few transcripts to save time", is_flag=True, default=False)
 @click.command()
 def generate_site(fast_run):
+    log.info("Initialising site generator...")
     sg = SiteGenerator()
     log.info("Generating index...")
     sg.generate_homepage()
@@ -184,7 +185,7 @@ def generate_site(fast_run):
     sg.generate_mp_index()
     log.info("Generating MP pages...")
     sg.generate_mp_pages()
-    log.info("Generating HTML session pages...")
+    log.info("Generating session pages...")
     sg.generate_session_pages(fast_run)
     log.info("Generating session index...")
     sg.generate_session_index()
