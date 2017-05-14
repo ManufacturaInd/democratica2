@@ -41,7 +41,7 @@ def get_date_dataset():
     return data
 
 
-def generate_datedict():
+def generate_datedict(fast_run=False):
     '''
     Creates a dict with details for every day:
     * which weekday it is
@@ -55,7 +55,11 @@ def generate_datedict():
     datedict = OrderedDict()
     data = get_date_dataset()
     all_dates = [dateparser.parse(row[3]) for row in data]
-    all_years = list(set([d.year for d in all_dates]))
+    if fast_run:
+        this_year = datetime.date.today().year
+        all_years = [this_year, this_year - 1]
+    else:
+        all_years = list(set([d.year for d in all_dates]))
     for year in all_years:
         # populate it with its months
         # if current year, trim future months

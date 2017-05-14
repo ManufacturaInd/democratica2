@@ -12,20 +12,19 @@ import markdown
 from utils import create_dir, format_date, years_since
 from utils_dataset import get_gov_dataset, get_date_dataset, get_govpost_dataset, generate_datedict, generate_mp_list, get_session_from_legsessnum, get_session_info
 
-
-FAST_RUN_COUNT = 20
-
 MESES = ['janeiro', 'fevereiro', u'março', 'abril', 'maio', 'junho', 'julho',
          'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
 
 
 class SiteGenerator(object):
-    def __init__(self):
+    def __init__(self, fast_run=False):
         self.output_dir = "dist"
         self.sessions_path = "sessoes/"
         self.mps_path = "deputados/"
         self.photos_base_url = '/assets/img/deputados/'
         self.templates_path = "templates/"
+        self.fast_run = fast_run
+        self.fast_run_count = 20
 
         self.env = jinja2.Environment(loader=jinja2.FileSystemLoader([self.templates_path]),
                                       extensions=['jinja2htmlcompress.SelectiveHTMLCompress', 'jinja2.ext.with_'],
@@ -39,7 +38,7 @@ class SiteGenerator(object):
         self.gov_mp_ids = [int(row[2]) for row in self.govpost_data if row[2]]
         self.date_data = get_date_dataset()
         self.date_data.reverse()
-        self.datedict = generate_datedict()
+        self.datedict = generate_datedict(self.fast_run)
 
         create_dir(self.output_dir)
         create_dir(os.path.join(self.output_dir, self.sessions_path))
@@ -132,8 +131,8 @@ class SiteGenerator(object):
                    }
         self.render_template_into_file('session_list.html', self.sessions_path + 'index.html', context)
 
-    def generate_session_pages(self, fast_run=False):
-        if fast_run:
+    def generate_session_pages(self):
+        if self.fast_run:
             COUNTER = 0
         for leg, sess, num, d, dpub, page_start, page_end in self.date_data:
             dateobj = dateparser.parse(d)
@@ -168,9 +167,9 @@ class SiteGenerator(object):
                 session['monthnames'] = MESES
                 session['page_name'] = 'sessoes'
                 self.render_template_into_file('session.html', filename, session)
-            if fast_run:
+            if self.fast_run:
                 COUNTER += 1
-                if COUNTER > FAST_RUN_COUNT:
+                if COUNTER > self.fast_run_count:
                     break
 
 
@@ -178,7 +177,7 @@ class SiteGenerator(object):
 @click.command()
 def generate_site(fast_run):
     log.info("Initialising site generator...")
-    sg = SiteGenerator()
+    sg = SiteGenerator(fast_run)
     log.info("Generating index...")
     sg.generate_homepage()
     log.info("Generating MP index...")
@@ -186,7 +185,7 @@ def generate_site(fast_run):
     log.info("Generating MP pages...")
     sg.generate_mp_pages()
     log.info("Generating session pages...")
-    sg.generate_session_pages(fast_run)
+    sg.generate_session_pages()
     log.info("Generating session index...")
     sg.generate_session_index()
 
