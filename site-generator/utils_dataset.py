@@ -181,6 +181,7 @@ def generate_mp_list(only_active=True):
         mps.append(mp)
     return mps
 
+
 mp_data = generate_mp_list(only_active=False)
 
 

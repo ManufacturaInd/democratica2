@@ -12,7 +12,8 @@ def replace_letters(s, letters, l):
 
 
 def slugify(s):
-    '''Creates accent-aware slugs based on human formatted strings.'''
+    '''Creates accent-aware slugs based on human formatted strings.
+    Written with pt_PT strings in mind.'''
     s = s.strip()
     s = s.lower()
     s = s.replace("-", "")
@@ -24,7 +25,7 @@ def slugify(s):
     s = replace_letters(s, u"éèê", u"e")
     s = replace_letters(s, u"íì", u"i")
     s = replace_letters(s, u"óòôõ", u"o")
-    s = replace_letters(s, u"úù", u"u")
+    s = replace_letters(s, u"úùü", u"u")
     s = replace_letters(s, u"ç", u"c")
     return s
 
@@ -81,6 +82,17 @@ def quick_hash_file(filename):
                 break
             md5.update(data)
     return md5.hexdigest()
+
+
+def create_hash_list(globs):
+    '''Accepts a list of glob pattern strings and returns a dictionary with filename/md5hash pairs.'''
+    import glob
+    hashes = {}
+    for g in globs:
+        filenames = glob.glob(g)
+        for fn in filenames:
+            hashes[fn] = quick_hash_file(fn)
+    return hashes
 
 
 def years_ago(years, from_date=None):

@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import os
-import glob
 import codecs
 import click
 import jinja2
@@ -10,7 +9,7 @@ from dateutil import parser as dateparser
 from collections import OrderedDict
 import markdown
 
-from utils import create_dir, format_date, quick_hash_file, years_since
+from utils import create_dir, format_date, years_since
 from utils_dataset import get_gov_dataset, get_date_dataset, get_govpost_dataset, generate_datedict, generate_mp_list, get_session_from_legsessnum, get_session_info
 
 OUTPUT_DIR = "dist"
@@ -19,8 +18,15 @@ MPS_PATH = "deputados/"
 PHOTO_URL_BASE = '/assets/img/deputados/'
 TEMPLATE_DIR = "templates/"
 
+FAST_RUN_COUNT = 20
+
 MESES = ['janeiro', 'fevereiro', u'março', 'abril', 'maio', 'junho', 'julho',
          'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
+
+env = jinja2.Environment(loader=jinja2.FileSystemLoader([TEMPLATE_DIR]),
+                         extensions=['jinja2htmlcompress.SelectiveHTMLCompress', 'jinja2.ext.with_'], trim_blocks=True, lstrip_blocks=True)
+env.filters['date'] = format_date
+md = markdown.Markdown(extensions=['meta'])
 
 
 def render_template_into_file(env, templatename, filename, context=None, place_in_outdir=True):
@@ -38,14 +44,25 @@ def render_template_into_file(env, templatename, filename, context=None, place_i
     outfile.close()
 
 
-def create_hash_list(globs):
-    '''Accepts a list of glob pattern strings and returns a dictionary with filename/md5hash pairs.'''
-    hashes = {}
-    for g in globs:
-        filenames = glob.glob(g)
-        for fn in filenames:
-            hashes[fn] = quick_hash_file(fn)
-    return hashes
+def generate_homepage():
+    context = {"intro_text": md.convert(codecs.open('content/intro.md', 'r', 'utf-8').read())}
+    render_template_into_file(env, 'index.html', 'index.html', context)
+
+
+def generate_mp_index():
+    pass
+
+
+def generate_mp_page(mp):
+    pass
+
+
+def generate_session_index():
+    pass
+
+
+def generate_session_page():
+    pass
 
 
 @click.option("-f", "--fast-run", help="Generate only a few transcripts to save time", is_flag=True, default=False)
@@ -56,16 +73,9 @@ def generate_site(fast_run):
     create_dir(os.path.join(OUTPUT_DIR, TRANSCRIPTS_PATH))
     create_dir(os.path.join(OUTPUT_DIR, MPS_PATH))
 
-    # Init Jinja and Markdown
-    env = jinja2.Environment(loader=jinja2.FileSystemLoader([TEMPLATE_DIR]),
-                             extensions=['jinja2htmlcompress.SelectiveHTMLCompress', 'jinja2.ext.with_'], trim_blocks=True, lstrip_blocks=True)
-    env.filters['date'] = format_date
-    md = markdown.Markdown(extensions=['meta'])
-
     # Generate the site!
     log.info("Generating index...")
-    context = {"intro_text": md.convert(codecs.open('content/intro.md', 'r', 'utf-8').read())}
-    render_template_into_file(env, 'index.html', 'index.html', context)
+    generate_homepage()
 
     log.info("Generating MP index...")
     mps = generate_mp_list(only_active=False)
@@ -125,11 +135,12 @@ def generate_site(fast_run):
             log.warn("File for %s-%s-%s is missing from the transcripts dataset!" % (leg, sess, num))
             continue
         target_dir = "%s%d/%02d/%02d" % (TRANSCRIPTS_PATH, dateobj.year, dateobj.month, dateobj.day)
-        if not os.path.exists(os.path.join(OUTPUT_DIR, target_dir)):
-            create_dir(os.path.join(OUTPUT_DIR, target_dir))
         filename = "%s/index.html" % target_dir
         info = get_session_info(leg, sess, num)
+        create_dir(os.path.join(OUTPUT_DIR, target_dir))
+
         if type(session) in (str, unicode):
+            # sessão em texto simples
             context = {'session_date': dateobj,
                        'year_number': dateobj.year,
                        'leg': leg,
@@ -152,7 +163,7 @@ def generate_site(fast_run):
             render_template_into_file(env, 'session.html', filename, session)
         if fast_run:
             COUNTER += 1
-            if COUNTER > 200:
+            if COUNTER > FAST_RUN_COUNT:
                 break
 
     log.info("Generating session index...")
