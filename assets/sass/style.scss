@@ -115,16 +115,17 @@ body.white-bg #content > div.row {
 }
 
 .profile-pic { /* general styling */
-  width: 83px;
-  height: 83px;
+  width: 78px;
+  height: 84px;
   overflow: hidden;
-  border-radius: 50%;
+  border-radius: 3px;
   border-width: 2px;
   border-style: solid;
   border-color: $white-blue;
-  background-color: $white;
+  background-color: transparent;
+  text-align: center;
   img {
-    width: 83px;
+    width: 78px;
     height: auto;
     }
   &.ps     { border-color: rgba($ps, 0.4); }

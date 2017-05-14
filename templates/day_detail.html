@@ -9,12 +9,10 @@
 
 {% block content %}
   <div class="row collapse">
-    <div class="row">
-      <div class="small-12 columns text-right">
-        <p class="intro"><span>
-          <strong>{{ leg }}ª</strong> Legislatura &mdash; <strong>{{ sess }}ª</strong> Sessão Legislativa &mdash; Diário n.º <strong>{{ num }}</strong>
-        </span></p>
-      </div>
+    <div class="row column text-right">
+      <p class="intro"><span>
+        <strong>{{ leg }}ª</strong> Legislatura &mdash; <strong>{{ sess }}ª</strong> Sessão Legislativa &mdash; Diário n.º <strong>{{ num }}</strong>
+      </span></p>
     </div>
     <header class="row">
       <div class="small-12 columns ribbon text-center">
@@ -25,7 +23,7 @@
     <section>
       {% if url_pdf %}
         <div class="row notice">
-          <div class="medium-9 medium-offset-3 small-10 small-offset-2 columns">
+          <div class="medium-10 medium-offset-2 small-9 small-offset-3 columns">
             <p>Consultar o <a href="{{ url_pdf }}" target="_blank">PDF oficial</a> ou a <a href="{{ url_debates }}" target="_blank">versão web oficial</a> desta transcrição.</p>
           </div>
         </div>
