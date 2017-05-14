@@ -1,4 +1,4 @@
-<div class="speaker medium-3 small-2 columns text-center">
+<div class="speaker medium-2 small-3 columns text-center">
   {% if entry['speaker'] in speakers %}
     {% with speaker = speakers[entry['speaker']] %}
         {% if speaker.image_url %}
@@ -15,6 +15,6 @@
     <p><strong>{{ entry.speaker }}</strong></p>
   {% endif %}
 </div>
-<div class="entry-content medium-9 small-10 columns">
+<div class="entry-content medium-10 small-9 columns">
   {{ entry.text|safe }}
 </div>
