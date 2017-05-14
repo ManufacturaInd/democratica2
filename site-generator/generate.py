@@ -142,14 +142,14 @@ def generate_site(fast_run):
                        }
             if info:
                 context['session_info'] = info
-            render_template_into_file(env, 'day_detail_plaintext.html', filename, context)
+            render_template_into_file(env, 'session_plaintext.html', filename, context)
 
         elif type(session) in (dict, OrderedDict):
             # usar entradas do .json como contexto
             session['session_date'] = dateparser.parse(session['session_date'])
             session['monthnames'] = MESES
             session['page_name'] = 'sessoes'
-            render_template_into_file(env, 'day_detail.html', filename, session)
+            render_template_into_file(env, 'session.html', filename, session)
         if fast_run:
             COUNTER += 1
             if COUNTER > 200:
@@ -170,7 +170,7 @@ def generate_site(fast_run):
                    }
         target_dir = os.path.join(TRANSCRIPTS_PATH + "%s/" % year_number)
         filename = target_dir + "index.html"
-        render_template_into_file(env, 'day_list.html', filename, context)
+        render_template_into_file(env, 'session_list.html', filename, context)
     # Get most recent year and make the session index
     y = all_years[-1]
     year = datedict[y]
@@ -182,7 +182,7 @@ def generate_site(fast_run):
                'months_short': [m[:3] for m in MESES],
                'page_name': 'sessoes',
                }
-    render_template_into_file(env, 'day_list.html', TRANSCRIPTS_PATH + 'index.html', context)
+    render_template_into_file(env, 'session_list.html', TRANSCRIPTS_PATH + 'index.html', context)
 
 
 if __name__ == "__main__":
