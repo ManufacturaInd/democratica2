@@ -32,13 +32,7 @@ class SiteGenerator(object):
         self.env.filters['date'] = format_date
         self.md = markdown.Markdown(extensions=['meta'])
 
-        self.mps = generate_mp_list(only_active=False)
-        self.gov_data = get_gov_dataset()
-        self.govpost_data = list(get_govpost_dataset())
-        self.gov_mp_ids = [int(row[2]) for row in self.govpost_data if row[2]]
-        self.date_data = get_date_dataset()
-        self.date_data.reverse()
-        self.datedict = generate_datedict(self.fast_run)
+        self.mps = None
 
         create_dir(self.output_dir)
         create_dir(os.path.join(self.output_dir, self.sessions_path))
@@ -63,10 +57,17 @@ class SiteGenerator(object):
         self.render_template_into_file('index.html', 'index.html', context)
 
     def generate_mp_index(self):
+        if not self.mps:
+            self.mps = generate_mp_list(only_active=False)
         context = {"mps": self.mps, 'page_name': 'deputados'}
         self.render_template_into_file('mp_list.html', "deputados/index.html", context)
 
     def generate_mp_pages(self):
+        self.gov_data = get_gov_dataset()
+        self.govpost_data = list(get_govpost_dataset())
+        self.gov_mp_ids = [int(row[2]) for row in self.govpost_data if row[2]]
+        if not self.mps:
+            self.mps = generate_mp_list(only_active=False)
         for mp in self.mps:
             id = int(mp['id'])
             mp['photo_url'] = self.photos_base_url + str(id) + ".jpg"
@@ -104,6 +105,7 @@ class SiteGenerator(object):
             self.render_template_into_file('mp_detail.html', filename, context)
 
     def generate_session_index(self):
+        self.datedict = generate_datedict(self.fast_run)
         all_years = [y for y in self.datedict]
         for year_number in self.datedict:
             year = self.datedict[year_number]
@@ -132,6 +134,8 @@ class SiteGenerator(object):
         self.render_template_into_file('session_list.html', self.sessions_path + 'index.html', context)
 
     def generate_session_pages(self):
+        self.date_data = get_date_dataset()
+        self.date_data.reverse()
         if self.fast_run:
             COUNTER = 0
         for leg, sess, num, d, dpub, page_start, page_end in self.date_data:
@@ -173,21 +177,35 @@ class SiteGenerator(object):
                     break
 
 
+@click.option("-r", "--render", default="all", help="Render a specific template", show_default=True)
 @click.option("-f", "--fast-run", help="Generate only a few transcripts to save time", is_flag=True, default=False)
 @click.command()
-def generate_site(fast_run):
-    log.info("Initialising site generator...")
+def generate_site(fast_run, render):
     sg = SiteGenerator(fast_run)
-    log.info("Generating index...")
-    sg.generate_homepage()
-    log.info("Generating MP index...")
-    sg.generate_mp_index()
-    log.info("Generating MP pages...")
-    sg.generate_mp_pages()
-    log.info("Generating session pages...")
-    sg.generate_session_pages()
-    log.info("Generating session index...")
-    sg.generate_session_index()
+
+    if render == "homepage":
+        sg.generate_homepage()
+    elif render == "mp_index":
+        sg.generate_mp_index()
+    elif render == "mp_pages":
+        sg.generate_mp_pages()
+    elif render == "session_index":
+        sg.generate_session_index()
+    elif render == "session_pages":
+        sg.generate_session_pages()
+    elif render == "all":
+        # log.info("Generating index...")
+        sg.generate_homepage()
+        # log.info("Generating MP index...")
+        sg.generate_mp_index()
+        # log.info("Generating MP pages...")
+        sg.generate_mp_pages()
+        # log.info("Generating session pages...")
+        sg.generate_session_pages()
+        # log.info("Generating session index...")
+        sg.generate_session_index()
+    else:
+        raise click.BadParameter("invalid parameter for render option")
 
 
 if __name__ == "__main__":

@@ -39,11 +39,10 @@ MAIN_SCRIPT = $(wildcard site-generator/generate.py)
 OFFLINE_FLAG = "--offline"
 
 html:
-	. `pwd`/.env/bin/activate; python $(MAIN_SCRIPT)
 	gulp build
+	. `pwd`/.env/bin/activate; python $(MAIN_SCRIPT)
 
 html-quick:
-	. `pwd`/.env/bin/activate; python $(MAIN_SCRIPT) --fast-run
 	gulp build
 
 install:
@@ -51,7 +50,7 @@ install:
 	. `pwd`/.env/bin/activate; pip install -r site-generator/requirements.txt
 
 serve:
-	gulp
+	gulp watch
 
 live-upload:
 	rsync --compress --progress --recursive --update --delete dist/ $(SSH_PATH)

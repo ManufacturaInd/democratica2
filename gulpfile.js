@@ -5,6 +5,19 @@ var cleanCSS = require('gulp-clean-css');
 var wiredep = require('wiredep').stream;
 var mainBowerFiles = require('gulp-main-bower-files');
 var debug = require('gulp-debug');
+var exec = require('child_process').exec;
+
+// use python scripts to generate HTML from templates
+// the "--render" option is what determines which pages are generated
+// see https://nodejs.org/api/child_process.html#child_process_child_process_execsync_command_options
+var cmd = ". .env/bin/activate && python site-generator/generate.py --fast-run --render ";
+
+gulp.task('html-index',         function(cb) { exec(cmd + 'homepage', function(e) { cb(e); }); });
+gulp.task('html-mp-index',      function(cb) { exec(cmd + 'mp_index', function(e) { cb(e); }); });
+gulp.task('html-mp-pages',      function(cb) { exec(cmd + 'mp_pages', function(e) { cb(e); }); });
+gulp.task('html-session-index', function(cb) { exec(cmd + 'session_index', function(e) { cb(e); }); });
+gulp.task('html-session-pages', function(cb) { exec(cmd + 'session_pages', function(e) { cb(e); }); });
+gulp.task('html',               function(cb) { exec(cmd + 'all', function(e) { cb(e); }); });
 
 gulp.task('connect', function(){
   connect.server({
@@ -47,16 +60,23 @@ gulp.task('bowerfiles', function(){
     .pipe(gulp.dest('dist/bower_components'));
 });
 
-gulp.task('livereload', function (){
-  return gulp.src('./dist/**/*')
-    .pipe(connect.reload);
-});
-
-gulp.task('watch', function () {
+gulp.task('watch', ['connect'], function () {
   gulp.watch('assets/sass/**/*.scss', ['styles']);
+  // img/ has lots of MP images, therefore eats up lots of time re-watching
+  // so we're not watching it ATM
   // gulp.watch('assets/img/**/*.*', ['img']);
-  // gulp.watch('assets/scripts/**/*.js', ['scripts']);
-  // gulp.watch('dist/**/**/*', ['livereload']);
+
+  gulp.watch('templates/base.html',                 ['html']);
+  gulp.watch('templates/index.html',                ['html-index']);
+  gulp.watch('templates/mp_list.html',              ['html-mp-index']);
+  gulp.watch('templates/mp_detail.html',            ['html-mp-pages']);
+  gulp.watch('templates/session_list.html',         ['html-session-index']);
+  gulp.watch(['templates/session_detail.html',
+              'templates/snippets-session/*.html'], ['html-session-pages']);
+  gulp.watch('dist/**/*.html', function(file) {
+    // reload browser on HTML file changes
+    gulp.src(file.path).pipe(connect.reload());
+  });
 });
 
 // Inject Bower components
@@ -81,6 +101,6 @@ gulp.task('wiredep', function () {
         .pipe(gulp.dest('templates'));
 });
 
-gulp.task('build', ['styles', 'fonts', 'img', 'scripts', 'bowerfiles']);
-gulp.task('default', ['styles', 'fonts', 'img', 'scripts', 'bowerfiles', 'connect', 'watch']);
+gulp.task('build', ['html', 'styles', 'fonts', 'img', 'scripts', 'bowerfiles']);
+gulp.task('default', ['html', 'styles', 'fonts', 'img', 'scripts', 'bowerfiles', 'connect', 'watch']);
 
