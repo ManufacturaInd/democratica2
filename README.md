@@ -5,9 +5,9 @@
 Há três repositórios que é preciso colocar em diretórios específicos. Um dia
 vamos simplificar isto, mas para já é assim.
 
-* parlamento-deputados, colocado em `~/datasets`
-* dar-transcricoes-txt, colocado em `~/datasets-central`
-* parlamento-datas_sessoes, colocado em `~/datasets-central`
+* `parlamento-deputados`, colocado em `~/datasets`
+* `dar-transcricoes-txt`, colocado em `~/datasets-central`
+* `parlamento-datas_sessoes`, colocado em `~/datasets-central`
 
 ## Instalação
 
