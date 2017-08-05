@@ -17,6 +17,7 @@ gulp.task('html-mp-index',      function(cb) { exec(cmd + 'mp_index', function(e
 gulp.task('html-mp-pages',      function(cb) { exec(cmd + 'mp_pages', function(e) { cb(e); }); });
 gulp.task('html-session-index', function(cb) { exec(cmd + 'session_index', function(e) { cb(e); }); });
 gulp.task('html-session-pages', function(cb) { exec(cmd + 'session_pages', function(e) { cb(e); }); });
+gulp.task('html-single-pages',  function(cb) { exec(cmd + 'single_pages', function(e) { cb(e); }); });
 gulp.task('html',               function(cb) { exec(cmd + 'all', function(e) { cb(e); }); });
 
 gulp.task('connect', function(){
@@ -66,14 +67,18 @@ gulp.task('watch', ['connect'], function () {
   // so we're not watching it ATM
   // gulp.watch('assets/img/**/*.*', ['img']);
 
-  gulp.watch('templates/base.html',                 ['html']);
+  gulp.watch('templates/base.html', 
+             'site-generator/*.py'                  ['html']);
   gulp.watch('templates/index.html',                ['html-index']);
   gulp.watch('templates/mp_list.html',              ['html-mp-index']);
   gulp.watch('templates/mp_detail.html',            ['html-mp-pages']);
   gulp.watch('templates/session_list.html',         ['html-session-index']);
   gulp.watch(['templates/session_detail.html',
-    'templates/snippets-session/*.html'], ['html-session-pages']);
+              'templates/snippets-session/*.html'], ['html-session-pages']);
+  gulp.watch(['templates/single-page.html',
+              'templates/single-pages/*.html'],     ['html-single-pages']);
   gulp.watch(['dist/index.html', 
+              'dist/acerca/index.html', 
               'dist/deputados/index.html', 
               'dist/deputados/zita-seabra/index.html', 
               'dist/sessoes/2016/10/26/index.html'], 

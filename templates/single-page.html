@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block extrabodyclass %}home{% endblock %}
+
+{% block content %}
+
+  <header id="header" class="row">
+    <div class="small-12 columns text-center">
+      <h3 class="secondary">{% block title %}{% endblock %}</h3>
+    </div>
+  </header><!-- /#header-->
+  
+  <section id="about" class="row">
+    <div class="small-12 columns">
+      {{ md_content }}
+    </div>
+  </section><!-- /#about-->
+   
+{% endblock %}
