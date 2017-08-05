@@ -72,11 +72,15 @@ gulp.task('watch', ['connect'], function () {
   gulp.watch('templates/mp_detail.html',            ['html-mp-pages']);
   gulp.watch('templates/session_list.html',         ['html-session-index']);
   gulp.watch(['templates/session_detail.html',
-              'templates/snippets-session/*.html'], ['html-session-pages']);
-  gulp.watch('dist/**/*.html', function(file) {
-    // reload browser on HTML file changes
-    gulp.src(file.path).pipe(connect.reload());
-  });
+    'templates/snippets-session/*.html'], ['html-session-pages']);
+  gulp.watch(['dist/index.html', 
+              'dist/deputados/index.html', 
+              'dist/deputados/zita-seabra/index.html', 
+              'dist/sessoes/2016/10/26/index.html'], 
+    function(file) {
+      // reload browser on HTML file changes
+      gulp.src(file.path).pipe(connect.reload());
+    });
 });
 
 // Inject Bower components
