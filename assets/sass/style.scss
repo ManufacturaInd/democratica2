@@ -95,6 +95,8 @@ $pev: #607454;
 /* General
 */
 
+a { outline: 0 !important; }
+
 html {
 	background: $dark-blue url(../img/backgrounds/bg-texture-blue.png) repeat 0 0;
 }
@@ -383,6 +385,7 @@ body.home {
   }
   #year-drop {
     background-color: $white-blue;
+    margin-left: 1.2rem;
     li {
       list-style-type: none;
     }
@@ -570,7 +573,7 @@ header.row.collapse {
     
     &:first-child .entry-content p:first-child { border-top: 0; }
     
-    &.cont {
+    &.cont { /* esta classe já não existe */
       .speaker p {
         margin-bottom: 0.25rem;
         &::before,
@@ -626,6 +629,25 @@ header.row.collapse {
   }
   
 
+}
+
+/* MP list
+*/
+
+body.mp-list {
+  ul.mp-list {
+    -moz-column-count: 3;
+    -moz-column-gap: 1.8175rem;
+    -webkit-column-count: 3;
+    -webkit-column-gap: 1.8175rem;
+    column-count: 3;
+    column-gap: 1.8175rem;
+    
+    li {
+      padding: 0.5rem 0 0.25rem;
+      border-bottom: 1px solid $ultralight-blue;
+    }
+  }
 }
 
 /* MP page
