@@ -56,10 +56,17 @@ class SiteGenerator(object):
         context = {"intro_text": self.md.convert(codecs.open('content/intro.md', 'r', 'utf-8').read())}
         self.render_template_into_file('index.html', 'index.html', context)
 
+    def generate_single_pages(self):
+        for pname in ("acerca",):
+            context = {"md_content": self.md.convert(codecs.open('content/%s.md' % pname, 'r', 'utf-8').read()),
+                       "page_name": pname}
+            self.render_template_into_file('single-pages/%s.html' % pname, '%s/index.html' % pname, context)
+
     def generate_mp_index(self):
         if not self.mps:
             self.mps = generate_mp_list(only_active=False)
-        context = {"mps": self.mps, 'page_name': 'deputados'}
+        context = {"mps": self.mps,
+                   'page_name': 'deputados'}
         self.render_template_into_file('mp_list.html', "deputados/index.html", context)
 
     def generate_mp_pages(self):
@@ -185,6 +192,8 @@ def generate_site(fast_run, render):
 
     if render == "homepage":
         sg.generate_homepage()
+    elif render == "single_pages":
+        sg.generate_single_pages()
     elif render == "mp_index":
         sg.generate_mp_index()
     elif render == "mp_pages":
@@ -196,6 +205,7 @@ def generate_site(fast_run, render):
     elif render == "all":
         # log.info("Generating index...")
         sg.generate_homepage()
+        sg.generate_single_pages()
         # log.info("Generating MP index...")
         sg.generate_mp_index()
         # log.info("Generating MP pages...")
