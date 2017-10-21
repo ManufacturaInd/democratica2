@@ -69,14 +69,16 @@ gulp.task('watch', ['connect'], function () {
 
   gulp.watch('templates/base.html', 
              'site-generator/*.py'                  ['html']);
-  gulp.watch('templates/index.html',                ['html-index']);
+  gulp.watch(['templates/index.html',
+             'content/intro.md'],                   ['html-index']);
   gulp.watch('templates/mp_list.html',              ['html-mp-index']);
   gulp.watch('templates/mp_detail.html',            ['html-mp-pages']);
   gulp.watch('templates/session_list.html',         ['html-session-index']);
   gulp.watch(['templates/session_detail.html',
               'templates/snippets-session/*.html'], ['html-session-pages']);
   gulp.watch(['templates/single-page.html',
-              'templates/single-pages/*.html'],     ['html-single-pages']);
+              'templates/single-pages/*.html',
+              'content/*.md'],                      ['html-single-pages']);
   gulp.watch(['dist/index.html', 
               'dist/acerca/index.html', 
               'dist/deputados/index.html', 

@@ -57,10 +57,10 @@ class SiteGenerator(object):
         self.render_template_into_file('index.html', 'index.html', context)
 
     def generate_single_pages(self):
-        for pname in ("acerca",):
+        for pname in ("acerca", "faq", "dados"):
             context = {"md_content": self.md.convert(codecs.open('content/%s.md' % pname, 'r', 'utf-8').read()),
                        "page_name": pname}
-            self.render_template_into_file('single-pages/%s.html' % pname, '%s/index.html' % pname, context)
+            self.render_template_into_file('single-page.html', '%s/index.html' % pname, context)
 
     def generate_mp_index(self):
         if not self.mps:
