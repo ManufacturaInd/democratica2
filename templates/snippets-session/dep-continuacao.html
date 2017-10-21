@@ -1,4 +1,4 @@
-<div class="speaker medium-2 small-3 columns text-center">
+<div class="speaker medium-2 small-3 columns">
   {% if entry['speaker'] in speakers %}
     {% with speaker = speakers[entry['speaker']] %}
       <a href="/deputados/{{ speaker.slug }}/">
@@ -7,7 +7,7 @@
             <img src="/assets/img/deputados/{{ speaker.slug }}.jpg">
           </p>
         {% endif %}
-        <h5 class="secondary party {{ speaker.party|lower }}">{{ speaker.shortname }}</h5>
+        <h5 class="secondary {{ speaker.party|lower }}">{{ speaker.shortname }}</h5>
       </a>
     {% endwith %}
   {% else %}
