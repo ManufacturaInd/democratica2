@@ -29,7 +29,7 @@
         </div>
       {% endif %}
       {% for entry in contents %}
-        <div class="entry {{ entry.type }} row">
+        <div class="entry {{ entry.type.replace('-', ' ') }} row">
           {% include "snippets-session/" + entry.type + ".html" %}
         </div><!-- /.entry.row -->
       {% endfor %}
