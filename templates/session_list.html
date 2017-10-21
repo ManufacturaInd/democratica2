@@ -9,7 +9,7 @@
       <div class="year-select large-12 columns">
         <strong>Sessões parlamentares em</strong>
         <button id="year-button" class="button" href="#" type="button" data-toggle="year-drop">{{ year_number }}</button>
-        <ul id="year-drop" class="dropdown-pane" id="year-drop" data-dropdown>
+        <ul id="year-drop" class="dropdown-pane small" id="year-drop" data-dropdown>
           {% for y in all_years|sort(reverse=True) %}
           <li><a {% if y == year %}class="selected"{% endif %} href="/sessoes/{{ y }}/">{{ y }}</a></li>
           {% endfor %}

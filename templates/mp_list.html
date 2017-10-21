@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block extrabodyclass %}session white-bg{% endblock %}
+{% block extrabodyclass %}mp-list white-bg{% endblock %}
 
 {% block title %}Deputados &mdash; Demo.cratica{% endblock %}
 
@@ -9,14 +9,16 @@
   <div class="row colapse">
     <section>
       <div id="mpsearch-list" class="row">
-        <div id="mpsearch-box">
+        <div id="mpsearch-box"  class="large-12 columns">
           <input id="mpsearch-input" class="search" placeholder="Pesquisar..." />
           <input id="mpsearch-active" type="checkbox" />
           <label for="mpsearch-active">Apenas deputados ativos</label>
           <button class="sort" data-sort="name">Ordenar por nome</button> 
           <button class="sort" data-sort="party">Ordenar por partido</button> 
         </div>
-
+      </div><!-- /.row #mpsearch-list -->
+      
+      <div class="row">
         {# Esta era a lista antiga que dividia em 3 colunas.
         <div class="large-12 columns">
         {% for col in mps|sort(attribute="shortname")|slice(3) %}
