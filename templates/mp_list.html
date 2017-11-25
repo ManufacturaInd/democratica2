@@ -32,7 +32,7 @@
           </ul>
         {% endfor %}
         #}
-        <div class="large-12 columns">
+        <div id="mpsearch-items" class="large-12 columns">
           <ul class="no-bullet list mp-list">
             {% for mp in mps|sort(attribute="shortname") %}
               <li class="{{ loop.cycle('odd', 'even') }}" data-id="{{ mp.id }}">
@@ -60,7 +60,8 @@
       { name: 'active', attr: 'data-active' }
     ]
   };
-  var mpList = new List('mpsearch-list', options);
+  var mpList = new List('mpsearch-items', options);
+  console.log(mpList);
 
   $(document).ready(function() {
 
