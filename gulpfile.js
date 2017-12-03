@@ -68,7 +68,7 @@ gulp.task('watch', ['connect'], function () {
   // gulp.watch('assets/img/**/*.*', ['img']);
 
   gulp.watch('templates/base.html', 
-             'site-generator/*.py'                  ['html']);
+             'site-generator/*.py',                 ['html']);
   gulp.watch(['templates/index.html',
              'content/intro.md'],                   ['html-index']);
   gulp.watch('templates/mp_list.html',              ['html-mp-index']);
