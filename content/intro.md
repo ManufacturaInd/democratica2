@@ -7,7 +7,7 @@ Estamos em versão beta, o que significa que ainda há partes incompletas e um o
 outro erro ocasional. Caso seja necessária informação de fiabilidade garantida,
 é sempre melhor consultar o [site do Parlamento](http://www.parlamento.pt).
 
-* [mais sobre o Demo.cratica](/acerca/)
+* [ler mais sobre o Demo.cratica](/acerca/)
 * [dados e metodologia](/dados/)
 * [perguntas e respostas frequentes](/faq/)
 

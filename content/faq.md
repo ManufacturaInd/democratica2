@@ -1,20 +1,23 @@
-## Secção 1
+# Perguntas & Respostas
 
-### Pergunta
+## Sobre os dados
 
-Resposta!
+### Porque não chegam os formatos disponibilizados pelo Parlamento?
 
-### Pergunta 2
+Existem duas fontes:
+* o site do Parlamento, que disponibiliza versões em PDF
+* e o [debates.parlamento.pt](http://debates.parlamento.pt), que tem versões em
+  texto (HTML).
 
-Resposta 2! Timbas!
+### Como posso reutilizar os vossos dados das sessões?
 
+* esclarecer licença
 
-## Secção 2
+### Como conseguem o acesso às transcrições em formato .doc?
 
-### Pergunta
+* publicamente, apenas estão disponíveis versões em PDF e HTML
+* acesso via intranet, GP BE
 
-Resposta!
+### Porque demoram tanto tempo a publicar as sessões mais recentes?
 
-### Pergunta 2
-
-Resposta 2! Patatimbas!
+## Sobre o projeto

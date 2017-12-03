@@ -37,7 +37,7 @@ O Demo.cratica existe também graças ao apoio de algumas entidades:
 ## História
 
 O Demo.cratica surgiu como ideia e começou a ganhar forma na Open Data
-Hackathon de 2010 (agora [Open Data Day](http://opendataday.org/)), um evento
+Hackathon de 2011 (agora [Open Data Day](http://opendataday.org/)), um evento
 anual internacional que propõe um dia dedicado a um "sprint" de trabalho e
 reflexão sobre a informação pública e formas de a analisar e publicar. Para
 corresponder a esta data, foi organizado no Hacklaviva um fim-de-semana inteiro
