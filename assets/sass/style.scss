@@ -88,7 +88,7 @@ $pev: #607454;
 /* Import Foundation
 */
 
-@import 'settings';
+@import 'foundation/settings';
 @import 'foundation';
 @include foundation-everything;
 
@@ -643,6 +643,7 @@ body.mp-list {
     -webkit-column-gap: 1.8175rem;
     column-count: 3;
     column-gap: 1.8175rem;
+    min-height: 600px;
     
     li {
       padding: 0.5rem 0 0.25rem;
