@@ -5,16 +5,17 @@
 {% block title %}Deputados &mdash; Demo.cratica{% endblock %}
 
 {% block content %}
-  
-  <div class="row colapse">
-    <section>
+  <div class="row collapse">
+    <section id="mpsearch-items">
       <div id="mpsearch-list" class="row">
-        <div id="mpsearch-box"  class="large-12 columns">
-          <input id="mpsearch-input" class="search" placeholder="Pesquisar..." />
+        <div class="small-12 medium-6 columns">
+          <input id="mpsearch-input" class="search" type="text" placeholder="Pesquisar...">
+        </div>
+        <div class="small-12 medium-6 columns">
           <input id="mpsearch-active" type="checkbox" />
           <label for="mpsearch-active">Apenas deputados ativos</label>
-          <button class="sort" data-sort="name">Ordenar por nome</button> 
-          <button class="sort" data-sort="party">Ordenar por partido</button> 
+          <button class="sort button" data-sort="name">Ordenar por nome</button> 
+          <button class="sort button" data-sort="party">Ordenar por partido</button> 
         </div>
       </div><!-- /.row #mpsearch-list -->
       
@@ -32,13 +33,13 @@
           </ul>
         {% endfor %}
         #}
-        <div id="mpsearch-items" class="large-12 columns">
+        <div class="large-12 columns">
           <ul class="no-bullet list mp-list">
             {% for mp in mps|sort(attribute="shortname") %}
               <li class="{{ loop.cycle('odd', 'even') }}" data-id="{{ mp.id }}">
-                <a href="/deputados/{{ mp.slug }}/">
-                  <span class="name active" data-active="{{ mp.active }}">{{ mp.shortname }}</span>
-                </a>
+                <span class="name active" data-active="{{ mp.active }}">
+                  <a href="/deputados/{{ mp.slug }}/">{{ mp.shortname }}</a>
+                </span>
                 <span class="party {{ mp.party|lower }}">{{ mp.party }}</span>
               </li>
             {% endfor %}
@@ -52,6 +53,7 @@
 
 {% block extrascripts %}
   <script>
+  
   var options = {
     valueNames: [ 
       'name', 
@@ -63,7 +65,7 @@
   var mpList = new List('mpsearch-items', options);
   console.log(mpList);
 
-  $(document).ready(function() {
+ $(document).ready(function() {
 
     $("#mpsearch-active").change(function() {
       if (this.checked) {
