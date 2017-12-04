@@ -23,11 +23,14 @@ class SiteGenerator(object):
         self.mps_path = "deputados/"
         self.photos_base_url = '/assets/img/deputados/'
         self.templates_path = "templates/"
+        self.loaded_templates = {}
         self.fast_run = fast_run
         self.fast_run_count = 20
 
         self.env = jinja2.Environment(loader=jinja2.FileSystemLoader([self.templates_path]),
-                                      extensions=['jinja2htmlcompress.SelectiveHTMLCompress', 'jinja2.ext.with_'],
+                                      extensions=[
+                                          'jinja2htmlcompress.SelectiveHTMLCompress',
+                                          'jinja2.ext.with_'],
                                       trim_blocks=True, lstrip_blocks=True)
         self.env.filters['date'] = format_date
         self.md = markdown.Markdown(extensions=['meta'])
@@ -42,7 +45,12 @@ class SiteGenerator(object):
         target_dir = os.path.join(self.output_dir, os.path.dirname(filename))
         if not os.path.exists(target_dir):
             os.makedirs(target_dir)
-        template = self.env.get_template(templatename)
+        if not self.loaded_templates.get(templatename):
+            template = self.env.get_template(templatename)
+            self.loaded_templates[templatename] = template
+        else:
+            # load "cached" template
+            template = self.loaded_templates.get(templatename)
         if not context:
             context = {}
         html = template.render(**context)
