@@ -13,19 +13,20 @@ from utils import slugify
 
 TRANSCRIPTS_DIR = os.path.expanduser("~/datasets/dar-transcricoes-txt/data/")
 TRANSCRIPT_DATASET_FILE = os.path.expanduser("~/datasets-central/parlamento-datas_sessoes/data/datas-debates-novo.csv")
-TRANSCRIPT_DATASET_FILE_2 = os.path.expanduser("~/datasets-central/parlamento-datas_sessoes/data/datas-parlamento.csv")
 
 
 def get_date_dataset():
     data = csv.reader(open(TRANSCRIPT_DATASET_FILE, 'r'))
     # skip first row
     data.next()
+    data = list(data)
 
+    '''
+    TRANSCRIPT_DATASET_FILE_2 = os.path.expanduser("~/datasets-central/parlamento-datas_sessoes/data/datas-parlamento.csv")
     more_data = csv.reader(open(TRANSCRIPT_DATASET_FILE_2, 'r'))
     # skip first row
     more_data.next()
 
-    data = list(data)
 
     for newrow in more_data:
         exists = False
@@ -37,6 +38,7 @@ def get_date_dataset():
         if not exists:
             data.append(newrow)
             # print newrow
+    '''
 
     return data
 
