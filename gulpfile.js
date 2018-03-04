@@ -23,6 +23,7 @@ gulp.task('html',               function(cb) { exec(cmd + 'all', function(e) { c
 gulp.task('connect', function(){
   connect.server({
     root: 'dist',
+    port: 8002,
     livereload: true
   });
 });
@@ -67,14 +68,15 @@ gulp.task('watch', ['connect'], function () {
   // so we're not watching it ATM
   // gulp.watch('assets/img/**/*.*', ['img']);
 
-  gulp.watch('templates/base.html', 
-             'site-generator/*.py',                 ['html']);
+  gulp.watch(['templates/base.html', 
+             'site-generator/*.py'],                ['html']);
   gulp.watch(['templates/index.html',
              'content/intro.md'],                   ['html-index']);
   gulp.watch('templates/mp_list.html',              ['html-mp-index']);
   gulp.watch('templates/mp_detail.html',            ['html-mp-pages']);
   gulp.watch('templates/session_list.html',         ['html-session-index']);
-  gulp.watch(['templates/session_detail.html',
+  gulp.watch(['templates/session.html',
+              'templates/session-plaintext.html',
               'templates/snippets-session/*.html'], ['html-session-pages']);
   gulp.watch(['templates/single-page.html',
               'templates/single-pages/*.html',
