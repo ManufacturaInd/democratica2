@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/ManufacturaInd/democratica2/issues"
   },
-  "homepage": "https://github.com/ManufacturaInd/democratica2#readme"
+  "homepage": "https://github.com/ManufacturaInd/democratica2#readme",
+  "devDependencies": {
+    "gulp-debug": "^3.2.0"
+  }
 }
