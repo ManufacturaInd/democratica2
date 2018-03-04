@@ -28,9 +28,13 @@
           </div>
         </div>
       {% endif %}
+      {% set counter = 1 %}
       {% for entry in contents %}
-        <div class="entry {{ entry.type.replace('-', ' ') }} row">
+        <div id="{{ counter }}" class="entry {{ entry.type.replace('-', ' ') }} row">
           {% include "snippets-session/" + entry.type + ".html" %}
+          <!-- trocar por algo mais apropriado -->
+          <a href="/sessoes/{{ date.strftime("%Y/%m/%d") }}/#{{ counter }}">Permalink</a>
+          {% set counter = counter + 1 %}
         </div><!-- /.entry.row -->
       {% endfor %}
     </section>
