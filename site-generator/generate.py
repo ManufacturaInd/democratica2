@@ -166,7 +166,7 @@ class SiteGenerator(object):
 
             if type(session) in (str, unicode):
                 # sessão em texto simples
-                context = {'session_date': dateobj,
+                context = {'date': dateobj,
                            'year_number': dateobj.year,
                            'leg': leg,
                            'sess': sess,
@@ -182,7 +182,7 @@ class SiteGenerator(object):
 
             elif type(session) in (dict, OrderedDict):
                 # usar entradas do .json como contexto
-                session['session_date'] = dateparser.parse(session['session_date'])
+                session['date'] = dateparser.parse(session['session_date'])
                 session['monthnames'] = MESES
                 session['page_name'] = 'sessoes'
                 self.render_template_into_file('session.html', filename, session)

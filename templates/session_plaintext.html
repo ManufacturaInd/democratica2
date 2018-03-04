@@ -2,9 +2,9 @@
 
 {% block extrabodyclass %}session white-bg{% endblock %}
 
-{% block title %}{{ session_date.day }} de {{ monthnames[session_date.month-1] }} de {{ session_date.year }} &mdash; Demo.cratica{% endblock %}
+{% block title %}{{ date.day }} de {{ monthnames[date.month-1] }} de {{ date.year }} &mdash; Demo.cratica{% endblock %}
 
-{% block ogtitle %}{{ session_date }} &mdash; Demo.cratica{% endblock %}
+{% block ogtitle %}{{ date }} &mdash; Demo.cratica{% endblock %}
 {#{% block ogurl %}{% url "day_detail" day.date.year day.date.month day.date.day %}{% endblock %} #}
 {% block ogtype %}transcript{% endblock %}
 
@@ -12,7 +12,7 @@
 
   <header class="row">
     <div class="small-12 columns text-center">
-      <h2 class="ribbon">{{ session_date.day }} de {{ monthnames[session_date.month-1] }} de {{ session_date.year }}</h2>
+      <h2 class="ribbon">{{ date.day }} de {{ monthnames[date.month-1] }} de {{ date.year }}</h2>
     </div>
   </header>
 
