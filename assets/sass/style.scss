@@ -627,9 +627,22 @@ header.row.collapse {
         }
       }
     }
-  }
-  
 
+    &.aparte {
+      .speaker {
+        .profile-pic {
+          width: 30px;
+          height: 30px;
+          background: #fff;
+          img { width: 24px; }
+        }
+        h5 {
+          font-size: 1rem;
+          font-weight: 400;
+        }
+      }
+    }
+  }
 }
 
 /* MP list

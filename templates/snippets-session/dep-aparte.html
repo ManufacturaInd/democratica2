@@ -1,0 +1,19 @@
+<div class="speaker medium-2 small-3 columns">
+  {% if entry['speaker'] in speakers %}
+    {% with speaker = speakers[entry['speaker']] %}
+      <a href="/deputados/{{ speaker.slug }}/">
+        {% if speaker.image_url %}
+          <p class="profile-pic  {{ speaker.party|lower }}">
+            <img src="/assets/img/deputados/{{ speaker.slug }}.jpg">
+          </p>
+        {% endif %}
+        <h5 class="secondary {{ speaker.party|lower }}">{{ speaker.shortname }}</h5>
+      </a>
+    {% endwith %}
+  {% else %}
+    <p><strong>{{ entry.speaker }}</strong></p>
+  {% endif %}
+</div>
+<div class="entry-content medium-10 small-9 columns">
+  {{ entry.text|safe }}
+</div>
