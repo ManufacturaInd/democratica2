@@ -8,6 +8,4 @@ outro erro ocasional. Caso seja necessária informação de fiabilidade garantid
 é sempre melhor consultar o [site do Parlamento](http://www.parlamento.pt).
 
 * [ler mais sobre o Demo.cratica](/acerca/)
-* [dados e metodologia](/dados/)
-* [perguntas e respostas frequentes](/faq/)
 

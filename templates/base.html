@@ -44,9 +44,11 @@
             <div class="top-bar-right">
               <ul class="menu vertical medium-horizontal">
                 <li>
-                  <form method="get" action="/search">
+                  <form method="get" action="https://duckduckgo.com/?site=demo.cratica.org&kl=pt-pt">
                     <div class="input-group">
-                      <input type="search" placeholder="Em construção!" name="search" class="input-group-field">
+                      <input type="hidden" name="sites" value="demo.cratica.org">
+                      <input type="hidden" name="kl" value="pt-pt">
+                      <input type="search" placeholder="Pesquisar nas sessões..." name="q" class="input-group-field">
                       <div class="input-group-button">
                         <input type="submit" value="Pesquisar" class="button">
                       </div>
