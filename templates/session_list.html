@@ -5,7 +5,7 @@
 
 {% block content %}
   <section>
-    <div class="row">
+    <div class="row large-collapse">
       <div class="year-select large-12 columns">
         <strong>Sessões parlamentares em</strong>
         <button id="year-button" class="button" href="#" type="button" data-toggle="year-drop">{{ year_number }}</button>
@@ -17,7 +17,7 @@
       </div>
     </div><!-- /.row-->
 
-    <div id="calendar" class="row collapse hide-for-small-only">
+    <div id="calendar" class="hide-for-small-only">
       {% for month in year %}
       {% strip %}
         <div class="month row">
