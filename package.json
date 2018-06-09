@@ -4,12 +4,12 @@
   "description": "A forma fácil de ler o Parlamento",
   "main": "index.js",
   "dependencies": {
-    "bower": "^1.8.0",
+    "bower": "^1.8.4",
     "gulp": "^3.9.1",
-    "gulp-clean-css": "^3",
+    "gulp-clean-css": "^3.9.4",
     "gulp-connect": "^5.0.0",
-    "gulp-main-bower-files": "^1.5.3",
-    "gulp-sass": "^3",
+    "gulp-main-bower-files": "^1.6.3",
+    "gulp-sass": "^4",
     "wiredep": "^4.0.0"
   },
   "scripts": {
@@ -25,6 +25,6 @@
   },
   "homepage": "https://github.com/ManufacturaInd/democratica2#readme",
   "devDependencies": {
-    "gulp-debug": "^3.2.0"
+    "gulp-debug": "^4.0.0"
   }
 }
