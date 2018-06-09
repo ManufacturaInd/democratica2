@@ -4,7 +4,6 @@ import os
 import codecs
 import unicodecsv as csv
 import json
-import glob
 import hoep
 import datetime
 from collections import OrderedDict
@@ -24,6 +23,58 @@ def get_date_dataset():
 
 datedata = get_date_dataset()
 markdown = hoep.Hoep()
+
+
+def get_session_filename_from_number(leg, sess, num):
+    session = None
+    for row in datedata:
+        if row[0] == str(leg) and row[1] == str(sess) and row[2] == str(num):
+            session = row
+            break
+    if not session:
+        print("No database match for legsessnum %d %d %d" % (leg, sess, num))
+        return None
+    datestring = session[3]
+    leg = int(leg)
+    sess = int(sess)
+    try:
+        num = int(num)
+        json_filename = os.path.join(TRANSCRIPTS_DIR, '%02d-%d-%03d_%s.json' % (leg, sess, num, datestring))
+        txt_filename = os.path.join(TRANSCRIPTS_DIR, '%02d-%d-%03d.txt' % (leg, sess, num))
+    except ValueError:
+        # número tem uma letra no nome (ex. "136S1")
+        json_filename = os.path.join(TRANSCRIPTS_DIR, '%02d-%d-%s_%s.json' % (leg, sess, num, datestring))
+        txt_filename = os.path.join(TRANSCRIPTS_DIR, '%02d-%d-%s.txt' % (leg, sess, num))
+
+    if os.path.exists(json_filename):
+        return json_filename
+    elif os.path.exists(txt_filename):
+        return txt_filename
+    else:
+        return None
+
+
+def get_session_filename_from_date(dateobj):
+    datestring = "%d-%02d-%02d" % (dateobj.year, dateobj.month, dateobj.day)
+    for row in datedata:
+        if row[3] == datestring:
+            session = row
+            break
+    if not session:
+        print("No database match for date %s" % (datestring))
+        return None
+    leg, sess, num = session[:3]
+    json_filename = os.path.join(TRANSCRIPTS_DIR, '%02d-%d-%03d_%s.json' % (int(leg), int(sess), int(num), datestring))
+    txt_filename = os.path.join(TRANSCRIPTS_DIR, '%02d-%d-%03d.txt' % (int(leg), int(sess), int(num)))
+    if os.path.exists(json_filename):
+        return json_filename
+    elif os.path.exists(txt_filename):
+        return txt_filename
+    else:
+        return None
+    pass
+
+
 def generate_datedict(fast_run=False):
     '''
     Creates a dict with details for every day:
@@ -67,10 +118,12 @@ def generate_datedict(fast_run=False):
                 datedict[year][month][day_number] = {'weekday': day_date.weekday(),
                                                      'has_session': has_session}
                 if has_session:
-                    session_glob = TRANSCRIPTS_DIR + "/*_%d-%02d-%02d.json" % (year, month, day_number)
-                    if glob.glob(session_glob):
+                    filename = get_session_filename_from_date(day_date)
+                    if filename and filename.endswith('json'):
+                        print('there is json file')
+                        print(filename)
                         # sacar a topword
-                        s = json.loads(open(glob.glob(session_glob)[0], 'r').read())
+                        s = json.load(open(filename, 'r'))
                         if 'stats' in s:
                             topword = s['stats']['topwords']['session'][0][0]
                             datedict[year][month][day_number]['topword'] = topword
@@ -78,19 +131,14 @@ def generate_datedict(fast_run=False):
 
 
 def get_session_from_legsessnum(leg, sess, num):
-    if 'S' in num:
-        fnstart = "%02d-%d-%s" % (int(leg), int(sess), num)
-    else:
-        fnstart = "%02d-%d-%03d" % (int(leg), int(sess), int(num))
     # encontrar .txt ou .json
-    files = glob.glob(os.path.join(TRANSCRIPTS_DIR, fnstart) + '*')
-    if not files:
+    filename = get_session_filename_from_number(leg, sess, num)
+    if not filename:
         return None
-    fn = files[0]
-    text = codecs.open(fn, 'r', 'utf-8').read()
-    if fn.endswith('.json'):
+    text = codecs.open(filename, 'r', 'utf-8').read()
+    if filename.endswith('.json'):
         return json.loads(text)
-    elif fn.endswith('.txt'):
+    elif filename.endswith('.txt'):
         entries = text.split('\n\n')
         newentries = []
         for e in entries:
@@ -104,16 +152,11 @@ def get_session_from_legsessnum(leg, sess, num):
 
 
 def get_session_info(leg, sess, num):
-    if 'S' in num:
-        fnstart = "%02d-%d-%s" % (int(leg), int(sess), num)
-    else:
-        fnstart = "%02d-%d-%03d" % (int(leg), int(sess), int(num))
-    files = glob.glob(os.path.join(TRANSCRIPTS_DIR, fnstart) + '*.json')
-    if not files:
+    filename = get_session_filename_from_number(leg, sess, num)
+    if not filename or filename.endswith('txt'):
         return None
-    fn = files[0]
-    text = codecs.open(fn, 'r', 'utf-8').read()
-    data = json.loads(text)
+    text = codecs.open(filename, 'r', 'utf-8')
+    data = json.load(text)
     del data['contents']
     return data
 
