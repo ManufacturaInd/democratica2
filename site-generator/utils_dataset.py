@@ -257,3 +257,14 @@ def get_mp_from_id(id):
         log.error("Multiple MP results for id %d: %s" % (id, ", ".join(results)))
         return results[0]
     return results[0]
+
+
+if __name__ == '__main__':
+    result = get_session_filename_from_number(11, 1, 19)
+    assert result.split('/')[-1] == '11-1-019_2010-01-07.json'
+    result = get_session_filename_from_date(datetime.date(year=2010, month=1, day=7))
+    assert result.split('/')[-1] == '11-1-019_2010-01-07.json'
+    result = get_session_filename_from_number(9, 1, 105)
+    assert result.split('/')[-1] == '09-1-105.txt'
+    result = get_session_filename_from_date(datetime.date(year=2003, month=3, day=27))
+    assert result.split('/')[-1] == '09-1-105.txt'
