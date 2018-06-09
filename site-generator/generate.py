@@ -25,7 +25,7 @@ class SiteGenerator(object):
         self.templates_path = "templates/"
         self.loaded_templates = {}
         self.fast_run = fast_run
-        self.fast_run_count = 20
+        self.fast_run_count = 200
 
         self.env = jinja2.Environment(loader=jinja2.FileSystemLoader([self.templates_path]),
                                       extensions=[
@@ -56,9 +56,8 @@ class SiteGenerator(object):
         html = template.render(**context)
         if place_in_outdir:
             filename = os.path.join(self.output_dir, filename)
-        outfile = codecs.open(filename, 'w', 'utf-8')
-        outfile.write(html)
-        outfile.close()
+        with codecs.open(filename, "w", 'utf-8') as fh:
+            fh.write(html)
 
     def generate_homepage(self):
         context = {"intro_text": self.md.convert(codecs.open('content/intro.md', 'r', 'utf-8').read())}
