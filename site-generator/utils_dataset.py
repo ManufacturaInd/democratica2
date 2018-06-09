@@ -120,8 +120,6 @@ def generate_datedict(fast_run=False):
                 if has_session:
                     filename = get_session_filename_from_date(day_date)
                     if filename and filename.endswith('json'):
-                        print('there is json file')
-                        print(filename)
                         # sacar a topword
                         s = json.load(open(filename, 'r'))
                         if 'stats' in s:
