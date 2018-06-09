@@ -19,26 +19,6 @@ def get_date_dataset():
     # skip first row
     data.next()
     data = list(data)
-
-    '''
-    TRANSCRIPT_DATASET_FILE_2 = os.path.expanduser("~/datasets-central/parlamento-datas_sessoes/data/datas-parlamento.csv")
-    more_data = csv.reader(open(TRANSCRIPT_DATASET_FILE_2, 'r'))
-    # skip first row
-    more_data.next()
-
-
-    for newrow in more_data:
-        exists = False
-        leg, sess, num = newrow[:3]
-        for row in data:
-            if row[:3] == [leg, sess, num]:
-                exists = True
-                break
-        if not exists:
-            data.append(newrow)
-            # print newrow
-    '''
-
     return data
 
 
