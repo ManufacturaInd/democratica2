@@ -22,9 +22,10 @@ grande parte das ferramentas de extracção acima mencionadas.
 
 O Demo.cratica existe também graças ao apoio de algumas entidades:
 
-* [Transparência Hackday Porto](http://transparenciahackday.org), um coletivo
-  dedicado à libertação e análise das bases de dados de informação pública que
-  organiza os encontros [Date With Data](http://datewithdata.pt).
+* [Transparência Hackday Porto](http://transparenciahackday.org) e [Open
+  Knowledge Portugal](http://okfn.pt), organizações dedicadas à libertação e
+  análise das bases de dados de informação pública que organizam os encontros
+  [Date With Data](http://datewithdata.pt) no Porto.
 * [Unimos.net](http://unimos.net "Unimos.net"), associação baseada na Nazaré,
   dedicada ao desenvolvimento, investigação e implementação de redes sem fios
   comunitárias; a Unimos.net associou-se solidariamente ao Demo.cratica
@@ -82,11 +83,12 @@ também disponibilizado como software livre.
   segundo os termos da [licença livre
   AGPL](https://www.gnu.org/licenses/agpl-3.0.en.html).
 * **Neutralidade.** Não existe qualquer edição, seleção ou manipulação de
-  conteúdos no Demo.cratica, para além da redacção e remoção de elementos
+  conteúdos no Demo.cratica, para além da redação e remoção de elementos
   secundários das transcrições ou a correção de gralhas e erros de transcrição.
 
 
 ## Contacto
 
 Para qualquer assunto, a equipa do site pode ser contactada em
-[contacto@cratica.org](mailto:contacto@cratica.org).
+[contacto@cratica.org](mailto:contacto@cratica.org) ou [enviando um
+tweet](https://twitter.com/demo_cratica).
