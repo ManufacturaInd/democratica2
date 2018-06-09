@@ -10,26 +10,28 @@
 
 {% block content %}
 
-  <header class="row">
-    <div class="small-12 columns text-center">
-      <h2 class="ribbon">{{ date.day }} de {{ monthnames[date.month-1] }} de {{ date.year }}</h2>
-    </div>
-  </header>
+ <div class="row collapse">
+    <header class="row">
+      <div class="small-12 columns ribbon text-center">
+	      <h2>{{ date.day }} de {{ monthnames[date.month-1] }} de {{ date.year }}</h2>
+	    </div>
+    </header>
 
   <section>
-    <div class="row">
-      <div class="small-12 columns">
-        {% if url_pdf %}<p>Consultar o <a href="{{ url_pdf }}" target="_blank">PDF oficial</a> ou a <a href="{{ url_debates }}" target="_blank">versão web oficial</a> desta transcrição.</p>{% endif %}
+    {% if url_pdf %}
+      <div class="row notice">
+        <div class="medium-10 medium-offset-2 small-9 small-offset-3 columns">
+          <p>Consultar o <a href="{{ url_pdf }}" target="_blank">PDF oficial</a> ou a <a href="{{ url_debates }}" target="_blank">versão web oficial</a> desta transcrição.</p>
+        </div>
       </div>
-    </div>
-    <div class="intervention">
-     <div class="entry row">
+    {% endif %}
+    <div class="entry row">
        <div class="entry-content medium-offset-2 medium-10 small-12 columns">
         {{ text|safe }}
        </div>
      </div>
-    </div><!-- /.intervention -->
   </section>
+</div>
   
 {% endblock content %}
 

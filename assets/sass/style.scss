@@ -578,7 +578,7 @@ header.row.collapse {
 
 .session #content {
   font-family: $font-family-serif;
-  box-shadow: 2px 2px 3px rgba($black,0.5);
+  box-shadow: 0;
   padding-top: 2rem;
   
   .intro {

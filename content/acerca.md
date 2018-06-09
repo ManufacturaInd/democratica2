@@ -8,7 +8,7 @@ uma visão mais clara sobre o que se diz no Parlamento Português.
 
 A concepção e autoria do website é da [Manufactura
 Independente](http://manufacturaindependente.org), um estúdio de investigação
-de metodologias livres no design, composto por Ana Carvalho e Ricardo Lafuente.
+de metodologias livres no design, composto por Ana Isabel Carvalho e Ricardo Lafuente.
 A Manufactura Independente é responsável pela manutenção do site, processamento
 de conteúdos, design do interface e estruturas de informação.
 
@@ -31,14 +31,14 @@ O Demo.cratica existe também graças ao apoio de algumas entidades:
   comunitárias; a Unimos.net associou-se solidariamente ao Demo.cratica
   fornecendo a certificação de identidade SSL, o alojamento e apoio
   tecnológico necessário.
-* **Hacklaviva**, um espaço de emancipação tecnológica (hackerspace) que
-  existiu no Porto entre 2009 e 2012
+* **[Hacklaviva](http://hacklaviva.net)**, um espaço de emancipação 
+  tecnológica (hackerspace) que existiu no Porto entre 2009 e 2012
 
 
 ## História
 
 O Demo.cratica surgiu como ideia e começou a ganhar forma na Open Data
-Hackathon de 2011 (agora [Open Data Day](http://opendataday.org/)), um evento
+Hackathon de 2010 (agora [Open Data Day](http://opendataday.org/)), um evento
 anual internacional que propõe um dia dedicado a um "sprint" de trabalho e
 reflexão sobre a informação pública e formas de a analisar e publicar. Para
 corresponder a esta data, foi organizado no Hacklaviva um fim-de-semana inteiro
