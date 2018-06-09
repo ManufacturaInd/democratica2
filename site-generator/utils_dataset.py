@@ -22,6 +22,7 @@ def get_date_dataset():
     return data
 
 
+datedata = get_date_dataset()
 markdown = hoep.Hoep()
 def generate_datedict(fast_run=False):
     '''
@@ -35,8 +36,7 @@ def generate_datedict(fast_run=False):
     '''
     # process dates into a year->dates dict
     datedict = OrderedDict()
-    data = get_date_dataset()
-    all_dates = [parse_iso_date(row[3]) for row in data]
+    all_dates = [parse_iso_date(row[3]) for row in datedata]
     if fast_run:
         this_year = datetime.date.today().year
         all_years = [this_year, this_year - 1]
