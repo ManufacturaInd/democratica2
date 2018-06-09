@@ -5,11 +5,11 @@ import codecs
 import click
 import jinja2
 from zenlog import log
-from dateutil import parser as dateparser
 from collections import OrderedDict
+import datetime
 import markdown
 
-from utils import create_dir, format_date, years_since
+from utils import create_dir, format_date, years_since, parse_iso_date
 from utils_dataset import get_gov_dataset, get_date_dataset, get_govpost_dataset, generate_datedict, generate_mp_list, get_session_from_legsessnum, get_session_info
 
 MESES = ['janeiro', 'fevereiro', u'março', 'abril', 'maio', 'junho', 'julho',
@@ -95,25 +95,36 @@ class SiteGenerator(object):
                     gov = None
                     for r in self.gov_data:
                         if int(r[1]) == gov_number:
-                            gov = {'number': r[1], 'start_date': dateparser.parse(r[2]), 'end_date': dateparser.parse(r[3])}
+                            gov = {'number': r[1],
+                                   'start_date': parse_iso_date(r[2]),
+                                   'end_date': parse_iso_date(r[3]) if r[3] else None,
+                                   }
                             break
                     if not gov:
                         print(row)
                         log.critical("Gov not found!")
                     mp['govposts'].append({
                         'post': row[3],
-                        'start_date': dateparser.parse(row[4]),
-                        'end_date': dateparser.parse(row[5]),
+                        'start_date': parse_iso_date(row[4]),
+                        'end_date': parse_iso_date(row[5]) if row[5] else None,
                         'gov': gov,
                     })
             # Parse dates
             for m in mp['mandates']:
-                m['start_date'] = dateparser.parse(m['start_date'])
-                m['end_date'] = dateparser.parse(m['end_date'])
-                # nice effect: if no end date, set to today
+                m['start_date'] = parse_iso_date(m['start_date'])
+                if m.get('end_date'):
+                    m['end_date'] = parse_iso_date(m['end_date'])
+                else:
+                    m['end_date'] = datetime.date.today()
+
+            if mp.get('birthdate'):
+                birthdate = parse_iso_date(mp['birthdate'])
+                age = years_since(birthdate)
+            else:
+                age = None
 
             context = {'mp': mp,
-                       'mp_age': years_since(dateparser.parse(mp['birthdate']).date()) if 'birthdate' in mp else None,
+                       'mp_age': age,
                        'l': None,
                        'page_name': 'deputados'}
             filename = os.path.join(self.mps_path, mp['slug'], 'index.html')
@@ -154,7 +165,7 @@ class SiteGenerator(object):
         if self.fast_run:
             COUNTER = 0
         for leg, sess, num, d, dpub, page_start, page_end in self.date_data:
-            dateobj = dateparser.parse(d)
+            dateobj = parse_iso_date(d)
             session = get_session_from_legsessnum(leg, sess, num)
             if not session:
                 log.warn("File for %s-%s-%s is missing from the transcripts dataset!" % (leg, sess, num))
@@ -182,7 +193,7 @@ class SiteGenerator(object):
 
             elif type(session) in (dict, OrderedDict):
                 # usar entradas do .json como contexto
-                session['date'] = dateparser.parse(session['session_date'])
+                session['date'] = parse_iso_date(session['session_date'])
                 session['monthnames'] = MESES
                 session['page_name'] = 'sessoes'
                 self.render_template_into_file('session.html', filename, session)

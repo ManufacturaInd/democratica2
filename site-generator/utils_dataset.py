@@ -7,9 +7,8 @@ import json
 import glob
 import mistune
 import datetime
-from dateutil import parser as dateparser
 from collections import OrderedDict
-from utils import slugify
+from utils import slugify, parse_iso_date
 
 TRANSCRIPTS_DIR = os.path.expanduser("~/datasets/dar-transcricoes-txt/data/")
 TRANSCRIPT_DATASET_FILE = os.path.expanduser("~/datasets-central/parlamento-datas_sessoes/data/datas-debates-novo.csv")
@@ -56,7 +55,7 @@ def generate_datedict(fast_run=False):
     # process dates into a year->dates dict
     datedict = OrderedDict()
     data = get_date_dataset()
-    all_dates = [dateparser.parse(row[3]) for row in data]
+    all_dates = [parse_iso_date(row[3]) for row in data]
     if fast_run:
         this_year = datetime.date.today().year
         all_years = [this_year, this_year - 1]

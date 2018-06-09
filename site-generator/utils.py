@@ -63,8 +63,8 @@ def format_date(value, format='medium'):
     import datetime
     if not value:
         return None
-    from dateutil import parser as dateparser
     if type(value) not in (datetime.date, datetime.datetime):
+        from dateutil import parser as dateparser
         value = dateparser.parse(value)
     return babel_format_date(value, format, locale="pt_PT")
 
@@ -93,6 +93,18 @@ def create_hash_list(globs):
         for fn in filenames:
             hashes[fn] = quick_hash_file(fn)
     return hashes
+
+
+def parse_iso_date(datestring):
+    import datetime
+    y, m, d = datestring.split('-')
+    try:
+        dateobj = datetime.date(year=int(y), month=int(m), day=int(d))
+    except ValueError:
+        # couldn't read date -- maybe it's dd-mm-yyyy? Check first
+        assert len(y) == 2 and len(m) == 2 and len(d) == 4
+        dateobj = datetime.date(year=int(d), month=int(m), day=int(y))
+    return dateobj
 
 
 def years_ago(years, from_date=None):
