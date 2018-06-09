@@ -5,7 +5,7 @@ import codecs
 import unicodecsv as csv
 import json
 import glob
-import mistune
+import hoep
 import datetime
 from collections import OrderedDict
 from utils import slugify, parse_iso_date
@@ -42,6 +42,7 @@ def get_date_dataset():
     return data
 
 
+markdown = hoep.Hoep()
 def generate_datedict(fast_run=False):
     '''
     Creates a dict with details for every day:
@@ -116,7 +117,7 @@ def get_session_from_legsessnum(leg, sess, num):
             # adicionar linebreak extra para dividir parágrafos
             newentries.append(e.replace('\n', '\n\n'))
         newtext = "\n\n".join(newentries)
-        newhtml = mistune.markdown(newtext)
+        newhtml = markdown.render(newtext)
         return newhtml.replace("_", "")
     else:
         return text
