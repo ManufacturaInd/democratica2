@@ -52,17 +52,17 @@ install:
 serve:
 	gulp watch
 
-live-upload:
-	rsync --compress --progress --recursive --update --delete dist/ $(SSH_PATH)
+live-deploy:
+	rsync --compress --checksum --progress --recursive --update --delete dist/ $(SSH_PATH)
 
-live-fakeupload:
-	rsync --dry-run --compress --progress --recursive --update --delete dist/ $(SSH_PATH)
+live-deploy-dry:
+	rsync --dry-run --compress --checksum --progress --recursive --update --delete dist/ $(SSH_PATH)
 
-upload:
-	rsync --compress --progress --recursive --update --delete dist/ $(STAGING_PATH)
+deploy:
+	rsync --compress --checksum --progress --recursive --update --delete dist/ $(STAGING_PATH)
 
-fakeupload:
-	rsync --dry-run --compress --progress --recursive --update --delete dist/ $(STAGING_PATH)
+deploy-dry:
+	rsync --dry-run --compress --checksum --progress --recursive --update --delete dist/ $(STAGING_PATH)
 
 clean:
 	rm -fr dist
