@@ -163,7 +163,7 @@ body.white-bg #content > div.row {
 .pev    { color: $pev; }
 
 /* external links */
-a[href*="//"]:not([href*="demo.cratica.org"]) {
+#content a[href*="//"]:not([href*="demo.cratica.org"]) {
   &::after {
     display: inline-block;
     content: '↗';
@@ -333,7 +333,10 @@ body.home {
     color: $ultralight-blue;
     background-color: transparent;
     border: 0;
-    a { color: $white; }
+    a {
+      color: $white;
+      &::after { color: $white; }
+    }
   }
   
   #about {
