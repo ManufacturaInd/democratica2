@@ -683,6 +683,51 @@ header.row.collapse {
 */
 
 body.mp-list {
+  
+  #mpsearch-list {
+    #mpsearch-input {
+      background-image: url(../img/icons/search.png);
+      background-position: 0.625rem 0.625rem;
+      background-repeat: no-repeat;
+      padding: 0.75rem 1.25rem 0.75rem 2rem;
+    }
+    .search-filters {
+      span,
+      label,
+      .button-group { display: inline-block; }
+      
+      span label {
+        padding-right: 1rem;
+        margin-right: 1rem;
+        border-right: 1px solid $democratica-blue;
+      }
+      
+      .button-group {
+        font-weight: 700;
+        text-transform: uppercase;
+        .button.sort.asc,
+        .button.sort.desc {
+          background-color: $ultralight-blue;
+        }
+        .button.sort.asc:hover,
+        .button.sort.desc:hover {
+        }
+        
+        .button.sort::after {
+          content: '▼';
+          display: inline-block;
+          margin-left: 0.25rem;
+          color: $light-blue;
+        }
+        .button.sort.asc::after {
+          content: '▼';
+        }
+        .button.sort.desc::after {
+          content: '▲';
+        }
+      }
+    }
+  }
   ul.mp-list {
     -moz-column-count: 3;
     -moz-column-gap: 1.8175rem;
@@ -691,6 +736,11 @@ body.mp-list {
     column-count: 3;
     column-gap: 1.8175rem;
     min-height: 600px;
+    @media screen and (max-width: 39.9375em) { /* Small only */
+      -moz-column-count: 1;
+      -webkit-column-count: 1;
+      column-count: 1;
+    }
     
     li {
       padding: 0.5rem 0 0.25rem;
