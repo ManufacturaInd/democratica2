@@ -37,8 +37,12 @@
 	    {% if mp_age %}
             <dt>Idade</dt><dd>{{ mp_age }} anos</dd>
 	    {% endif %}
+            {% if mp.birthdate %}
             <dt>Data de nascimento</dt><dd>{{ mp.birthdate|date("long")|lower }}</dd>
-            <dt>Profissão</dt><dd>{{ mp.occupation }}</dd>
+	    {% endif %}
+            {% if mp.occupation %}
+            <dt>Profissão</dt><dd>{{ mp.occupation }}{% if mp.occupation2 %} / {{ mp.occupation2 }}{% endif %}</dd>
+            {% endif %}
           </dl>
           <h3>Mandatos</h3>
           <table class="mandates">
