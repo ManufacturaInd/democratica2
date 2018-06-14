@@ -7,15 +7,20 @@
 {% block content %}
   <div class="row collapse">
     <section id="mpsearch-items">
-      <div id="mpsearch-list" class="row">
-        <div class="small-12 medium-6 columns">
+      <div id="mpsearch-list">
+        <div class="column row">
           <input id="mpsearch-input" class="search" type="text" placeholder="Pesquisar...">
         </div>
-        <div class="small-12 medium-6 columns">
-          <input id="mpsearch-active" type="checkbox" />
-          <label for="mpsearch-active">Apenas deputados ativos</label>
-          <button class="sort button" data-sort="slug">Ordenar por nome</button> 
-          <button class="sort button" data-sort="party">Ordenar por partido</button> 
+        <div class="column row search-filters">
+          <span>
+            <input id="mpsearch-active" type="checkbox" />
+            <label for="mpsearch-active">Apenas deputados ativos</label>
+          </span>
+          <label class="middle">Ordenar por:</label>
+          <div class="small button-group">
+            <a class="sort button hollow" data-sort="slug">Nome</a>
+            <a class="sort button hollow" data-sort="party">Partido</a>
+          </div>
         </div>
       </div><!-- /.row #mpsearch-list -->
       
