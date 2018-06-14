@@ -14,30 +14,17 @@
         <div class="small-12 medium-6 columns">
           <input id="mpsearch-active" type="checkbox" />
           <label for="mpsearch-active">Apenas deputados ativos</label>
-          <button class="sort button" data-sort="name">Ordenar por nome</button> 
+          <button class="sort button" data-sort="slug">Ordenar por nome</button> 
           <button class="sort button" data-sort="party">Ordenar por partido</button> 
         </div>
       </div><!-- /.row #mpsearch-list -->
       
       <div class="row">
-        {# Esta era a lista antiga que dividia em 3 colunas.
-        <div class="large-12 columns">
-        {% for col in mps|sort(attribute="shortname")|slice(3) %}
-          <ul class="no-bullet list mp-list{% if loop.last %} last{% endif %}">
-            {% for mp in col %}   
-              <li class="{{ loop.cycle('odd', 'even') }}"><a href="/deputados/{{ mp.slug }}/">
-                <span class="party {{ mp.party|lower }}">{{ mp.party }}</span>
-                <span class="name">{{ mp.shortname }}</span>
-              </a></li>
-            {% endfor %}
-          </ul>
-        {% endfor %}
-        #}
         <div class="large-12 columns">
           <ul class="no-bullet list mp-list">
             {% for mp in mps|sort(attribute="shortname") %}
               <li class="{{ loop.cycle('odd', 'even') }}" data-id="{{ mp.id }}">
-                <span class="name active" data-active="{{ mp.active }}">
+                <span class="slug active" data-active="{{ mp.active }}" data-slug="{{ mp.slug }}">
                   <a href="/deputados/{{ mp.slug }}/">{{ mp.shortname }}</a>
                 </span>
                 <span class="party {{ mp.party|lower }}">{{ mp.party }}</span>
@@ -56,14 +43,13 @@
   
   var options = {
     valueNames: [ 
-      'name', 
       'party', 
       { data: ['id'] },
-      { name: 'active', attr: 'data-active' }
+      { name: 'active', attr: 'data-active' },
+      { name: 'slug', attr: 'data-slug' }
     ]
   };
   var mpList = new List('mpsearch-items', options);
-  console.log(mpList);
 
  $(document).ready(function() {
 
@@ -84,6 +70,7 @@
     // Queremos apenas deputados ativos no início, ativar a checkbox
     $("#mpsearch-active").prop('checked', true).change();
     $("#mpsearch-input").focus();
+    mpList.sort('slug');
   });
   </script>
 {% endblock %}
